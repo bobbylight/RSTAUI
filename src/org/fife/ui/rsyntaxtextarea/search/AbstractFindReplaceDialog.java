@@ -29,10 +29,9 @@ import org.fife.ui.UIUtil;
 
 
 /**
- * This is the base class for {@link org.fife.ui.search.FindDialog} and
- * {@link org.fife.ui.search.ReplaceDialog}. It is basically all of the features
- * common to the two dialogs that weren't taken care of in
- * {@link org.fife.ui.search.AbstractSearchDialog}.
+ * This is the base class for {@link FindDialog} and {@link ReplaceDialog}. It
+ * is basically all of the features common to the two dialogs that weren't
+ * taken care of in {@link AbstractSearchDialog}.
  *
  * @author Robert Futrell
  * @version 0.1

@@ -29,7 +29,16 @@ robert -at- fifesoft dot com.
   If you wish to compile RSTAUI from source, the easiest way to do so
   is via the included Ant build script.  The default target builds the jar.
   
-  TODO: Complete me
+  This project depends on the sister RSyntaxTextArea and AutoComplete projects.
+  It is recommended that you check all three projects out side by side.  Then,
+  to build:
+  
+     cd RSyntaxTextArea
+     ant
+     cd ../AutoComplete
+     ant
+     cd ../RSTAUI
+     ant
 
 * Thanks
 

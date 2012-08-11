@@ -83,7 +83,6 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * dialogs.
 	 *
 	 * @param owner The window that owns this search dialog.
-	 * @param msg The resource bundle from which to get strings, etc.
 	 */
 	public AbstractSearchDialog(Frame owner) {
 
