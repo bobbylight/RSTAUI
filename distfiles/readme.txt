@@ -40,10 +40,6 @@ robert -at- fifesoft dot com.
      cd ../RSTAUI
      ant
 
-* Thanks
-
-  TODO: Add translators
-  
 * Feedback
 
   I hope you find RSyntaxTextArea useful.  Bug reports, feature requests, and
@@ -59,3 +55,25 @@ robert -at- fifesoft dot com.
     * http://fifesoft.com/rsyntaxtextarea
          Project home page, which contains general information and example
          source code.
+
+* Thanks
+
+  Translations:
+     
+     * Arabic:                 Linostar
+     * Chinese:                peter_barnes, Sunquan, sonyichi, zvest
+     * Chinese (Traditional):  kin Por Fok, liou xiao
+     * Dutch:                  Roel, Sebastiaan, lovepuppy
+     * French:                 PivWan
+     * German:                 bikerpete
+     * Hungarian:              flatron
+     * Indonesian:             azis, Sonny
+     * Italian:                Luca, stepagweb
+     * Japanese:               izumi, tomoM
+     * Korean:                 sbrownii
+     * Polish:                 Chris, Maciej Mrug
+     * Portuguese (Brazil):    Marcos Parmeggiani, Leandro
+     * Russian:                Nadiya, Vladimir
+     * Spanish:                Leandro, phrodo, daloporhecho
+     * Turkish:                Burak
+  
