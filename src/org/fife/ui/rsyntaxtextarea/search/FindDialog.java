@@ -223,24 +223,15 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 	 * @param visible Whether or not the dialog should be visible.
 	 */
 	public void setVisible(boolean visible) {
-
 		if (visible) {
-
 			String selectedItem = (String)findTextCombo.getSelectedItem();
 			findNextButton.setEnabled(selectedItem!=null);
 			super.setVisible(true);
-
-			// Make the "Find" text field active.
-			JTextComponent textField = getTextComponent(findTextCombo);
-			textField.requestFocusInWindow();
-			textField.selectAll();
-
+			focusFindTextField();
 		}
-
 		else {
 			super.setVisible(false);
 		}
-
 	}
 
 	/**

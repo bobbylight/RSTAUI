@@ -39,7 +39,14 @@ import org.fife.ui.UIUtil;
 public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 										implements ActionListener {
 
+	/**
+	 * Property fired when the user toggles the "Mark All" check box.
+	 */
 	public static final String MARK_ALL_PROPERTY			= "SearchDialog.MarkAll";
+
+	/**
+	 * Property fired when the user toggles the search direction radio buttons.
+	 */
 	public static final String SEARCH_DOWNWARD_PROPERTY	= "SearchDialog.SearchDownward";
 
 	// The radio buttons for changing the search direction.
@@ -280,6 +287,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	 */
 	protected void refreshUIFromContext() {
 		super.refreshUIFromContext();
+		markAllCheckBox.setSelected(context.getMarkAll());
 		boolean searchForward = context.getSearchForward();
 		upButton.setSelected(!searchForward);
 		downButton.setSelected(searchForward);

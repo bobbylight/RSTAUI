@@ -209,6 +209,16 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
+	 * Makes the "Find text" field active.
+	 */
+	protected void focusFindTextField() {
+		JTextComponent textField = getTextComponent(findTextCombo);
+		textField.requestFocusInWindow();
+		textField.selectAll();
+	}
+
+
+	/**
 	 * Returns the text on the Cancel button.
 	 *
 	 * @return The text on the Cancel button.
@@ -386,6 +396,15 @@ public class AbstractSearchDialog extends EscapableDialog
 		this.caseCheckBox.setSelected(context.getMatchCase());
 		this.regExpCheckBox.setSelected(context.isRegularExpression());
 		this.wholeWordCheckBox.setSelected(context.getWholeWord());
+	}
+
+
+	/**
+	 * Overridden to ensure the "Find text" field gets focused.
+	 */
+	public void requestFocus() {
+		super.requestFocus();
+		focusFindTextField();
 	}
 
 
