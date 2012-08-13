@@ -57,7 +57,10 @@ robert -at- fifesoft dot com.
          source code.
 
 * Thanks
-
+  
+  Icons in this package (such as lightbulb.png) come from Eclipse and are
+  licensed under the EPL (http://www.eclipse.org/legal/epl-v10.html).
+  
   Translations:
      
      * Arabic:                 Linostar

@@ -11,7 +11,6 @@ package org.fife.ui;
 import java.awt.*;
 import javax.swing.*;
 
-import org.fife.ui.autocomplete.SizeGripIcon;
 
 
 /**
