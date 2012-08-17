@@ -6,7 +6,7 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui;
+package org.fife.rsta.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;

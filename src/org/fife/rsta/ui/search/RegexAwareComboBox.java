@@ -6,7 +6,7 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui.rsyntaxtextarea.search;
+package org.fife.rsta.ui.search;
 
 import java.awt.Component;
 import javax.swing.ComboBoxModel;
@@ -14,9 +14,9 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.text.JTextComponent;
 
-import org.fife.ui.ContentAssistable;
-import org.fife.ui.MaxWidthComboBox;
-import org.fife.ui.RComboBoxModel;
+import org.fife.rsta.ui.ContentAssistable;
+import org.fife.rsta.ui.MaxWidthComboBox;
+import org.fife.rsta.ui.RComboBoxModel;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
@@ -29,7 +29,8 @@ import org.fife.ui.autocomplete.DefaultCompletionProvider;
  * @author Robert Futrell
  * @version 1.0
  */
-class RegexAwareComboBox extends MaxWidthComboBox implements ContentAssistable {
+public class RegexAwareComboBox extends MaxWidthComboBox
+		implements ContentAssistable {
 
 	private boolean enabled;
 	private boolean replace;

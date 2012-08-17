@@ -6,7 +6,7 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui.rsyntaxtextarea.search;
+package org.fife.rsta.ui.search;
 
 import java.awt.Frame;
 import java.awt.Image;
@@ -28,9 +28,9 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
-import org.fife.ui.EscapableDialog;
-import org.fife.ui.MaxWidthComboBox;
-import org.fife.ui.UIUtil;
+import org.fife.rsta.ui.EscapableDialog;
+import org.fife.rsta.ui.MaxWidthComboBox;
+import org.fife.rsta.ui.UIUtil;
 
 
 /**
@@ -88,7 +88,11 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		super(owner);
 
-		// Make a panel containing the option checkboxes.
+		// The user should set a shared instance between all subclass
+		// instances, but to be safe we set individual ones.
+		context = new SearchDialogSearchContext();
+
+		// Make a panel containing the option check boxes.
 		searchConditionsPanel = new JPanel();
 		searchConditionsPanel.setLayout(new BoxLayout(
 						searchConditionsPanel, BoxLayout.Y_AXIS));
@@ -271,6 +275,17 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
+	 * Returns the search context used by this dialog.
+	 *
+	 * @return The search context.
+	 * @see #setSearchContext(SearchDialogSearchContext)
+	 */
+	public SearchDialogSearchContext getSearchContext() {
+		return context;
+	}
+
+
+	/**
 	 * Returns the text to search for.
 	 *
 	 * @return The text the user wants to search for.
@@ -389,26 +404,6 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Refreshes UI elements to be in sync with the (probably shared) search
-	 * context.  Subclasses can override to synchronize added UI components.
-	 */
-	protected void refreshUIFromContext() {
-		this.caseCheckBox.setSelected(context.getMatchCase());
-		this.regExpCheckBox.setSelected(context.isRegularExpression());
-		this.wholeWordCheckBox.setSelected(context.getWholeWord());
-	}
-
-
-	/**
-	 * Overridden to ensure the "Find text" field gets focused.
-	 */
-	public void requestFocus() {
-		super.requestFocus();
-		focusFindTextField();
-	}
-
-
-	/**
 	 * This method allows us to check if the current JRE is 1.4 or 1.5.
 	 * This is used to workaround some Java bugs, for example, pre 1.6,
 	 * JComboBoxes would "swallow" enter key presses in them when their
@@ -432,7 +427,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * are whitespace.  While this isn't the best definition of "whole word",
 	 * it's the one we're going to use for now.
 	 */
-	protected static final boolean isWholeWord(CharSequence searchIn,
+	public static final boolean isWholeWord(CharSequence searchIn,
 											int offset, int len) {
 
 		boolean wsBefore, wsAfter;
@@ -446,6 +441,26 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		return wsBefore && wsAfter;
 
+	}
+
+
+	/**
+	 * Refreshes UI elements to be in sync with the (probably shared) search
+	 * context.  Subclasses can override to synchronize added UI components.
+	 */
+	protected void refreshUIFromContext() {
+		this.caseCheckBox.setSelected(context.getMatchCase());
+		this.regExpCheckBox.setSelected(context.isRegularExpression());
+		this.wholeWordCheckBox.setSelected(context.getWholeWord());
+	}
+
+
+	/**
+	 * Overridden to ensure the "Find text" field gets focused.
+	 */
+	public void requestFocus() {
+		super.requestFocus();
+		focusFindTextField();
 	}
 
 
@@ -489,6 +504,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * another.
 	 *
 	 * @param context The new search context.  This cannot be <code>null</code>.
+	 * @see #getSearchContext()
 	 */
 	public void setSearchContext(SearchDialogSearchContext context) {
 		this.context = context;
@@ -516,6 +532,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		// Make sure content assist is enabled (regex check box might have
 		// been checked in a different search dialog).
 		if (visible) {
+			refreshUIFromContext();
 			boolean regexEnabled = regExpCheckBox.isSelected();
 			// Always true except when debugging.  findTextCombo done in parent
 			if (findTextCombo instanceof RegexAwareComboBox) {
@@ -524,9 +541,6 @@ public class AbstractSearchDialog extends EscapableDialog
 			}
 		}
 
-		if (visible) {
-			refreshUIFromContext();
-		}
 		super.setVisible(visible);
 
 	}

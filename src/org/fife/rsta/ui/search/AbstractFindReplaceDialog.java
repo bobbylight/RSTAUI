@@ -6,7 +6,7 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui.rsyntaxtextarea.search;
+package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -25,7 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
-import org.fife.ui.UIUtil;
+import org.fife.rsta.ui.UIUtil;
 
 
 /**
@@ -148,6 +148,23 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 			boolean checked = markAllCheckBox.isSelected();
 			context.setMarkAll(checked);
 			firePropertyChange(MARK_ALL_PROPERTY, !checked, checked);
+		}
+
+		if (command.equals("FindNext")) {
+
+			// Add the item to the combo box's list, if it isn't already there.
+			findTextCombo.addItem(getTextComponent(findTextCombo).getText());
+			context.setSearchFor(getSearchString());
+
+			// If they just searched for an item that's already in the list
+			// other than the first, move it to the first position.
+			if (findTextCombo.getSelectedIndex()>0) {
+				Object item = findTextCombo.getSelectedItem();
+				findTextCombo.removeItem(item);
+				findTextCombo.insertItemAt(item, 0);
+				findTextCombo.setSelectedIndex(0);
+			}
+
 		}
 
 		else {

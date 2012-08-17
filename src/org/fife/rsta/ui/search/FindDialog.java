@@ -5,13 +5,12 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui.rsyntaxtextarea.search;
+package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Frame;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -25,9 +24,10 @@ import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.fife.ui.AssistanceIconPanel;
-import org.fife.ui.ResizableFrameContentPane;
-import org.fife.ui.UIUtil;
+import org.fife.rsta.ui.AssistanceIconPanel;
+import org.fife.rsta.ui.ResizableFrameContentPane;
+import org.fife.rsta.ui.UIUtil;
+import org.fife.ui.rtextarea.SearchEngine;
 
 
 /**
@@ -44,24 +44,14 @@ import org.fife.ui.UIUtil;
  * <p>An application can use a <code>FindDialog</code> as follows.  It is
  * suggested that you create an <code>Action</code> or something similar to
  * facilitate "bringing up" the Find dialog.  Have the main application contain
- * an object that implements both <code>PropertyChangeListener</code> and
- * <code>ActionListener</code>.  This object will receive the following events
- * from the Find dialog:
+ * an object that implements both <code>ActionListener</code>.  This object will
+ * receive the following events from the Find dialog:
  * <ul>
  *   <li>"FindNext" action when the user clicks the "Find" button.
- *   <li>"SearchDialog.MatchCase" property change when the user checks/unchecks
- *       the Match Case checkbox.
- *   <li>"SearchDialog.MatchWholeWord" property change when the user
- *       checks/unchecks the Whole Word checkbox.
- *   <li>"SearchDialog.UseRegularExpressions" property change when the user
- *       checks/unchecks the "Regular Expressions" checkbox.
- *   <li>"SearchDialog.SearchDownward" property change when the user clicks
- *       either the Up or Down direction radio button.
  * </ul>
- * The property events listed can all be ignored in a simple case; the Find
- * dialog will remember the state of its checkboxes between invocations.
- * However, if your application has both a Find and Replace dialog, you may wish
- * to use these messages to synchronize the two search dialogs' options.
+ * The application can then call i.e.
+ * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * to actually execute the search.
  *
  * @author Robert Futrell
  * @version 1.0
@@ -79,9 +69,9 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 	 * Creates a new <code>FindDialog</code>.
 	 *
 	 * @param owner The main window that owns this dialog.
-	 * @param actionListener The component that listens for "Find" actions.
+	 * @param listener The component that listens for "FindNext" actions.
 	 */
-	public FindDialog(Frame owner, ActionListener actionListener) {
+	public FindDialog(Frame owner, ActionListener listener) {
 
 		super(owner);
 
@@ -156,38 +146,9 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 		setLocationRelativeTo(owner);
 
 		setSearchContext(new SearchDialogSearchContext());
-		addActionListener(actionListener);
+		addActionListener(listener);
 
 		applyComponentOrientation(orientation);
-
-	}
-
-
-	// Listens for an action in this Find dialog.
-	public void actionPerformed(ActionEvent e) {
-
-		String actionCommand = e.getActionCommand();
-
-		if (actionCommand.equals("FindNext")) {
-
-			// Add the item to the combo box's list, if it isn't already there.
-			findTextCombo.addItem(getTextComponent(findTextCombo).getText());
-
-			// If they just searched for an item that's already in the list
-			// other than the first, move it to the first position.
-			if (findTextCombo.getSelectedIndex()>0) {
-				Object item = findTextCombo.getSelectedItem();
-				findTextCombo.removeItem(item);
-				findTextCombo.insertItemAt(item, 0);
-				findTextCombo.setSelectedIndex(0);
-			}
-
-		} // End of if (actionCommand.equals("FindNext")).
-
-		// Otherwise, let the superclass handle the action.
-		else {
-			super.actionPerformed(e);
-		}
 
 	}
 

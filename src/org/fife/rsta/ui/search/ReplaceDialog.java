@@ -5,7 +5,7 @@
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
-package org.fife.ui.rsyntaxtextarea.search;
+package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
@@ -17,6 +17,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,10 +27,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import org.fife.ui.AssistanceIconPanel;
-import org.fife.ui.MaxWidthComboBox;
-import org.fife.ui.ResizableFrameContentPane;
-import org.fife.ui.UIUtil;
+import org.fife.rsta.ui.AssistanceIconPanel;
+import org.fife.rsta.ui.MaxWidthComboBox;
+import org.fife.rsta.ui.ResizableFrameContentPane;
+import org.fife.rsta.ui.UIUtil;
+import org.fife.ui.rtextarea.SearchEngine;
 
 
 /**
@@ -45,25 +47,18 @@ import org.fife.ui.UIUtil;
  * <p>An application can use a <code>ReplaceDialog</code> as follows.  It is suggested
  * that you create an <code>Action</code> or something similar to facilitate
  * "bringing up" the Replace dialog.  Have the main application contain an object
- * that implements both <code>PropertyChangeListener</code> and
- * <code>ActionListener</code>.  This object will receive the following events from
- * the Replace dialog:
+ * that implements <code>ActionListener</code>.  This object will receive the
+ * following action events from the Replace dialog:
  * <ul>
- *   <li>"Replace" action when the user clicks the "Replace" button.
- *   <li>"Replace All" action when the user clicks the "Replace All" button.
- *   <li>"SearchDialog.MatchCase" property change when the user checks/unchecks the
- *       Match Case checkbox.
- *   <li>"SearchDialog.MatchWholeWord" property change when the user checks/unchecks
- *       the Whole Word checkbox.
- *   <li>"SearchDialog.UseRegularExpressions" property change when the user checks/unchecks
- *       the "Regular Expressions" checkbox.
- *   <li>"SearchDialog.SearchDownward" property change when the user clicks either
- *       the Up or Down direction radio button.
+ *   <li>"FindNext" when the user clicks the "Find" button.
+ *   <li>"Replace" when the user clicks the "Replace" button.
+ *   <li>"Replace All" when the user clicks the "Replace All" button.
  * </ul>
- * <p>The property events listed can all be ignored in a simple case; the Replace dialog will
- * remember the state of its checkboxes between invocations.  However, if your application
- * has both a Find and Replace dialog, you may wish to use these messages to synchronize
- * the two search dialogs' options.
+ * The application can then call i.e.
+ * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * or
+ * {@link SearchEngine#replace(org.fife.ui.rtextarea.RTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * to actually execute the search.
  *
  * @author Robert Futrell
  * @version 1.0
@@ -88,9 +83,10 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 	 * Creates a new <code>ReplaceDialog</code>.
 	 *
 	 * @param owner The main window that owns this dialog.
-	 * @param actionListener The component that listens for "Replace" actions.
+	 * @param listener The component that listens for "FindNext", "Replace",
+	 *        and "ReplaceAll" actions.
 	 */
-	public ReplaceDialog(Frame owner, ActionListener actionListener) {
+	public ReplaceDialog(Frame owner, ActionListener listener) {
 
 		super(owner);
 
@@ -189,8 +185,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 
 		// Put it all together!
 		JPanel contentPane = new JPanel(new BorderLayout());
-//		contentPane.setBorder(UIUtilities.getEmpty5Border());
-contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,0,5));
+		contentPane.setBorder(BorderFactory.createEmptyBorder(5,5,0,5));
 		contentPane.add(leftPanel);
 		contentPane.add(rightPanel, BorderLayout.LINE_END);
 		temp = new ResizableFrameContentPane(new BorderLayout());
@@ -203,7 +198,7 @@ contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,0,5));
 		setLocationRelativeTo(owner);
 
 		setSearchContext(new SearchDialogSearchContext());
-		addActionListener(actionListener);
+		addActionListener(listener);
 
 		applyComponentOrientation(orientation);
 
@@ -215,6 +210,8 @@ contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,0,5));
 	public void actionPerformed(ActionEvent e) {
 
 		super.actionPerformed(e);
+		context.setSearchFor(getSearchString());
+		context.setReplaceWith((String)replaceWithCombo.getSelectedItem());
 
 		findTextCombo.addItem(getTextComponent(findTextCombo).getText());
 
@@ -227,7 +224,7 @@ contentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,5,0,5));
 			findTextCombo.setSelectedIndex(0);
 		}
 
-		String replaceWithText =getTextComponent(replaceWithCombo).getText();
+		String replaceWithText = getTextComponent(replaceWithCombo).getText();
 		if (!replaceWithText.equals(""))
 			replaceWithCombo.addItem(replaceWithText);
 
