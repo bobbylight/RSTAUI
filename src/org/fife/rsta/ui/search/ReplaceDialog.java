@@ -15,8 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -50,14 +50,17 @@ import org.fife.ui.rtextarea.SearchEngine;
  * that implements <code>ActionListener</code>.  This object will receive the
  * following action events from the Replace dialog:
  * <ul>
- *   <li>"FindNext" when the user clicks the "Find" button.
- *   <li>"Replace" when the user clicks the "Replace" button.
- *   <li>"Replace All" when the user clicks the "Replace All" button.
+ *   <li>{@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} action when
+ *       the user clicks the "Find" button.
+ *   <li>{@link AbstractFindReplaceDialog#ACTION_REPLACE ACTION_REPLACE} action
+ *       when the user clicks the "Replace" button.
+ *   <li>{@link AbstractFindReplaceDialog#ACTION_REPLACE_ALL ACTION_REPLACE_ALL}
+ *       action when the user clicks the "Replace All" button.
  * </ul>
  * The application can then call i.e.
- * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext) SearchEngine.find()}
  * or
- * {@link SearchEngine#replace(org.fife.ui.rtextarea.RTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * {@link SearchEngine#replace(org.fife.ui.rtextarea.RTextArea, org.fife.ui.rtextarea.SearchContext) SearchEngine.replace()}
  * to actually execute the search.
  *
  * @author Robert Futrell
@@ -83,8 +86,12 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 	 * Creates a new <code>ReplaceDialog</code>.
 	 *
 	 * @param owner The main window that owns this dialog.
-	 * @param listener The component that listens for "FindNext", "Replace",
-	 *        and "ReplaceAll" actions.
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND},
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE ACTION_REPLACE},
+	 *        and
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE_ALL ACTION_REPLACE_ALL}
+	 *        actions.
 	 */
 	public ReplaceDialog(Frame owner, ActionListener listener) {
 
@@ -164,14 +171,14 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4,1, 5,5));
 		replaceButton = UIUtil.createButton(msg, "Replace", "ReplaceMnemonic");
-		replaceButton.setActionCommand("Replace");
+		replaceButton.setActionCommand(ACTION_REPLACE);
 		replaceButton.addActionListener(this);
 		replaceButton.setEnabled(false);
 		replaceButton.setIcon(null);
 		replaceButton.setToolTipText(null);
 		replaceAllButton = UIUtil.createButton(msg, "ReplaceAll",
 											"ReplaceAllMnemonic");
-		replaceAllButton.setActionCommand("ReplaceAll");
+		replaceAllButton.setActionCommand(ACTION_REPLACE_ALL);
 		replaceAllButton.addActionListener(this);
 		replaceAllButton.setEnabled(false);
 		replaceAllButton.setIcon(null);
@@ -205,55 +212,51 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 	}
 
 
-	// Listens for an action in this Replace dialog.  Note that we don't have to check
-	// the actionCommand since we do the same thing for all things we listen to.
+	/**
+	 * {@inheritDoc}
+	 */
 	public void actionPerformed(ActionEvent e) {
 
-		super.actionPerformed(e);
-		context.setSearchFor(getSearchString());
-		context.setReplaceWith((String)replaceWithCombo.getSelectedItem());
+		String command = e.getActionCommand();
 
-		findTextCombo.addItem(getTextComponent(findTextCombo).getText());
+		if (ACTION_REPLACE.equals(command) ||
+				ACTION_REPLACE_ALL.equals(command)) {
 
-		// If they just searched for an item that's already in the list other
-		// than the first, move it to the first position.
-		if (findTextCombo.getSelectedIndex()>0) {
-			Object item = findTextCombo.getSelectedItem();
-			findTextCombo.removeItem(item);
-			findTextCombo.insertItemAt(item, 0);
-			findTextCombo.setSelectedIndex(0);
+			context.setSearchFor(getSearchString());
+			context.setReplaceWith((String)replaceWithCombo.getSelectedItem());
+
+			findTextCombo.addItem(getTextComponent(findTextCombo).getText());
+
+			// If they just searched for an item that's already in the list
+			// other than the first, move it to the first position.
+			if (findTextCombo.getSelectedIndex()>0) {
+				Object item = findTextCombo.getSelectedItem();
+				findTextCombo.removeItem(item);
+				findTextCombo.insertItemAt(item, 0);
+				findTextCombo.setSelectedIndex(0);
+			}
+
+			String replaceText = getTextComponent(replaceWithCombo).getText();
+			if (!replaceText.equals(""))
+				replaceWithCombo.addItem(replaceText);
+
+			// If they just searched for an item that's already in the list
+			// other than the first, move it to the first position.
+			if (replaceWithCombo.getSelectedIndex()>0) {
+				Object item = replaceWithCombo.getSelectedItem();
+				replaceWithCombo.removeItem(item);
+				replaceWithCombo.insertItemAt(item, 0);
+				replaceWithCombo.setSelectedIndex(0);
+			}
+
+			fireActionPerformed(e); // Let parent application know
+
 		}
 
-		String replaceWithText = getTextComponent(replaceWithCombo).getText();
-		if (!replaceWithText.equals(""))
-			replaceWithCombo.addItem(replaceWithText);
-
-		// If they just searched for an item that's already in the list other
-		// than the first, move it to the first position.
-		if (replaceWithCombo.getSelectedIndex()>0) {
-			Object item = replaceWithCombo.getSelectedItem();
-			replaceWithCombo.removeItem(item);
-			replaceWithCombo.insertItemAt(item, 0);
-			replaceWithCombo.setSelectedIndex(0);
+		else {
+			super.actionPerformed(e);
 		}
 
-	}
-
-
-	/**
-	 * Adds an <code>ActionListener</code> to this dialog.  The listener will
-	 * receive notification when the user clicks the "Find" button with an
-	 * actionCommand string of "FindNext", an actionCommand string of "Replace"
-	 * when the user clicks the "Replace" button, and an actionCommand string
-	 * of "ReplaceAll" when the user clicks the "Replace All" button.
-	 *
-	 * @param l The listener to add.
-	 * @see #removeActionListener
-	 */
-	public void addActionListener(ActionListener l) {
-		findNextButton.addActionListener(l);
-		replaceButton.addActionListener(l);
-		replaceAllButton.addActionListener(l);
 	}
 
 
@@ -350,19 +353,6 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		replaceButton.setEnabled(er.getEnable());
 		replaceAllButton.setEnabled(er.getEnable());
 		return er;
-	}
-
-
-	/**
-	 * Removes an <code>ActionListener</code> from this dialog.
-	 *
-	 * @param l The listener to remove
-	 * @see #addActionListener
-	 */
-	public void removeActionListener(ActionListener l) {
-		findNextButton.removeActionListener(l);
-		replaceButton.removeActionListener(l);
-		replaceAllButton.removeActionListener(l);
 	}
 
 
@@ -542,18 +532,12 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 	/**
 	 * Listens for key presses in the replace dialog.
 	 */
-	private class ReplaceKeyListener implements KeyListener {
+	private class ReplaceKeyListener extends KeyAdapter {
 
-		// Listens for the user pressing a key down.
-		public void keyPressed(KeyEvent e) {
-		}
-
-		// Listens for a user releasing a key.
 		public void keyReleased(KeyEvent e) {
 
-			// This is an ugly hack to get around JComboBox's
-			// insistance on eating the first Enter keypress
-			// it receives when it has focus.
+			// This is an ugly hack to get around JComboBox's insistence on
+			// eating the first Enter keypress it receives when it has focus.
 			if (e.getKeyCode()==KeyEvent.VK_ENTER && isPreJava6JRE()) {
 				if (e.getSource()==getTextComponent(findTextCombo)) {
 					String replaceString = (String)replaceWithCombo.getSelectedItem();
@@ -577,10 +561,6 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 				}
 			}
 
-		}
-
-		// Listens for a key being typed.
-		public void keyTyped(KeyEvent e) {
 		}
 
 	}

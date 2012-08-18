@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.UIManager;
+import javax.swing.event.EventListenerList;
 import javax.swing.text.JTextComponent;
 
 import org.fife.rsta.ui.UIUtil;
@@ -40,9 +41,24 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 										implements ActionListener {
 
 	/**
+	 * The name of the action triggered when the "Find Next" button is clicked.
+	 */
+	public static final String ACTION_FIND = "FindNext";
+
+	/**
+	 * The name of the action triggered when the "Replace" button is clicked.
+	 */
+	public static final String ACTION_REPLACE = "Replace";
+
+	/**
+	 * The name of the action triggered when "Replace All" is clicked.
+	 */
+	public static final String ACTION_REPLACE_ALL = "ReplaceAll";
+
+	/**
 	 * Property fired when the user toggles the "Mark All" check box.
 	 */
-	public static final String MARK_ALL_PROPERTY			= "SearchDialog.MarkAll";
+	public static final String MARK_ALL_PROPERTY		= "SearchDialog.MarkAll";
 
 	/**
 	 * Property fired when the user toggles the search direction radio buttons.
@@ -62,6 +78,10 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	 */
 	protected JCheckBox markAllCheckBox;
 
+	/**
+	 * Folks listening for events in this dialog.
+	 */
+    private EventListenerList listenerList;
 
 	/**
 	 * Constructor.  Does initializing for parts common to
@@ -73,6 +93,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	public AbstractFindReplaceDialog(Frame owner) {
 
 		super(owner);
+		listenerList = new EventListenerList();
 
 		// Make a panel containing the "search up/down" radio buttons.
 		dirPanel = new JPanel();
@@ -92,7 +113,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		dirPanel.add(upButton);
 		dirPanel.add(downButton);
 
-		// Initilialize the "mark all" button.
+		// Initialize the "mark all" button.
 		markAllCheckBox = new JCheckBox(msg.getString("MarkAll"));
 		markAllCheckBox.setMnemonic((int)msg.getString("MarkAllMnemonic").charAt(0));
 		markAllCheckBox.setActionCommand("MarkAll");
@@ -117,7 +138,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 
 		// Create a "Find Next" button.
 		findNextButton = UIUtil.createButton(msg, "Find", "FindMnemonic");
-		findNextButton.setActionCommand("FindNext");
+		findNextButton.setActionCommand(ACTION_FIND);
 		findNextButton.addActionListener(this);
 		findNextButton.setDefaultCapable(true);
 		findNextButton.setEnabled(false);	// Initially, nothing to look for.
@@ -134,23 +155,23 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 
 		String command = e.getActionCommand();
 
-		if (command.equals("UpRadioButtonClicked")) {
+		if ("UpRadioButtonClicked".equals(command)) {
 			context.setSearchForward(false);
 			firePropertyChange(SEARCH_DOWNWARD_PROPERTY, true, false);
 		}
 
-		else if (command.equals("DownRadioButtonClicked")) {
+		else if ("DownRadioButtonClicked".equals(command)) {
 			context.setSearchForward(true);
 			firePropertyChange(SEARCH_DOWNWARD_PROPERTY, false, true);
 		}
 
-		else if (command.equals("MarkAll")) {
+		else if ("MarkAll".equals(command)) {
 			boolean checked = markAllCheckBox.isSelected();
 			context.setMarkAll(checked);
 			firePropertyChange(MARK_ALL_PROPERTY, !checked, checked);
 		}
 
-		if (command.equals("FindNext")) {
+		else if (ACTION_FIND.equals(command)) {
 
 			// Add the item to the combo box's list, if it isn't already there.
 			findTextCombo.addItem(getTextComponent(findTextCombo).getText());
@@ -165,6 +186,8 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 				findTextCombo.setSelectedIndex(0);
 			}
 
+			fireActionPerformed(e); // Let parent application know
+
 		}
 
 		else {
@@ -175,15 +198,17 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 
 
 	/**
-	 * Adds an <code>ActionListener</code> to this dialog.  This method should
-	 * be overridden so that search actions are sent to listeners.  For
-	 * example, for a Replace dialog, all listeners should receive notification
+	 * Adds an <code>ActionListener</code> to this dialog.  This listener will
+	 * be notified when find or replace operations are triggered.  For
+	 * example, for a Replace dialog, a listener will receive notification
 	 * when the user clicks "Find", "Replace", or "Replace All".
 	 *
 	 * @param l The listener to add.
-	 * @see #removeActionListener
+	 * @see #removeActionListener(ActionListener)
 	 */
-	public abstract void addActionListener(ActionListener l);
+	public void addActionListener(ActionListener l) {
+		listenerList.add(ActionListener.class, l);
+	}
 
 
 	/**
@@ -215,6 +240,35 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		label.setDisplayedMnemonic(mnemonic);
 		label.setLabelFor(comp);
 		return label;
+	}
+
+
+	/**
+	 * Notifies all listeners that have registered interest for notification on
+	 * this event type. The event instance is lazily created using the
+	 * <code>event</code> parameter.
+	 * 
+	 * @param event The <code>ActionEvent</code> object coming from a
+	 *        child component.
+	 */
+	protected void fireActionPerformed(ActionEvent event) {
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+		ActionEvent e = null;
+		// Process the listeners last to first, notifying
+		// those that are interested in this event
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == ActionListener.class) {
+				// Lazily create the event:
+				if (e == null) {
+					String command = event.getActionCommand();
+					e = new ActionEvent(this,
+							ActionEvent.ACTION_PERFORMED, command,
+							event.getWhen(), event.getModifiers());
+				}
+				((ActionListener)listeners[i+1]).actionPerformed(e);
+			}
+		}
 	}
 
 
@@ -317,7 +371,9 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	 * @param l The listener to remove
 	 * @see #addActionListener(ActionListener)
 	 */
-	public abstract void removeActionListener(ActionListener l);
+	public void removeActionListener(ActionListener l) {
+		listenerList.remove(ActionListener.class, l);
+	}
 
 
 	/**

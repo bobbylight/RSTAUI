@@ -47,10 +47,11 @@ import org.fife.ui.rtextarea.SearchEngine;
  * an object that implements both <code>ActionListener</code>.  This object will
  * receive the following events from the Find dialog:
  * <ul>
- *   <li>"FindNext" action when the user clicks the "Find" button.
+ *   <li>{@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} action when
+ *       the user clicks the "Find" button.
  * </ul>
  * The application can then call i.e.
- * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext)}
+ * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext) SearchEngine.find()}
  * to actually execute the search.
  *
  * @author Robert Futrell
@@ -69,7 +70,8 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 	 * Creates a new <code>FindDialog</code>.
 	 *
 	 * @param owner The main window that owns this dialog.
-	 * @param listener The component that listens for "FindNext" actions.
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} actions.
 	 */
 	public FindDialog(Frame owner, ActionListener listener) {
 
@@ -150,30 +152,6 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 
 		applyComponentOrientation(orientation);
 
-	}
-
-
-	/**
-	 * Adds an <code>ActionListener</code> to this dialog.  The listener will
-	 * receive notification when the user clicks the "Find" button with an
-	 * actionCommand string of "FindNext".
-	 *
-	 * @param l The listener to add.
-	 * @see #removeActionListener
-	 */
-	public void addActionListener(ActionListener l) {
-		findNextButton.addActionListener(l);
-	}
-
-
-	/**
-	 * Removes an <code>ActionListener</code> from this dialog.
-	 *
-	 * @param l The listener to remove
-	 * @see #addActionListener
-	 */
-	public void removeActionListener(ActionListener l) {
-		findNextButton.removeActionListener(l);
 	}
 
 
