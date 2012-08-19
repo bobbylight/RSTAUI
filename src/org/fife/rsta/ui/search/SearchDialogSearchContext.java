@@ -23,11 +23,23 @@ public class SearchDialogSearchContext extends SearchContext {
 	private boolean markAll;
 
 
+	/**
+	 * Returns whether "mark all" should be selected or enabled.
+	 *
+	 * @return Whether "mark all" should be enabled.
+	 * @see SearchDialogSearchContext#setMarkAll(boolean)
+	 */
 	public boolean getMarkAll() {
 		return markAll;
 	}
 
 
+	/**
+	 * Sets whether "mark all" should be selected or enabled.
+	 *
+	 * @param markAll Whether "mark all" should be enabled.
+	 * @see #getMarkAll()
+	 */
 	public void setMarkAll(boolean markAll) {
 		this.markAll = markAll;
 	}

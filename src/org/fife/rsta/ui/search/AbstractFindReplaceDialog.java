@@ -12,7 +12,6 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -98,12 +97,12 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		// Make a panel containing the "search up/down" radio buttons.
 		dirPanel = new JPanel();
 		dirPanel.setLayout(new BoxLayout(dirPanel, BoxLayout.LINE_AXIS));
-		setSearchButtonsBorderText(msg.getString("Direction"));
+		setSearchButtonsBorderText(getString("Direction"));
 		ButtonGroup bg = new ButtonGroup();
-		upButton = new JRadioButton(msg.getString("Up"), false);
-		upButton.setMnemonic((int)msg.getString("UpMnemonic").charAt(0));
-		downButton = new JRadioButton(msg.getString("Down"), true);
-		downButton.setMnemonic((int)msg.getString("DownMnemonic").charAt(0));
+		upButton = new JRadioButton(getString("Up"), false);
+		upButton.setMnemonic((int)getString("UpMnemonic").charAt(0));
+		downButton = new JRadioButton(getString("Down"), true);
+		downButton.setMnemonic((int)getString("DownMnemonic").charAt(0));
 		upButton.setActionCommand("UpRadioButtonClicked");
 		upButton.addActionListener(this);
 		downButton.setActionCommand("DownRadioButtonClicked");
@@ -114,8 +113,8 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		dirPanel.add(downButton);
 
 		// Initialize the "mark all" button.
-		markAllCheckBox = new JCheckBox(msg.getString("MarkAll"));
-		markAllCheckBox.setMnemonic((int)msg.getString("MarkAllMnemonic").charAt(0));
+		markAllCheckBox = new JCheckBox(getString("MarkAll"));
+		markAllCheckBox.setMnemonic((int)getString("MarkAllMnemonic").charAt(0));
 		markAllCheckBox.setActionCommand("MarkAll");
 		markAllCheckBox.addActionListener(this);
 
@@ -134,10 +133,11 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		searchConditionsPanel.add(temp, BorderLayout.LINE_END);
 
 		// Create the "Find what" label.
-		findFieldLabel = createLabel(msg, "FindWhat", findTextCombo);
+		findFieldLabel = createLabel("FindWhat", findTextCombo);
 
 		// Create a "Find Next" button.
-		findNextButton = UIUtil.createButton(msg, "Find", "FindMnemonic");
+		findNextButton = UIUtil.createButton(getBundle(), "Find",
+				"FindMnemonic");
 		findNextButton.setActionCommand(ACTION_FIND);
 		findNextButton.addActionListener(this);
 		findNextButton.setDefaultCapable(true);
@@ -228,15 +228,13 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	/**
 	 * Returns a label for a component.
 	 *
-	 * @param msg The resource bundle to use for localizations.
 	 * @param key The root key into the resource bundle.
 	 * @param comp The component this will be a label for.
 	 * @return The label.
 	 */
-	protected JLabel createLabel(ResourceBundle msg, String key,
-							JComponent comp) {
-		JLabel label = new JLabel(msg.getString(key));
-		int mnemonic = msg.getString(key + "Mnemonic").charAt(0);
+	protected JLabel createLabel(String key, JComponent comp) {
+		JLabel label = new JLabel(getString(key));
+		int mnemonic = getString(key + "Mnemonic").charAt(0);
 		label.setDisplayedMnemonic(mnemonic);
 		label.setLabelFor(comp);
 		return label;

@@ -142,7 +142,7 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 		temp.add(contentPane, BorderLayout.NORTH);
 		setContentPane(temp);
 		getRootPane().setDefaultButton(findNextButton);
-		setTitle(msg.getString("FindDialogTitle"));
+		setTitle(getString("FindDialogTitle"));
 		setResizable(true);
 		pack();
 		setLocationRelativeTo(owner);

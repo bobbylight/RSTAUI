@@ -74,7 +74,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	// Miscellaneous other stuff.
 	protected JButton cancelButton;
 
-	protected static final ResourceBundle msg = ResourceBundle.
+	private static final ResourceBundle msg = ResourceBundle.
 			getBundle("org.fife.ui.rsyntaxtextarea.search.Search");
 
 
@@ -219,6 +219,11 @@ public class AbstractSearchDialog extends EscapableDialog
 		JTextComponent textField = getTextComponent(findTextCombo);
 		textField.requestFocusInWindow();
 		textField.selectAll();
+	}
+
+
+	protected ResourceBundle getBundle() {
+		return msg;
 	}
 
 

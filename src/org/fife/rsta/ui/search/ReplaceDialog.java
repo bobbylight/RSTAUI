@@ -17,6 +17,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -122,8 +123,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Create the "Replace with" label.
-		replaceFieldLabel = createLabel(msg, "ReplaceWith",
-									replaceWithCombo);
+		replaceFieldLabel = createLabel("ReplaceWith", replaceWithCombo);
 
 		JPanel temp = new JPanel(new BorderLayout());
 		temp.add(findTextCombo);
@@ -170,6 +170,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		// Make a panel containing the action buttons.
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4,1, 5,5));
+		ResourceBundle msg = getBundle();
 		replaceButton = UIUtil.createButton(msg, "Replace", "ReplaceMnemonic");
 		replaceButton.setActionCommand(ACTION_REPLACE);
 		replaceButton.addActionListener(this);
@@ -199,7 +200,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		temp.add(contentPane, BorderLayout.NORTH);
 		setContentPane(temp);
 		getRootPane().setDefaultButton(findNextButton);
-		setTitle(msg.getString("ReplaceDialogTitle"));
+		setTitle(getString("ReplaceDialogTitle"));
 		setResizable(true);
 		pack();
 		setLocationRelativeTo(owner);
