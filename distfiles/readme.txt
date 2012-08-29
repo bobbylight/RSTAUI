@@ -42,52 +42,12 @@ robert -at- fifesoft dot com.
 
 * Example Usage
 
-  Below is a skeleton for a very simple application using the Find and Replace
-  dialogs.  It does not handle "Mark All".
+  Compile and run the demo class included with the source distribution:
   
-     public class DemoApp implements ActionListener {
-     
-        private RSyntaxTextArea textArea;
-        private FindDialog findDialog;
-        private ReplaceDialog replaceDialog;
-        // ...
-        
-        public void init() {
-        
-           findDialog = new FindDialog(parentWindow, this);
-           replaceDialog = new ReplaceDialog(parentWindow, this);
-           
-           // This ties the properties of the two dialogs together (match
-           // case, regex, etc.).
-           replaceDialog.setSearchContext(findDialog.getSearchContext());
-           
-        }
-        
-        public void actionPerformed(ActionEvent e) {
-        
-           String command = e.getActionCommand();
-           SearchDialogSearchContext context = findDialog.getSearchContext();
-           
-           if (FindDialog.ACTION_FIND.equals(command)) {
-              if (!SearchEngine.find(textArea, context)) {
-                 UIManager.getLookAndFeel().provideErrorFeedback(textArea);
-              }
-           }
-           else if (ReplaceDialog.ACTION_REPLACE.equals(command)) {
-              if (!SearchEngine.find(textArea, replace)) {
-                 UIManager.getLookAndFeel().provideErrorFeedback(textArea);
-              }
-           }
-           else if (ReplaceDialog.ACTION_REPLACE_ALL.equals(command)) {
-              int count = SearchEngine.replaceAll(textArea, context);
-              JOptionPane.showMessageDialog(null, count +
-                    " occurrences replaced.");
-           }
-           
-        }
-        
-     }
-     
+     org.fife.rsta.ui.demo.RSTAUIDemoApp
+  
+  It is a simple example of using the Find and Replace dialogs.  It currently
+  does not demo "Mark All".     
       
 * Feedback
 

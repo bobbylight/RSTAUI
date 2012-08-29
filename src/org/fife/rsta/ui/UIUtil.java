@@ -1,7 +1,7 @@
 /*
  * 09/08/2005
  *
- * UIUtil.java - Utility methods for org.fife.ui classes.
+ * UIUtil.java - Utility methods for org.fife.rsta.ui classes.
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -38,7 +38,7 @@ import javax.swing.plaf.UIResource;
 
 
 /**
- * Utility methods for <code>org.fife.ui</code> GUI components.
+ * Utility methods for <code>org.fife.rsta.ui</code> GUI components.
  *
  * @author Robert Futrell
  * @version 1.0

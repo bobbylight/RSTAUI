@@ -56,7 +56,9 @@
 		<delete includeEmptyDirs="true" quiet="true" dir="${dist-dir}"/>
 		<mkdir dir="${dist-dir}"/>
 		<jar destfile="${dist-dir}/rstaui.jar">
-			<fileset dir="${class-dir}"/>
+			<fileset dir="${class-dir}">
+				<exclude name="org/fife/rsta/ui/demo/**"/>
+			</fileset>
 			<fileset dir="i18n"/>
 			<fileset dir="${source-dir}">
 				<include name="**/*.png"/>
@@ -100,6 +102,8 @@
 				<pathelement     location="${rsta-jar}"/>
 				<pathelement     location="${autocomplete-jar}"/>
 			</classpath>
+			<link href="http://javadoc.fifesoft.com/rsyntaxtextarea/"/>
+			<link href="http://javadoc.fifesoft.com/autocomplete/"/>
 		</javadoc>
 	</target>
 

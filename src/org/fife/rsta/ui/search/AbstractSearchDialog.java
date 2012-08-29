@@ -75,7 +75,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	protected JButton cancelButton;
 
 	private static final ResourceBundle msg = ResourceBundle.
-			getBundle("org.fife.ui.rsyntaxtextarea.search.Search");
+			getBundle("org.fife.rsta.ui.search.Search");
 
 
 	/**
