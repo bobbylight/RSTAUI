@@ -3,7 +3,9 @@ package org.fife.rsta.ui.demo;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 
+import org.fife.rsta.ui.GoToDialog;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.rsta.ui.search.SearchDialogSearchContext;
@@ -53,6 +55,7 @@ public class RSTAUIDemoApp extends JFrame implements ActionListener {
 		JMenu menu = new JMenu("Search");
 		menu.add(new JMenuItem(new ShowFindDialogAction()));
 		menu.add(new JMenuItem(new ShowReplaceDialogAction()));
+		menu.add(new JMenuItem(new GoToLineAction()));
 		mb.add(menu);
 		return mb;
 	}
@@ -112,6 +115,38 @@ public class RSTAUIDemoApp extends JFrame implements ActionListener {
 				new RSTAUIDemoApp().setVisible(true);
 			}
 		});
+	}
+
+
+	private class GoToLineAction extends AbstractAction {
+
+		public GoToLineAction() {
+			super("Go To Line...");
+			int c = getToolkit().getMenuShortcutKeyMask();
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, c));
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if (findDialog.isVisible()) {
+				findDialog.setVisible(false);
+			}
+			if (replaceDialog.isVisible()) {
+				replaceDialog.setVisible(false);
+			}
+			GoToDialog dialog = new GoToDialog(RSTAUIDemoApp.this);
+			dialog.setMaxLineNumberAllowed(textArea.getLineCount());
+			dialog.setVisible(true);
+			int line = dialog.getLineNumber();
+			if (line>0) {
+				try {
+					textArea.setCaretPosition(textArea.getLineStartOffset(line-1));
+				} catch (BadLocationException ble) { // Never happens
+					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
+					ble.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 

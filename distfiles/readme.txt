@@ -46,8 +46,8 @@ robert -at- fifesoft dot com.
   
      org.fife.rsta.ui.demo.RSTAUIDemoApp
   
-  It is a simple example of using the Find and Replace dialogs.  It currently
-  does not demo "Mark All".     
+  It is a simple example of using the Find, Replace, and Go To Line dialogs.
+  It currently does not demo "Mark All".     
       
 * Feedback
 
