@@ -90,14 +90,21 @@ public class GoToDialog extends EscapableDialog {
 
 		// Make a panel containing the "Line Number" edit box.
 		JPanel enterLineNumberPane = new JPanel();
-		BoxLayout box=new BoxLayout(enterLineNumberPane, BoxLayout.LINE_AXIS);
+		BoxLayout box = new BoxLayout(enterLineNumberPane, BoxLayout.LINE_AXIS);
 		enterLineNumberPane.setLayout(box);
 		lineNumberField = new JTextField(16);
 		lineNumberField.setText("1");
 		AbstractDocument doc = (AbstractDocument)lineNumberField.getDocument();
 		doc.addDocumentListener(l);
 		doc.setDocumentFilter(new NumberDocumentFilter());
-		enterLineNumberPane.add(new JLabel(msg.getString("LineNumber")));
+		JLabel label = UIUtil.createLabel(msg, "LineNumber");
+		if (orientation.isLeftToRight()) {
+			label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+		}
+		else {
+			label.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+		}
+		enterLineNumberPane.add(label);
 		enterLineNumberPane.add(lineNumberField);
 
 		// Make a panel containing the OK and Cancel buttons.

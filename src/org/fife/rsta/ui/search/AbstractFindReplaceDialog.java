@@ -233,9 +233,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 	 * @return The label.
 	 */
 	protected JLabel createLabel(String key, JComponent comp) {
-		JLabel label = new JLabel(getString(key));
-		int mnemonic = getString(key + "Mnemonic").charAt(0);
-		label.setDisplayedMnemonic(mnemonic);
+		JLabel label = UIUtil.createLabel(getBundle(), key);
 		label.setLabelFor(comp);
 		return label;
 	}

@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -125,6 +126,30 @@ public class UIUtil {
 
 
 	/**
+	 * Returns an <code>JLabel</code> with the specified text.  If another
+	 * property with name <code>getString(textKey) + ".Mnemonic"</code> is
+	 * defined, it is used as the mnemonic for the label.
+	 *
+	 * @param msg The resource bundle.
+	 * @param key The key into the bundle containing the string text value.
+	 * @return The <code>JLabel</code>.
+	 */
+	public static final JLabel createLabel(ResourceBundle msg, String key) {
+		JLabel label = new JLabel(msg.getString(key));
+		String mnemonicKey = key + ".Mnemonic";
+		try {
+			Object mnemonic = msg.getObject(mnemonicKey);
+			if (mnemonic instanceof String) {
+				label.setDisplayedMnemonic((int)((String)mnemonic).charAt(0));
+			}
+		} catch (MissingResourceException mre) {
+			// Swallow.  TODO: When we drop 1.4/1.5 support, use containsKey().
+		}
+		return label;
+	}
+
+
+	/**
 	 * Returns a button with the specified text and mnemonic.
 	 *
 	 * @param bundle The resource bundle in which to get the int.
@@ -138,25 +163,6 @@ public class UIUtil {
 		JButton b = new JButton(bundle.getString(textKey));
 		b.setMnemonic((int)bundle.getString(mnemonicKey).charAt(0));
 		return b;
-	}
-
-
-	/**
-	 * Returns an <code>JLabel</code> with the specified text and mnemonic.
-	 *
-	 * @param msg The resource bundle in which to get the int.
-	 * @param textKey The key into the bundle containing the string text value.
-	 * @param mnemonicKey The key into the bundle containing a single-char
-	 *        <code>String</code> value for the mnemonic.
-	 * @return The <code>JLabel</code>.
-	 */
-	public static final JLabel createLabel(ResourceBundle msg,
-								String textKey, String mnemonicKey) {
-		JLabel label = new JLabel(msg.getString(textKey));
-		Object mnemonic = msg.getObject(mnemonicKey);
-		if (mnemonic instanceof String)
-			label.setDisplayedMnemonic((int)((String)mnemonic).charAt(0));
-		return label;
 	}
 
 
