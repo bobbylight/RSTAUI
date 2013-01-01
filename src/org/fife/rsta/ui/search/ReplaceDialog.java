@@ -123,7 +123,8 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Create the "Replace with" label.
-		replaceFieldLabel = createLabel("ReplaceWith", replaceWithCombo);
+		replaceFieldLabel = UIUtil.createLabel(getBundle(), "ReplaceWith",
+				replaceWithCombo);
 
 		JPanel temp = new JPanel(new BorderLayout());
 		temp.add(findTextCombo);

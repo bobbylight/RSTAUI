@@ -97,7 +97,7 @@ public class GoToDialog extends EscapableDialog {
 		AbstractDocument doc = (AbstractDocument)lineNumberField.getDocument();
 		doc.addDocumentListener(l);
 		doc.setDocumentFilter(new NumberDocumentFilter());
-		JLabel label = UIUtil.createLabel(msg, "LineNumber");
+		JLabel label = UIUtil.createLabel(msg, "LineNumber", lineNumberField);
 		if (orientation.isLeftToRight()) {
 			label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 		}

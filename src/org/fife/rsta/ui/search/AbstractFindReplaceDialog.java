@@ -17,7 +17,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -133,7 +132,8 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 		searchConditionsPanel.add(temp, BorderLayout.LINE_END);
 
 		// Create the "Find what" label.
-		findFieldLabel = createLabel("FindWhat", findTextCombo);
+		findFieldLabel = UIUtil.createLabel(getBundle(), "FindWhat",
+				findTextCombo);
 
 		// Create a "Find Next" button.
 		findNextButton = UIUtil.createButton(getBundle(), "Find",
@@ -222,20 +222,6 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
 								ActionListener toPanel) {
 		this.removeActionListener(fromPanel);
 		this.addActionListener(toPanel);
-	}
-
-
-	/**
-	 * Returns a label for a component.
-	 *
-	 * @param key The root key into the resource bundle.
-	 * @param comp The component this will be a label for.
-	 * @return The label.
-	 */
-	protected JLabel createLabel(String key, JComponent comp) {
-		JLabel label = UIUtil.createLabel(getBundle(), key);
-		label.setLabelFor(comp);
-		return label;
 	}
 
 
