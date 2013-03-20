@@ -4,7 +4,7 @@
  * ResizableFrameContentPane.java - A content pane with a size grip that
  * can be used to resize a sizable dialog or frame.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 

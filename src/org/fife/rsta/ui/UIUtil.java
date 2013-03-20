@@ -3,7 +3,7 @@
  *
  * UIUtil.java - Utility methods for org.fife.rsta.ui classes.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 
@@ -108,52 +108,6 @@ public class UIUtil {
 
 
 	/**
-	 * Returns a button with the specified text and mnemonic.
-	 *
-	 * @param bundle The resource bundle in which to get the int.
-	 * @param textKey The key into the bundle containing the string text value.
-	 * @param mnemonicKey The key into the bundle containing a single-char
-	 *        <code>String</code> value for the mnemonic.
-	 * @return The button.
-	 */
-	public static final JButton createButton(ResourceBundle bundle,
-								String textKey, String mnemonicKey) {
-		JButton b = new JButton(bundle.getString(textKey));
-		b.setMnemonic((int)bundle.getString(mnemonicKey).charAt(0));
-		return b;
-	}
-
-
-	/**
-	 * Returns an <code>JLabel</code> with the specified text.  If another
-	 * property with name <code>getString(textKey) + ".Mnemonic"</code> is
-	 * defined, it is used as the mnemonic for the label.
-	 *
-	 * @param msg The resource bundle.
-	 * @param key The key into the bundle containing the string text value.
-	 * @param labelFor The component the label is labeling.
-	 * @return The <code>JLabel</code>.
-	 */
-	public static final JLabel createLabel(ResourceBundle msg, String key,
-			Component labelFor) {
-		JLabel label = new JLabel(msg.getString(key));
-		String mnemonicKey = key + ".Mnemonic";
-		try {
-			Object mnemonic = msg.getObject(mnemonicKey);
-			if (mnemonic instanceof String) {
-				label.setDisplayedMnemonic((int)((String)mnemonic).charAt(0));
-			}
-		} catch (MissingResourceException mre) {
-			// Swallow.  TODO: When we drop 1.4/1.5 support, use containsKey().
-		}
-		if (labelFor!=null) {
-			label.setLabelFor(labelFor);
-		}
-		return label;
-	}
-
-
-	/**
 	 * Fixes the orientation of the renderer of a combo box.  I can't believe
 	 * Swing standard LaFs don't handle this on their own.
 	 *
@@ -241,6 +195,27 @@ public class UIUtil {
 
 
 	/**
+	 * Returns the mnemonic specified by the given key in a resource bundle.
+	 * 
+	 * @param msg The resource bundle.
+	 * @param key The key for the mnemonic.
+	 * @return The mnemonic, or <code>0</code> if not found.
+	 */
+	public static final int getMnemonic(ResourceBundle msg, String key) {
+		int mnemonic = 0;
+		try {
+			Object value = msg.getObject(key);
+			if (value instanceof String) {
+				mnemonic = ((String)value).charAt(0);
+			}
+		} catch (MissingResourceException mre) {
+			// Swallow.  TODO: When we drop 1.4/1.5 support, use containsKey().
+		}
+		return mnemonic;
+	}
+
+
+	/**
 	 * This method is ripped off from <code>SpringUtilities.java</code> found
 	 * on Sun's Java Tutorial pages.  It takes a component whose layout is
 	 * <code>SpringLayout</code> and organizes the components it contains into
@@ -312,6 +287,46 @@ public class UIUtil {
 		pCons.setConstraint(SpringLayout.SOUTH, y);
 		pCons.setConstraint(SpringLayout.EAST, x);
 
+	}
+
+
+	/**
+	 * Returns a button with the specified text.  If another
+	 * property with name <code>getString(textKey) + ".Mnemonic"</code> is
+	 * defined, it is used as the mnemonic for the button.
+	 *
+	 * @param bundle The resource bundle in which to get the int.
+	 * @param key The key into the bundle containing the string text value.
+	 * @param mnemonicKey The key into the bundle containing a single-char
+	 *        <code>String</code> value for the mnemonic.
+	 * @return The button.
+	 */
+	public static final JButton newButton(ResourceBundle bundle, String key) {
+		JButton b = new JButton(bundle.getString(key));
+		b.setMnemonic(getMnemonic(bundle, key + ".Mnemonic"));
+		return b;
+	}
+
+
+	/**
+	 * Returns an <code>JLabel</code> with the specified text.  If another
+	 * property with name <code>getString(textKey) + ".Mnemonic"</code> is
+	 * defined, it is used as the mnemonic for the label.
+	 *
+	 * @param msg The resource bundle.
+	 * @param key The key into the bundle containing the string text value.
+	 * @param labelFor The component the label is labeling.
+	 * @return The <code>JLabel</code>.
+	 */
+	public static final JLabel newLabel(ResourceBundle msg, String key,
+			Component labelFor) {
+		JLabel label = new JLabel(msg.getString(key));
+		String mnemonicKey = key + ".Mnemonic";
+		label.setDisplayedMnemonic(getMnemonic(msg, mnemonicKey));
+		if (labelFor!=null) {
+			label.setLabelFor(labelFor);
+		}
+		return label;
 	}
 
 

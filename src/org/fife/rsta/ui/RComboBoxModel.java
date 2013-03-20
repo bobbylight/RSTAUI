@@ -5,7 +5,7 @@
  * the combo box wil remember.  It also won't add an item to the combo box
  * if it is already there.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 

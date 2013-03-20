@@ -4,7 +4,7 @@
  * DecorativeIconPanel.java - Displays a small decorative icon beside some
  * other component.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 

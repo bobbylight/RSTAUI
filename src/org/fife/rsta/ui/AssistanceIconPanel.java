@@ -4,7 +4,7 @@
  * AssistanceIconPanel.java - A panel that sits alongside a text component,
  * that can display assistance icons for that component.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 

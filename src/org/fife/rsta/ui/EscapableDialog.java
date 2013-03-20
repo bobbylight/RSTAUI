@@ -3,7 +3,7 @@
  *
  * EscapableDialog.java - A dialog that can be dismissed via the Escape key. 
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 

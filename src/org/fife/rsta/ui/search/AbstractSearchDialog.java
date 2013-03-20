@@ -4,10 +4,11 @@
  * AbstractSearchDialog.java - Base class for all search dialogs
  * (find, replace, etc.).
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui.search;
 
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -82,36 +83,23 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * Constructor.  Does initializing for parts common to all search
 	 * dialogs.
 	 *
+	 * @param owner The dialog that owns this search dialog.
+	 */
+	public AbstractSearchDialog(Dialog owner) {
+		super(owner);
+		init();
+	}
+
+
+	/**
+	 * Constructor.  Does initializing for parts common to all search
+	 * dialogs.
+	 *
 	 * @param owner The window that owns this search dialog.
 	 */
 	public AbstractSearchDialog(Frame owner) {
-
 		super(owner);
-
-		// The user should set a shared instance between all subclass
-		// instances, but to be safe we set individual ones.
-		context = new SearchDialogSearchContext();
-
-		// Make a panel containing the option check boxes.
-		searchConditionsPanel = new JPanel();
-		searchConditionsPanel.setLayout(new BoxLayout(
-						searchConditionsPanel, BoxLayout.Y_AXIS));
-		caseCheckBox = createCheckBox(msg, "MatchCase");
-		searchConditionsPanel.add(caseCheckBox);
-		wholeWordCheckBox = createCheckBox(msg, "WholeWord");
-		searchConditionsPanel.add(wholeWordCheckBox);
-		regExpCheckBox = createCheckBox(msg, "RegEx");
-		searchConditionsPanel.add(regExpCheckBox);
-
-		// Initialize any text fields.
-		findTextCombo = createSearchComboBox(false);
-
-		// Initialize other stuff.
-		cancelButton = new JButton(getString("Cancel"));
-		cancelButton.setMnemonic((int)getString("CancelMnemonic").charAt(0));
-		cancelButton.setActionCommand("Cancel");
-		cancelButton.addActionListener(this);
-
+		init();
 	}
 
 
@@ -405,6 +393,35 @@ public class AbstractSearchDialog extends EscapableDialog
 			}
 		}
 		return new EnableResult(true, null);
+	}
+
+
+	private void init() {
+
+		// The user should set a shared instance between all subclass
+		// instances, but to be safe we set individual ones.
+		context = new SearchDialogSearchContext();
+
+		// Make a panel containing the option check boxes.
+		searchConditionsPanel = new JPanel();
+		searchConditionsPanel.setLayout(new BoxLayout(
+						searchConditionsPanel, BoxLayout.Y_AXIS));
+		caseCheckBox = createCheckBox(msg, "MatchCase");
+		searchConditionsPanel.add(caseCheckBox);
+		wholeWordCheckBox = createCheckBox(msg, "WholeWord");
+		searchConditionsPanel.add(wholeWordCheckBox);
+		regExpCheckBox = createCheckBox(msg, "RegEx");
+		searchConditionsPanel.add(regExpCheckBox);
+
+		// Initialize any text fields.
+		findTextCombo = createSearchComboBox(false);
+
+		// Initialize other stuff.
+		cancelButton = new JButton(getString("Cancel"));
+		//cancelButton.setMnemonic((int)getString("CancelMnemonic").charAt(0));
+		cancelButton.setActionCommand("Cancel");
+		cancelButton.addActionListener(this);
+
 	}
 
 

@@ -3,18 +3,21 @@
  *
  * GoToDialog.java - A dialog allowing you to skip to a specific line number. 
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -70,11 +73,26 @@ public class GoToDialog extends EscapableDialog {
 	/**
 	 * Creates a new <code>GoToDialog</code>.
 	 *
+	 * @param owner The parent dialog.
+	 */
+	public GoToDialog(Dialog owner) {
+		super(owner);
+		init();
+	}
+
+
+	/**
+	 * Creates a new <code>GoToDialog</code>.
+	 *
 	 * @param owner The parent window.
 	 */
 	public GoToDialog(Frame owner) {
-
 		super(owner);
+		init();
+	}
+
+
+	private void init() {
 
 		ComponentOrientation orientation = ComponentOrientation.
 									getOrientation(getLocale());
@@ -89,45 +107,36 @@ public class GoToDialog extends EscapableDialog {
 		setContentPane(contentPane);
 
 		// Make a panel containing the "Line Number" edit box.
-		JPanel enterLineNumberPane = new JPanel();
-		BoxLayout box = new BoxLayout(enterLineNumberPane, BoxLayout.LINE_AXIS);
-		enterLineNumberPane.setLayout(box);
+		Box enterLineNumberPane = new Box(BoxLayout.LINE_AXIS);
+		enterLineNumberPane.setBorder(BorderFactory.createEmptyBorder(
+												0, 0, 20, 0));
 		lineNumberField = new JTextField(16);
 		lineNumberField.setText("1");
 		AbstractDocument doc = (AbstractDocument)lineNumberField.getDocument();
 		doc.addDocumentListener(l);
 		doc.setDocumentFilter(new NumberDocumentFilter());
-		JLabel label = UIUtil.createLabel(msg, "LineNumber", lineNumberField);
-		if (orientation.isLeftToRight()) {
-			label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
-		}
-		else {
-			label.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
-		}
+		JLabel label = UIUtil.newLabel(msg, "LineNumber", lineNumberField);
 		enterLineNumberPane.add(label);
+		enterLineNumberPane.add(Box.createHorizontalStrut(15));
 		enterLineNumberPane.add(lineNumberField);
 
 		// Make a panel containing the OK and Cancel buttons.
-		JPanel buttonPanel = new JPanel(new GridLayout(1,2, 5,5));
-		okButton = UIUtil.createButton(msg, "OK", "OK.Mnemonic");
+		okButton = UIUtil.newButton(msg, "OK");
 		okButton.addActionListener(l);
-		cancelButton = UIUtil.createButton(msg, "Cancel", "Cancel.Mnemonic");
+		cancelButton = UIUtil.newButton(msg, "Cancel");
 		cancelButton.addActionListener(l);
-		buttonPanel.add(okButton);
-		buttonPanel.add(cancelButton);
+		Container bottomPanel = createButtonPanel(okButton, cancelButton);
 
 		// Put everything into a neat little package.
 		contentPane.add(enterLineNumberPane, BorderLayout.NORTH);
-		JPanel temp = new JPanel();
-		temp.add(buttonPanel);
-		contentPane.add(temp, BorderLayout.SOUTH);
+		contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		JRootPane rootPane = getRootPane();
 		rootPane.setDefaultButton(okButton);
 		setTitle(msg.getString("GotoDialogTitle"));
 		setModal(true);
 		applyComponentOrientation(orientation);
 		pack();
-		setLocationRelativeTo(owner);
+		setLocationRelativeTo(getParent());
 
 	}
 
@@ -152,10 +161,7 @@ public class GoToDialog extends EscapableDialog {
 			}
 
 		} catch (NumberFormatException nfe) {
-			JOptionPane.showMessageDialog(this,
-				msg.getString("LineNumberRange") + maxLineNumberAllowed + ".",
-				getErrorDialogTitle(),
-				JOptionPane.ERROR_MESSAGE);
+			displayInvalidLineNumberMessage();
 			return false;
 		}
 
@@ -163,6 +169,40 @@ public class GoToDialog extends EscapableDialog {
 		setVisible(false);
 		return true;
 
+	}
+
+
+	/**
+	 * Returns a panel containing the OK and Cancel buttons.  This panel is
+	 * added to the bottom of this dialog.  Applications that don't like these
+	 * buttons right-aligned in the dialog can override this method to change
+	 * that behavior.
+	 *
+	 * @param ok The OK button.
+	 * @param cancel The Cancel button.
+	 * @return A panel containing the two buttons.
+	 */
+	protected Container createButtonPanel(JButton ok, JButton cancel) {
+		JPanel buttonPanel = new JPanel(new GridLayout(1,2, 5,5));
+		buttonPanel.add(ok);
+		buttonPanel.add(cancel);
+		JPanel bottomPanel = new JPanel(new BorderLayout());
+		bottomPanel.add(buttonPanel, BorderLayout.LINE_END);
+		return bottomPanel;
+	}
+
+
+	/**
+	 * Displays a message to the user that they have entered an invalid line
+	 * number.  The default implementation displays the error message in a
+	 * modal.  Subclasses that wish to have a slicker error delivery mechanism
+	 * can override.
+	 */
+	protected void displayInvalidLineNumberMessage() {
+		JOptionPane.showMessageDialog(this,
+				msg.getString("LineNumberRange") + maxLineNumberAllowed + ".",
+				getErrorDialogTitle(),
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 
@@ -204,6 +244,17 @@ public class GoToDialog extends EscapableDialog {
 
 
 	/**
+	 * Returns the maximum line number the user is allowed to enter.
+	 *
+	 * @return the maximum line number allowed.
+	 * @see #setMaxLineNumberAllowed(int)
+	 */
+	public int getMaxLineNumberAllowed() {
+		return maxLineNumberAllowed;
+	}
+
+
+	/**
 	 * Sets the title for the error dialog.
 	 *
 	 * @param title The new title.  If this is <code>null</code>, a default
@@ -219,6 +270,7 @@ public class GoToDialog extends EscapableDialog {
 	 * Sets the maximum line number for them to enter.
 	 *
 	 * @param max The new maximum line number value.
+	 * @see #getMaxLineNumberAllowed()
 	 */
 	public void setMaxLineNumberAllowed(int max) {
 		this.maxLineNumberAllowed = max;

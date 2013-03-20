@@ -3,12 +3,13 @@
  *
  * FindDialog - Dialog for finding text in a GUI.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -69,13 +70,36 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 	/**
 	 * Creates a new <code>FindDialog</code>.
 	 *
+	 * @param owner The parent dialog.
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} actions.
+	 */
+	public FindDialog(Dialog owner, ActionListener listener) {
+		super(owner);
+		init(listener);
+	}
+
+
+	/**
+	 * Creates a new <code>FindDialog</code>.
+	 *
 	 * @param owner The main window that owns this dialog.
 	 * @param listener The component that listens for
 	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} actions.
 	 */
 	public FindDialog(Frame owner, ActionListener listener) {
-
 		super(owner);
+		init(listener);
+	}
+
+
+	/**
+	 * Initializes find dialog-specific initialization stuff.
+	 *
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND} actions.
+	 */
+	private void init(ActionListener listener) {
 
 		ComponentOrientation orientation = ComponentOrientation.
 									getOrientation(getLocale());
@@ -145,7 +169,7 @@ public class FindDialog extends AbstractFindReplaceDialog implements ActionListe
 		setTitle(getString("FindDialogTitle"));
 		setResizable(true);
 		pack();
-		setLocationRelativeTo(owner);
+		setLocationRelativeTo(getParent());
 
 		setSearchContext(new SearchDialogSearchContext());
 		addActionListener(listener);

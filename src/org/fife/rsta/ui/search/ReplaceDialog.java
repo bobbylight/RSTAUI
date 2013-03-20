@@ -3,12 +3,13 @@
  *
  * ReplaceDialog.java - Dialog for replacing text in a GUI.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -94,123 +95,26 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE_ALL ACTION_REPLACE_ALL}
 	 *        actions.
 	 */
-	public ReplaceDialog(Frame owner, ActionListener listener) {
-
+	public ReplaceDialog(Dialog owner, ActionListener listener) {
 		super(owner);
+		init(listener);
+	}
 
-		ComponentOrientation orientation = ComponentOrientation.
-									getOrientation(getLocale());
 
-		// Create a panel for the "Find what" and "Replace with" text fields.
-		JPanel searchPanel = new JPanel(new SpringLayout());
-
-		// Create listeners for the combo boxes.
-		ReplaceFocusAdapter replaceFocusAdapter = new ReplaceFocusAdapter();
-		ReplaceKeyListener replaceKeyListener = new ReplaceKeyListener();
-		ReplaceDocumentListener replaceDocumentListener = new ReplaceDocumentListener();
-
-		// Create the "Find what" text field.
-		JTextComponent textField = getTextComponent(findTextCombo);
-		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
-		textField.getDocument().addDocumentListener(replaceDocumentListener);
-
-		// Create the "Replace with" text field.
-		replaceWithCombo = createSearchComboBox(true);
-		textField = getTextComponent(replaceWithCombo);
-		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
-		textField.getDocument().addDocumentListener(replaceDocumentListener);
-
-		// Create the "Replace with" label.
-		replaceFieldLabel = UIUtil.createLabel(getBundle(), "ReplaceWith",
-				replaceWithCombo);
-
-		JPanel temp = new JPanel(new BorderLayout());
-		temp.add(findTextCombo);
-		AssistanceIconPanel aip = new AssistanceIconPanel(findTextCombo);
-		temp.add(aip, BorderLayout.LINE_START);
-		JPanel temp2 = new JPanel(new BorderLayout());
-		temp2.add(replaceWithCombo);
-		AssistanceIconPanel aip2 = new AssistanceIconPanel(replaceWithCombo);
-		temp2.add(aip2, BorderLayout.LINE_START);
-
-		// Orient things properly.
-		if (orientation.isLeftToRight()) {
-			searchPanel.add(findFieldLabel);
-			searchPanel.add(temp);
-			searchPanel.add(replaceFieldLabel);
-			searchPanel.add(temp2);
-		}
-		else {
-			searchPanel.add(temp);
-			searchPanel.add(findFieldLabel);
-			searchPanel.add(temp2);
-			searchPanel.add(replaceFieldLabel);
-		}
-
-		UIUtil.makeSpringCompactGrid(searchPanel, 2, 2,	//rows, cols
-											0,0,		//initX, initY
-											6, 6);	//xPad, yPad
-
-		// Make a panel containing the inherited search direction radio
-		// buttons and the inherited search options.
-		JPanel bottomPanel = new JPanel(new BorderLayout());
-		temp = new JPanel(new BorderLayout());
-		bottomPanel.setBorder(UIUtil.getEmpty5Border());
-		temp.add(searchConditionsPanel, BorderLayout.LINE_START);
-		temp.add(dirPanel);
-		bottomPanel.add(temp, BorderLayout.LINE_START);
-
-		// Now, make a panel containing all the above stuff.
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.add(searchPanel);
-		leftPanel.add(bottomPanel);
-
-		// Make a panel containing the action buttons.
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(4,1, 5,5));
-		ResourceBundle msg = getBundle();
-		replaceButton = UIUtil.createButton(msg, "Replace", "ReplaceMnemonic");
-		replaceButton.setActionCommand(ACTION_REPLACE);
-		replaceButton.addActionListener(this);
-		replaceButton.setEnabled(false);
-		replaceButton.setIcon(null);
-		replaceButton.setToolTipText(null);
-		replaceAllButton = UIUtil.createButton(msg, "ReplaceAll",
-											"ReplaceAllMnemonic");
-		replaceAllButton.setActionCommand(ACTION_REPLACE_ALL);
-		replaceAllButton.addActionListener(this);
-		replaceAllButton.setEnabled(false);
-		replaceAllButton.setIcon(null);
-		replaceAllButton.setToolTipText(null);
-		buttonPanel.add(findNextButton);
-		buttonPanel.add(replaceButton);
-		buttonPanel.add(replaceAllButton);
-		buttonPanel.add(cancelButton);		// Defined in superclass.
-		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.add(buttonPanel, BorderLayout.NORTH);
-
-		// Put it all together!
-		JPanel contentPane = new JPanel(new BorderLayout());
-		contentPane.setBorder(BorderFactory.createEmptyBorder(5,5,0,5));
-		contentPane.add(leftPanel);
-		contentPane.add(rightPanel, BorderLayout.LINE_END);
-		temp = new ResizableFrameContentPane(new BorderLayout());
-		temp.add(contentPane, BorderLayout.NORTH);
-		setContentPane(temp);
-		getRootPane().setDefaultButton(findNextButton);
-		setTitle(getString("ReplaceDialogTitle"));
-		setResizable(true);
-		pack();
-		setLocationRelativeTo(owner);
-
-		setSearchContext(new SearchDialogSearchContext());
-		addActionListener(listener);
-
-		applyComponentOrientation(orientation);
-
+	/**
+	 * Creates a new <code>ReplaceDialog</code>.
+	 *
+	 * @param owner The main window that owns this dialog.
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND},
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE ACTION_REPLACE},
+	 *        and
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE_ALL ACTION_REPLACE_ALL}
+	 *        actions.
+	 */
+	public ReplaceDialog(Frame owner, ActionListener listener) {
+		super(owner);
+		init(listener);
 	}
 
 
@@ -355,6 +259,133 @@ public class ReplaceDialog extends AbstractFindReplaceDialog implements ActionLi
 		replaceButton.setEnabled(er.getEnable());
 		replaceAllButton.setEnabled(er.getEnable());
 		return er;
+	}
+
+
+	/**
+	 * Does replace dialog-specific initialization stuff.
+	 *
+	 * @param listener The component that listens for
+	 *        {@link AbstractFindReplaceDialog#ACTION_FIND ACTION_FIND},
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE ACTION_REPLACE},
+	 *        and
+	 *        {@link AbstractFindReplaceDialog#ACTION_REPLACE_ALL ACTION_REPLACE_ALL}
+	 *        actions.
+	 */
+	private void init(ActionListener listener) {
+
+		ComponentOrientation orientation = ComponentOrientation.
+									getOrientation(getLocale());
+
+		// Create a panel for the "Find what" and "Replace with" text fields.
+		JPanel searchPanel = new JPanel(new SpringLayout());
+
+		// Create listeners for the combo boxes.
+		ReplaceFocusAdapter replaceFocusAdapter = new ReplaceFocusAdapter();
+		ReplaceKeyListener replaceKeyListener = new ReplaceKeyListener();
+		ReplaceDocumentListener replaceDocumentListener = new ReplaceDocumentListener();
+
+		// Create the "Find what" text field.
+		JTextComponent textField = getTextComponent(findTextCombo);
+		textField.addFocusListener(replaceFocusAdapter);
+		textField.addKeyListener(replaceKeyListener);
+		textField.getDocument().addDocumentListener(replaceDocumentListener);
+
+		// Create the "Replace with" text field.
+		replaceWithCombo = createSearchComboBox(true);
+		textField = getTextComponent(replaceWithCombo);
+		textField.addFocusListener(replaceFocusAdapter);
+		textField.addKeyListener(replaceKeyListener);
+		textField.getDocument().addDocumentListener(replaceDocumentListener);
+
+		// Create the "Replace with" label.
+		replaceFieldLabel = UIUtil.newLabel(getBundle(), "ReplaceWith",
+				replaceWithCombo);
+
+		JPanel temp = new JPanel(new BorderLayout());
+		temp.add(findTextCombo);
+		AssistanceIconPanel aip = new AssistanceIconPanel(findTextCombo);
+		temp.add(aip, BorderLayout.LINE_START);
+		JPanel temp2 = new JPanel(new BorderLayout());
+		temp2.add(replaceWithCombo);
+		AssistanceIconPanel aip2 = new AssistanceIconPanel(replaceWithCombo);
+		temp2.add(aip2, BorderLayout.LINE_START);
+
+		// Orient things properly.
+		if (orientation.isLeftToRight()) {
+			searchPanel.add(findFieldLabel);
+			searchPanel.add(temp);
+			searchPanel.add(replaceFieldLabel);
+			searchPanel.add(temp2);
+		}
+		else {
+			searchPanel.add(temp);
+			searchPanel.add(findFieldLabel);
+			searchPanel.add(temp2);
+			searchPanel.add(replaceFieldLabel);
+		}
+
+		UIUtil.makeSpringCompactGrid(searchPanel, 2, 2,	//rows, cols
+											0,0,		//initX, initY
+											6, 6);	//xPad, yPad
+
+		// Make a panel containing the inherited search direction radio
+		// buttons and the inherited search options.
+		JPanel bottomPanel = new JPanel(new BorderLayout());
+		temp = new JPanel(new BorderLayout());
+		bottomPanel.setBorder(UIUtil.getEmpty5Border());
+		temp.add(searchConditionsPanel, BorderLayout.LINE_START);
+		temp.add(dirPanel);
+		bottomPanel.add(temp, BorderLayout.LINE_START);
+
+		// Now, make a panel containing all the above stuff.
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.add(searchPanel);
+		leftPanel.add(bottomPanel);
+
+		// Make a panel containing the action buttons.
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(4,1, 5,5));
+		ResourceBundle msg = getBundle();
+		replaceButton = UIUtil.newButton(msg, "Replace");
+		replaceButton.setActionCommand(ACTION_REPLACE);
+		replaceButton.addActionListener(this);
+		replaceButton.setEnabled(false);
+		replaceButton.setIcon(null);
+		replaceButton.setToolTipText(null);
+		replaceAllButton = UIUtil.newButton(msg, "ReplaceAll");
+		replaceAllButton.setActionCommand(ACTION_REPLACE_ALL);
+		replaceAllButton.addActionListener(this);
+		replaceAllButton.setEnabled(false);
+		replaceAllButton.setIcon(null);
+		replaceAllButton.setToolTipText(null);
+		buttonPanel.add(findNextButton);
+		buttonPanel.add(replaceButton);
+		buttonPanel.add(replaceAllButton);
+		buttonPanel.add(cancelButton);		// Defined in superclass.
+		JPanel rightPanel = new JPanel(new BorderLayout());
+		rightPanel.add(buttonPanel, BorderLayout.NORTH);
+
+		// Put it all together!
+		JPanel contentPane = new JPanel(new BorderLayout());
+		contentPane.setBorder(BorderFactory.createEmptyBorder(5,5,0,5));
+		contentPane.add(leftPanel);
+		contentPane.add(rightPanel, BorderLayout.LINE_END);
+		temp = new ResizableFrameContentPane(new BorderLayout());
+		temp.add(contentPane, BorderLayout.NORTH);
+		setContentPane(temp);
+		getRootPane().setDefaultButton(findNextButton);
+		setTitle(getString("ReplaceDialogTitle"));
+		setResizable(true);
+		pack();
+		setLocationRelativeTo(getParent());
+
+		setSearchContext(new SearchDialogSearchContext());
+		addActionListener(listener);
+
+		applyComponentOrientation(orientation);
+
 	}
 
 

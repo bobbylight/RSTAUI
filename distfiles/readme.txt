@@ -13,6 +13,7 @@ robert -at- fifesoft dot com.
      * Find Dialog
      * Replace Dialog
      * Go to Line Dialog
+     * Text File Properties Dialog (requires use of TextEditorPane)
   
   Searching support is fully featured - regex searches, match case, whole word,
   searching forward and backward, mark all occurrences.  Note that the actual
@@ -47,7 +48,8 @@ robert -at- fifesoft dot com.
      org.fife.rsta.ui.demo.RSTAUIDemoApp
   
   It is a simple example of using the Find, Replace, and Go To Line dialogs.
-  It currently does not demo "Mark All".     
+  It currently does not demo the "Mark All" functionality of searching, or
+  the Text File Properties dialog.
       
 * Feedback
 

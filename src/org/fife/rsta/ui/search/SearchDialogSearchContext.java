@@ -4,7 +4,7 @@
  * SearchDialogSearchContext.java - Search context with extra information
  * pertinent to Find and Replace dialogs.
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.License.txt file for details.
  */
 package org.fife.rsta.ui.search;
 
