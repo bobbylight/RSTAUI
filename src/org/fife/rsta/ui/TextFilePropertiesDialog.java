@@ -281,6 +281,9 @@ public class TextFilePropertiesDialog extends EscapableDialog
 				Integer.toString(calculateWordCount(textArea)));
 
 		terminatorCombo = new JComboBox(LINE_TERMINATOR_LABELS);
+		if (textArea.isReadOnly()) {
+			terminatorCombo.setEnabled(false);
+		}
 		UIUtil.fixComboOrientation(terminatorCombo);
 		setSelectedLineTerminator((String)textArea.getLineSeparator());
 		terminatorCombo.setActionCommand("TerminatorComboBox");
@@ -289,13 +292,17 @@ public class TextFilePropertiesDialog extends EscapableDialog
 				terminatorCombo);
 
 		encodingCombo = new JComboBox();
+		if (textArea.isReadOnly()) {
+			encodingCombo.setEnabled(false);
+		}
 		UIUtil.fixComboOrientation(encodingCombo);
 
 		// Populate the combo box with all available encodings.
 		Map availcs = Charset.availableCharsets();
 		Set keys = availcs.keySet();
-		for (Iterator i=keys.iterator(); i.hasNext(); )
+		for (Iterator i=keys.iterator(); i.hasNext(); ) {
 			encodingCombo.addItem(i.next());
+		}
 		setEncoding(textArea.getEncoding());
 		encodingCombo.setActionCommand("encodingCombo");
 		encodingCombo.addActionListener(this);
