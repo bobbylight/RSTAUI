@@ -428,7 +428,6 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					filePathField.requestFocusInWindow();
-					System.out.println(filePathField.getText() + "!!");
 					filePathField.selectAll();
 				}
 			});
