@@ -297,8 +297,6 @@ public class UIUtil {
 	 *
 	 * @param bundle The resource bundle in which to get the int.
 	 * @param key The key into the bundle containing the string text value.
-	 * @param mnemonicKey The key into the bundle containing a single-char
-	 *        <code>String</code> value for the mnemonic.
 	 * @return The button.
 	 */
 	public static final JButton newButton(ResourceBundle bundle, String key) {
