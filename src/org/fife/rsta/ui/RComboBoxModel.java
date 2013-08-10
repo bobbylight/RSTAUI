@@ -9,7 +9,6 @@
  */
 package org.fife.rsta.ui;
 
-import java.io.Serializable;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 
@@ -29,8 +28,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author Robert Futrell
  * @version 0.8
  */
-public class RComboBoxModel extends DefaultComboBoxModel
-										implements Serializable {
+public class RComboBoxModel extends DefaultComboBoxModel {
 
 	private static final long serialVersionUID = 1L;
 

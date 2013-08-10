@@ -43,8 +43,7 @@ import org.fife.rsta.ui.UIUtil;
  * @author Robert Futrell
  * @version 0.1
  */
-public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog
-										implements ActionListener {
+public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 
 	/**
 	 * The name of the action triggered when the "Find Next" button is clicked.

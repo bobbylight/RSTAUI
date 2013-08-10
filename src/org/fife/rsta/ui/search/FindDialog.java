@@ -58,7 +58,7 @@ import org.fife.ui.rtextarea.SearchEngine;
  * @author Robert Futrell
  * @version 1.0
  */
-public class FindDialog extends AbstractFindReplaceDialog implements ActionListener {
+public class FindDialog extends AbstractFindReplaceDialog {
 
 	private static final long serialVersionUID = 1L;
 
