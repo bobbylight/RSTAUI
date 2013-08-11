@@ -51,6 +51,7 @@ public class DecorativeIconPanel extends JPanel {
 	public DecorativeIconPanel() {
 		setLayout(new BorderLayout());
 		iconLabel = new JLabel(EMPTY_ICON) {
+			@Override
 			public String getToolTipText(MouseEvent e) {
 				return showIcon ? tip : null;
 			}
@@ -90,6 +91,7 @@ public class DecorativeIconPanel extends JPanel {
 	 * @return The tool tip text.
 	 * @see #setToolTipText(String)
 	 */
+	@Override
 	public String getToolTipText() {
 		return tip;
 	}
@@ -102,6 +104,7 @@ public class DecorativeIconPanel extends JPanel {
 	 * @param g The graphics context.
 	 * @see #setShowIcon(boolean)
 	 */
+	@Override
 	protected void paintChildren(Graphics g) {
 		if (showIcon) {
 			super.paintChildren(g);
@@ -144,6 +147,7 @@ public class DecorativeIconPanel extends JPanel {
 	 * @param tip The tool tip text to display.
 	 * @see #getToolTipText()
 	 */
+	@Override
 	public void setToolTipText(String tip) {
 		this.tip = tip;
 	}

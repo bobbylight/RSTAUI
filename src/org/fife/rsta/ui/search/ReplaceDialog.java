@@ -121,6 +121,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String command = e.getActionCommand();
@@ -166,6 +167,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	}
 
 
+	@Override
 	protected void escapePressed() {
 		if (replaceWithCombo instanceof RegexAwareComboBox) {
 			RegexAwareComboBox racb = (RegexAwareComboBox)replaceWithCombo;
@@ -239,6 +241,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 * Called when the regex checkbox is clicked.  Subclasses can override
 	 * to add custom behavior, but should call the super implementation.
 	 */
+	@Override
 	protected void handleRegExCheckBoxClicked() {
 
 		super.handleRegExCheckBoxClicked();
@@ -254,6 +257,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	}
 
 
+	@Override
 	protected EnableResult handleToggleButtons() {
 		EnableResult er = super.handleToggleButtons();
 		replaceButton.setEnabled(er.getEnable());
@@ -440,6 +444,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 *
 	 * @param visible Whether or not the dialog should be visible.
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		if (visible) {
@@ -543,6 +548,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 */
 	private class ReplaceFocusAdapter extends FocusAdapter {
 
+		@Override
 		public void focusGained(FocusEvent e) {
 
 			JTextComponent textField = (JTextComponent)e.getSource();
@@ -567,6 +573,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 */
 	private class ReplaceKeyListener extends KeyAdapter {
 
+		@Override
 		public void keyReleased(KeyEvent e) {
 
 			// This is an ugly hack to get around JComboBox's insistence on

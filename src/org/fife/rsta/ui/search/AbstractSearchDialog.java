@@ -179,6 +179,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	}
 
 
+	@Override
 	protected void escapePressed() {
 		if (findTextCombo instanceof RegexAwareComboBox) {
 			RegexAwareComboBox racb = (RegexAwareComboBox)findTextCombo;
@@ -296,7 +297,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 *         what" combo box.  If that combo box is empty, than a
 	 *         zero-length <code>Vector</code> is returned.
 	 */
-	public Vector getSearchStrings() {
+	public Vector<String> getSearchStrings() {
 
 		// First, ensure that the item in the combo box editor is indeed in the combo box.
 		int selectedIndex = findTextCombo.getSelectedIndex();
@@ -315,9 +316,9 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 		int itemCount = findTextCombo.getItemCount();
-		Vector vector = new Vector(itemCount);
+		Vector<String> vector = new Vector<String>(itemCount);
 		for (int i=0; i<itemCount; i++)
-			vector.add(findTextCombo.getItemAt(i));
+			vector.add((String)findTextCombo.getItemAt(i));
 		return vector;
 
 	}
@@ -480,6 +481,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * Overridden to ensure the "Find text" field gets focused.
 	 */
+	@Override
 	public void requestFocus() {
 		super.requestFocus();
 		focusFindTextField();
@@ -549,6 +551,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		// Make sure content assist is enabled (regex check box might have

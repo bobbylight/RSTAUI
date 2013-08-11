@@ -210,6 +210,7 @@ public class GoToDialog extends EscapableDialog {
 	 * Called when the user clicks Cancel or hits the Escape key.  This
 	 * hides the dialog.
 	 */
+	@Override
 	protected void escapePressed() {
 		lineNumber = -1;
 		super.escapePressed();
@@ -281,6 +282,7 @@ public class GoToDialog extends EscapableDialog {
 	 * Overrides <code>JDialog</code>'s <code>setVisible</code> method; decides
 	 * whether or not buttons are enabled if the user is enabling the dialog.
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
 			lineNumber = -1;
@@ -347,11 +349,13 @@ public class GoToDialog extends EscapableDialog {
 			return str;
 		}
 
+		@Override
 		public void insertString(FilterBypass fb, int offset, String string,
 				AttributeSet attr) throws BadLocationException {
 			fb.insertString(offset, fix(string), attr);
 		}
 
+		@Override
 		public void replace(DocumentFilter.FilterBypass fb, int offset,
 				int length, String text, AttributeSet attr)
 						throws BadLocationException {

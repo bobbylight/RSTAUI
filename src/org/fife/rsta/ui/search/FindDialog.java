@@ -185,6 +185,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 *
 	 * @param visible Whether or not the dialog should be visible.
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
 			String selectedItem = (String)findTextCombo.getSelectedItem();
@@ -241,6 +242,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 */
 	private class FindFocusAdapter extends FocusAdapter {
 
+		@Override
 		public void focusGained(FocusEvent e) {
 			getTextComponent(findTextCombo).selectAll();
 			// Remember what it originally was, in case they tabbed out.

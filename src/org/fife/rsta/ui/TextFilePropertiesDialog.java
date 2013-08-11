@@ -24,7 +24,6 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -200,7 +199,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 */
 	protected String createTitle(String fileName) {
 		return MessageFormat.format(
-			msg.getString("Title"), new Object[] { textArea.getFileName() });
+			msg.getString("Title"), textArea.getFileName());
 	}
 
 
@@ -298,10 +297,10 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		UIUtil.fixComboOrientation(encodingCombo);
 
 		// Populate the combo box with all available encodings.
-		Map availcs = Charset.availableCharsets();
-		Set keys = availcs.keySet();
-		for (Iterator i=keys.iterator(); i.hasNext(); ) {
-			encodingCombo.addItem(i.next());
+		Map<String, Charset> availcs = Charset.availableCharsets();
+		Set<String> charsetNames = availcs.keySet();
+		for (String charsetName : charsetNames) {
+			encodingCombo.addItem(charsetName);
 		}
 		setEncoding(textArea.getEncoding());
 		encodingCombo.setActionCommand("encodingCombo");
@@ -423,6 +422,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 *
 	 * @param visible Whether this dialog should be made visible.
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -448,6 +448,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			s = new Segment();
 		}
 
+		@Override
 		public Object clone() {
 			try {
 				return super.clone();

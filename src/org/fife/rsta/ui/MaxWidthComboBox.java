@@ -62,6 +62,7 @@ public class MaxWidthComboBox extends JComboBox {
 	 *
 	 * @return The maximum size of this combo box.
 	 */
+	@Override
 	public Dimension getMaximumSize() {
 		Dimension size = super.getMaximumSize();
 		size.width = Math.min(size.width, maxWidth);
@@ -75,6 +76,7 @@ public class MaxWidthComboBox extends JComboBox {
 	 *
 	 * @return The minimum size of this combo box.
 	 */
+	@Override
 	public Dimension getMinimumSize() {
 		Dimension size = super.getMinimumSize();
 		size.width = Math.min(size.width, maxWidth);
@@ -88,6 +90,7 @@ public class MaxWidthComboBox extends JComboBox {
 	 *
 	 * @return The preferred size of this combo box.
 	 */
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension size = super.getPreferredSize();
 		size.width = Math.min(size.width, maxWidth);

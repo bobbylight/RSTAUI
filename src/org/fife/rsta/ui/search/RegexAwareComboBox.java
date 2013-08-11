@@ -226,6 +226,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	private static class ContentAssistCellRenderer
 									extends DefaultListCellRenderer {
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 								int index, boolean selected, boolean hasFocus) {
 			super.getListCellRendererComponent(list, value, index, selected,
@@ -242,6 +243,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	 */
 	private static class RegexAwareProvider extends DefaultCompletionProvider {
 
+		@Override
 		protected boolean isValidChar(char ch) {
 			switch (ch) {
 				case '\\':
@@ -286,6 +288,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public String getInputText() {
 			return inputText;
 		}

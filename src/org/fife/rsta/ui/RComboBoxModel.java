@@ -65,7 +65,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 *
 	 * @param v The initial items to use to populate the combo box.
 	 */
-	public RComboBoxModel(Vector v) {
+	public RComboBoxModel(Vector<?> v) {
 		super(v);
 		setMaxNumElements(8);
 	}
@@ -77,6 +77,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 *
 	 * @param anObject The object to add.
 	 */
+	@Override
 	public void addElement(Object anObject) {
 		insertElementAt(anObject, 0);
 	}
@@ -109,6 +110,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 * @param anObject The <code>Object</code> to be added.
 	 * @param index Location to add the object.
 	 */
+	@Override
 	public void insertElementAt(Object anObject, int index) {
 
 		int oldPos = getIndexOf(anObject);

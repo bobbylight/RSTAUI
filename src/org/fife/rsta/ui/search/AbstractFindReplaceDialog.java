@@ -117,6 +117,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	 *
 	 * @param e The event that occurred.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String command = e.getActionCommand();
@@ -275,6 +276,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	}
 
 
+	@Override
 	protected EnableResult handleToggleButtons() {
 
 		EnableResult er = super.handleToggleButtons();
@@ -383,6 +385,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	/**
 	 * Overridden to initialize UI elements specific to this subclass.
 	 */
+	@Override
 	protected void refreshUIFromContext() {
 		super.refreshUIFromContext();
 		markAllCheckBox.setSelected(context.getMarkAll());
