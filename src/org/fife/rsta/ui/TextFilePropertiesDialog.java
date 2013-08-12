@@ -205,7 +205,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 	/**
 	 * Returns a string representation of a file size, such as "842 bytes",
-	 * "1.43 KB" or "3.4 MB".
+	 * "1.73 KB" or "3.4 MB".
 	 *
 	 * @param file The file to get the size of.
 	 * @return The string.
