@@ -13,10 +13,11 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.imageio.ImageIO;
@@ -24,14 +25,13 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
 import org.fife.rsta.ui.EscapableDialog;
-import org.fife.rsta.ui.MaxWidthComboBox;
 import org.fife.rsta.ui.UIUtil;
+import org.fife.ui.rtextarea.SearchContext;
 
 
 /**
@@ -48,17 +48,14 @@ public class AbstractSearchDialog extends EscapableDialog
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String MATCH_CASE_PROPERTY		= "SearchDialog.MatchCase";
-	public static final String MATCH_WHOLE_WORD_PROPERTY	= "SearchDialog.MatchWholeWord";
-	public static final String USE_REG_EX_PROPERTY		= "SearchDialog.UseRegularExpressions";
-
-	protected SearchDialogSearchContext context;
+	protected SearchContext context;
+	private SearchContextListener contextListener;
 
 	// Conditions check boxes and the panel they go in.
 	// This should be added in the actual layout of the search dialog.
 	protected JCheckBox caseCheckBox;
 	protected JCheckBox wholeWordCheckBox;
-	protected JCheckBox regExpCheckBox;
+	protected JCheckBox regexCheckBox;
 	protected JPanel searchConditionsPanel;
 
 	/**
@@ -70,7 +67,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * The combo box where the user enters the text for which to search.
 	 */
-	protected JComboBox findTextCombo;
+	protected SearchComboBox findTextCombo;
 
 	// Miscellaneous other stuff.
 	protected JButton cancelButton;
@@ -114,22 +111,18 @@ public class AbstractSearchDialog extends EscapableDialog
 		if (command.equals("FlipMatchCase")) {
 			boolean matchCase = caseCheckBox.isSelected();
 			context.setMatchCase(matchCase);
-			firePropertyChange(MATCH_CASE_PROPERTY, !matchCase, matchCase);
 		}
 
 		// They check/uncheck the "Whole word" checkbox on the Find dialog.
 		else if (command.equals("FlipWholeWord")) {
 			boolean wholeWord = wholeWordCheckBox.isSelected();
 			context.setWholeWord(wholeWord);
-			firePropertyChange(MATCH_WHOLE_WORD_PROPERTY, !wholeWord, wholeWord);
 		}
 
 		// They check/uncheck the "Regular expression" checkbox.
 		else if (command.equals("FlipRegEx")) {
-			boolean useRegEx = regExpCheckBox.isSelected();
+			boolean useRegEx = regexCheckBox.isSelected();
 			context.setRegularExpression(useRegEx);
-			handleRegExCheckBoxClicked();
-			firePropertyChange(USE_REG_EX_PROPERTY, !useRegEx, useRegEx);
 		}
 
 		// If they press the "Cancel" button.
@@ -150,23 +143,6 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Returns a combo box suitable for a "search in" or "replace with"
-	 * field. Subclasses can override to provide combo boxes with enhanced
-	 * functionality.
-	 *
-	 * @param replace Whether this is a "replace" combo box (as opposed to a
-	 *        "find" combo box).  This affects what content assistance they
-	 *        receive.
-	 * @return The combo box.
-	 */
-	protected MaxWidthComboBox createSearchComboBox(boolean replace) {
-		MaxWidthComboBox combo = new RegexAwareComboBox(replace);
-		UIUtil.fixComboOrientation(combo);
-		return combo;
-	}
-
-
-	/**
 	 * Returns a titled border for panels on search dialogs.
 	 *
 	 * @param title The title for the border.
@@ -181,21 +157,18 @@ public class AbstractSearchDialog extends EscapableDialog
 
 	@Override
 	protected void escapePressed() {
-		if (findTextCombo instanceof RegexAwareComboBox) {
-			RegexAwareComboBox racb = (RegexAwareComboBox)findTextCombo;
-			// Workaround for the strange behavior (Java bug?) that sometimes
-			// the Escape keypress "gets through" from the AutoComplete's
-			// registered key Actions, and gets to this EscapableDialog, which
-			// hides the entire dialog.  Reproduce by doing the following:
-			//   1. In an empty find field, press Ctrl+Space
-			//   2. Type "\\".
-			//   3. Press Escape.
-			// The entire dialog will hide, instead of the completion popup.
-			// Further, bringing the Find dialog back up, the completion popup
-			// will still be visible.
-			if (racb.hideAutoCompletePopups()) {
-				return;
-			}
+		// Workaround for the strange behavior (Java bug?) that sometimes
+		// the Escape keypress "gets through" from the AutoComplete's
+		// registered key Actions, and gets to this EscapableDialog, which
+		// hides the entire dialog.  Reproduce by doing the following:
+		//   1. In an empty find field, press Ctrl+Space
+		//   2. Type "\\".
+		//   3. Press Escape.
+		// The entire dialog will hide, instead of the completion popup.
+		// Further, bringing the Find dialog back up, the completion popup
+		// will still be visible.
+		if (findTextCombo.hideAutoCompletePopups()) {
+			return;
 		}
 		super.escapePressed();
 	}
@@ -205,7 +178,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * Makes the "Find text" field active.
 	 */
 	protected void focusFindTextField() {
-		JTextComponent textField = getTextComponent(findTextCombo);
+		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.requestFocusInWindow();
 		textField.selectAll();
 	}
@@ -264,7 +237,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @see #setRegularExpressionCheckboxText
 	 */
 	public final String getRegularExpressionCheckboxText() {
-		return regExpCheckBox.getText();
+		return regexCheckBox.getText();
 	}
 
 
@@ -272,9 +245,9 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * Returns the search context used by this dialog.
 	 *
 	 * @return The search context.
-	 * @see #setSearchContext(SearchDialogSearchContext)
+	 * @see #setSearchContext(SearchContext)
 	 */
-	public SearchDialogSearchContext getSearchContext() {
+	public SearchContext getSearchContext() {
 		return context;
 	}
 
@@ -285,58 +258,12 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @return The text the user wants to search for.
 	 */
 	public String getSearchString() {
-		return (String)findTextCombo.getSelectedItem();
-	}
-
-
-	/**
-	 * Returns the <code>Strings</code> contained in the "Find what" combo
-	 * box.
-	 *
-	 * @return A <code>java.util.Vector</code> of strings found in the "Find
-	 *         what" combo box.  If that combo box is empty, than a
-	 *         zero-length <code>Vector</code> is returned.
-	 */
-	public Vector<String> getSearchStrings() {
-
-		// First, ensure that the item in the combo box editor is indeed in the combo box.
-		int selectedIndex = findTextCombo.getSelectedIndex();
-		if (selectedIndex==-1) {
-			findTextCombo.addItem(getSearchString());
-		}
-
-		// If they just searched for an item that's already in the list other than
-		// the first, move it to the first position.
-		else if (selectedIndex>0) {
-			Object item = findTextCombo.getSelectedItem();
-			findTextCombo.removeItem(item);
-			findTextCombo.insertItemAt(item, 0);
-			findTextCombo.setSelectedIndex(0);
-		}
-
-
-		int itemCount = findTextCombo.getItemCount();
-		Vector<String> vector = new Vector<String>(itemCount);
-		for (int i=0; i<itemCount; i++)
-			vector.add((String)findTextCombo.getItemAt(i));
-		return vector;
-
+		return findTextCombo.getSelectedString();
 	}
 
 
 	public static String getString(String key) {
 		return msg.getString(key);
-	}
-
-
-	/**
-	 * Returns the text editor component for the specified combo box.
-	 *
-	 * @param combo The combo box.
-	 * @return The text component.
-	 */
-	protected static JTextComponent getTextComponent(JComboBox combo) {
-		return (JTextComponent)combo.getEditor().getEditorComponent();
 	}
 
 
@@ -352,19 +279,57 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Called when the regex checkbox is clicked.  Subclasses can override
+	 * Called when the regex checkbox is clicked (or its value is modified
+	 * via a change to the search context).  Subclasses can override
 	 * to add custom behavior, but should call the super implementation.
 	 */
 	protected void handleRegExCheckBoxClicked() {
-
 		handleToggleButtons();
-
 		// "Content assist" support
-		boolean b = regExpCheckBox.isSelected();
-		// Always true except when debugging
-		if (findTextCombo instanceof RegexAwareComboBox) {
-			RegexAwareComboBox racb = (RegexAwareComboBox)findTextCombo;
-			racb.setAutoCompleteEnabled(b);
+		boolean b = regexCheckBox.isSelected();
+		findTextCombo.setAutoCompleteEnabled(b);
+	}
+
+
+	/**
+	 * Called whenever a property in the search context is modified.
+	 * Subclasses should override if they listen for additional properties.
+	 *
+	 * @param e The property change event fired.
+	 */
+	protected void handleSearchContextPropertyChanged(PropertyChangeEvent e) {
+
+		// A property changed on the context itself.
+		String prop = e.getPropertyName();
+
+		if (SearchContext.PROPERTY_MATCH_CASE.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			caseCheckBox.setSelected(newValue);
+		}
+		else if (SearchContext.PROPERTY_MATCH_WHOLE_WORD.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			wholeWordCheckBox.setSelected(newValue);
+		}
+		//else if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
+		//	boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+		//	...
+		//}
+		//else if (SearchContext.PROPERTY_SELECTION_ONLY.equals(prop)) {
+		//	boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+		//	...
+		//}
+		else if (SearchContext.PROPERTY_USE_REGEX.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			regexCheckBox.setSelected(newValue);
+			handleRegExCheckBoxClicked();
+		}
+		else if (SearchContext.PROPERTY_SEARCH_FOR.equals(prop)) {
+			String newValue = (String)e.getNewValue();
+			String oldValue = getSearchString();
+			// Prevents IllegalStateExceptions
+			if (!newValue.equals(oldValue)) {
+				setSearchString(newValue);
+			}
 		}
 
 	}
@@ -378,22 +343,22 @@ public class AbstractSearchDialog extends EscapableDialog
 	 *
 	 * @return Whether the buttons should be enabled.
 	 */
-	protected EnableResult handleToggleButtons() {
+	protected FindReplaceButtonsEnableResult handleToggleButtons() {
 
 		//String text = getSearchString();
-		JTextComponent tc = getTextComponent(findTextCombo);
+		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		String text = tc.getText();
 		if (text.length()==0) {
-			return new EnableResult(false, null);
+			return new FindReplaceButtonsEnableResult(false, null);
 		}
-		if (regExpCheckBox.isSelected()) {
+		if (regexCheckBox.isSelected()) {
 			try {
 				Pattern.compile(text);
 			} catch (PatternSyntaxException pse) {
-				return new EnableResult(false, pse.getMessage());
+				return new FindReplaceButtonsEnableResult(false, pse.getMessage());
 			}
 		}
-		return new EnableResult(true, null);
+		return new FindReplaceButtonsEnableResult(true, null);
 	}
 
 
@@ -401,7 +366,8 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		// The user should set a shared instance between all subclass
 		// instances, but to be safe we set individual ones.
-		context = new SearchDialogSearchContext();
+		contextListener = new SearchContextListener();
+		setSearchContext(new SearchContext());
 
 		// Make a panel containing the option check boxes.
 		searchConditionsPanel = new JPanel();
@@ -411,11 +377,11 @@ public class AbstractSearchDialog extends EscapableDialog
 		searchConditionsPanel.add(caseCheckBox);
 		wholeWordCheckBox = createCheckBox(msg, "WholeWord");
 		searchConditionsPanel.add(wholeWordCheckBox);
-		regExpCheckBox = createCheckBox(msg, "RegEx");
-		searchConditionsPanel.add(regExpCheckBox);
+		regexCheckBox = createCheckBox(msg, "RegEx");
+		searchConditionsPanel.add(regexCheckBox);
 
 		// Initialize any text fields.
-		findTextCombo = createSearchComboBox(false);
+		findTextCombo = new SearchComboBox(false);
 
 		// Initialize other stuff.
 		cancelButton = new JButton(getString("Cancel"));
@@ -468,12 +434,16 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Refreshes UI elements to be in sync with the (probably shared) search
-	 * context.  Subclasses can override to synchronize added UI components.
+	 * Initializes the UI in this tool bar from a search context.  This is
+	 * called whenever a new search context is installed on this tool bar
+	 * (which should practically be never).
 	 */
 	protected void refreshUIFromContext() {
+		if (this.caseCheckBox==null) {
+			return; // First time through, UI not realized yet
+		}
 		this.caseCheckBox.setSelected(context.getMatchCase());
-		this.regExpCheckBox.setSelected(context.isRegularExpression());
+		this.regexCheckBox.setSelected(context.isRegularExpression());
 		this.wholeWordCheckBox.setSelected(context.getWholeWord());
 	}
 
@@ -517,7 +487,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @see #getRegularExpressionCheckboxText
 	 */
 	public final void setRegularExpressionCheckboxText(String text) {
-		regExpCheckBox.setText(text);
+		regexCheckBox.setText(text);
 	}
 
 
@@ -530,8 +500,12 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @param context The new search context.  This cannot be <code>null</code>.
 	 * @see #getSearchContext()
 	 */
-	public void setSearchContext(SearchDialogSearchContext context) {
+	public void setSearchContext(SearchContext context) {
+		if (this.context!=null) {
+			this.context.removePropertyChangeListener(contextListener);
+		}
 		this.context = context;
+		this.context.addPropertyChangeListener(contextListener);
 		refreshUIFromContext();
 	}
 
@@ -539,35 +513,11 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * Sets the <code>java.lang.String</code> to search for.
 	 *
-	 * @param newSearchString The <code>java.lang.String</code> to put into
+	 * @param newSearchString The <code>tring</code> to put into
 	 *        the search field.
 	 */
 	public void setSearchString(String newSearchString) {
 		findTextCombo.addItem(newSearchString);
-		findTextCombo.setSelectedIndex(0);
-	}
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setVisible(boolean visible) {
-
-		// Make sure content assist is enabled (regex check box might have
-		// been checked in a different search dialog).
-		if (visible) {
-			refreshUIFromContext();
-			boolean regexEnabled = regExpCheckBox.isSelected();
-			// Always true except when debugging.  findTextCombo done in parent
-			if (findTextCombo instanceof RegexAwareComboBox) {
-				RegexAwareComboBox racb = (RegexAwareComboBox)findTextCombo;
-				racb.setAutoCompleteEnabled(regexEnabled);
-			}
-		}
-
-		super.setVisible(visible);
-
 	}
 
 
@@ -583,31 +533,12 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Returns the result of whether the "action" buttons such as "Find"
-	 * and "Replace" should be enabled.
-	 *
-	 * @author Robert Futrell
+	 * Listens for properties changing in the search context.
 	 */
-	protected static class EnableResult {
+	private class SearchContextListener implements PropertyChangeListener {
 
-		private boolean enable;
-		private String tooltip;
-
-		public EnableResult(boolean enable, String tooltip) {
-			this.enable = enable;
-			this.tooltip = tooltip;
-		}
-
-		public boolean getEnable() {
-			return enable;
-		}
-
-		public String getToolTip() {
-			return tooltip;
-		}
-
-		public void setEnable(boolean enable) {
-			this.enable = enable;
+		public void propertyChange(PropertyChangeEvent e) {
+			handleSearchContextPropertyChanged(e);
 		}
 
 	}

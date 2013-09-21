@@ -12,9 +12,10 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
+import java.beans.PropertyChangeEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
@@ -33,6 +34,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.text.JTextComponent;
 
 import org.fife.rsta.ui.UIUtil;
+import org.fife.ui.rtextarea.SearchContext;
 
 
 /**
@@ -44,26 +46,6 @@ import org.fife.rsta.ui.UIUtil;
  * @version 0.1
  */
 public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
-
-	/**
-	 * The name of the action triggered when the "Find Next" button is clicked.
-	 */
-	public static final String ACTION_FIND = "FindNext";
-
-	/**
-	 * The name of the action triggered when the "Replace" button is clicked.
-	 */
-	public static final String ACTION_REPLACE = "Replace";
-
-	/**
-	 * The name of the action triggered when "Replace All" is clicked.
-	 */
-	public static final String ACTION_REPLACE_ALL = "ReplaceAll";
-
-	/**
-	 * Property fired when the user toggles the "Mark All" check box.
-	 */
-	public static final String MARK_ALL_PROPERTY	= "SearchDialog.MarkAll";
 
 	/**
 	 * Property fired when the user toggles the search direction radio buttons.
@@ -124,36 +106,25 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 
 		if ("UpRadioButtonClicked".equals(command)) {
 			context.setSearchForward(false);
-			firePropertyChange(SEARCH_DOWNWARD_PROPERTY, true, false);
 		}
 
 		else if ("DownRadioButtonClicked".equals(command)) {
 			context.setSearchForward(true);
-			firePropertyChange(SEARCH_DOWNWARD_PROPERTY, false, true);
 		}
 
 		else if ("MarkAll".equals(command)) {
 			boolean checked = markAllCheckBox.isSelected();
 			context.setMarkAll(checked);
-			firePropertyChange(MARK_ALL_PROPERTY, !checked, checked);
 		}
 
-		else if (ACTION_FIND.equals(command)) {
+		else if (SearchEvent.Type.FIND.name().equals(command)) {
 
 			// Add the item to the combo box's list, if it isn't already there.
-			findTextCombo.addItem(getTextComponent(findTextCombo).getText());
+			JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
+			findTextCombo.addItem(tc.getText());
 			context.setSearchFor(getSearchString());
 
-			// If they just searched for an item that's already in the list
-			// other than the first, move it to the first position.
-			if (findTextCombo.getSelectedIndex()>0) {
-				Object item = findTextCombo.getSelectedItem();
-				findTextCombo.removeItem(item);
-				findTextCombo.insertItemAt(item, 0);
-				findTextCombo.setSelectedIndex(0);
-			}
-
-			fireActionPerformed(e); // Let parent application know
+			fireSearchEvent(e); // Let parent application know
 
 		}
 
@@ -165,30 +136,29 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 
 
 	/**
-	 * Adds an <code>ActionListener</code> to this dialog.  This listener will
+	 * Adds a {@link SearchListener} to this dialog.  This listener will
 	 * be notified when find or replace operations are triggered.  For
 	 * example, for a Replace dialog, a listener will receive notification
 	 * when the user clicks "Find", "Replace", or "Replace All".
 	 *
 	 * @param l The listener to add.
-	 * @see #removeActionListener(ActionListener)
+	 * @see #removeSearchListener(SearchListener)
 	 */
-	public void addActionListener(ActionListener l) {
-		listenerList.add(ActionListener.class, l);
+	public void addSearchListener(SearchListener l) {
+		listenerList.add(SearchListener.class, l);
 	}
 
 
 	/**
-	 * Changes the action listener from one component to another.
+	 * Changes the search listener from one component to another.
 	 *
-	 * @param fromPanel The old <code>ActionListener</code> to remove.
-	 * @param toPanel The new <code>ActionListener</code> to add as an action
-	 *        listener.
+	 * @param fromPanel The old <code>SearchListener</code> to remove.
+	 * @param toPanel The new <code>SearchListener</code> to add.
 	 */
-	public void changeActionListener(ActionListener fromPanel,
-								ActionListener toPanel) {
-		this.removeActionListener(fromPanel);
-		this.addActionListener(toPanel);
+	public void changeSearchListener(SearchListener fromPanel,
+			SearchListener toPanel) {
+		this.removeSearchListener(fromPanel);
+		this.addSearchListener(toPanel);
 	}
 
 
@@ -200,22 +170,21 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	 * @param event The <code>ActionEvent</code> object coming from a
 	 *        child component.
 	 */
-	protected void fireActionPerformed(ActionEvent event) {
+	protected void fireSearchEvent(ActionEvent event) {
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
-		ActionEvent e = null;
+		SearchEvent e = null;
 		// Process the listeners last to first, notifying
 		// those that are interested in this event
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
-			if (listeners[i] == ActionListener.class) {
+			if (listeners[i] == SearchListener.class) {
 				// Lazily create the event:
 				if (e == null) {
 					String command = event.getActionCommand();
-					e = new ActionEvent(this,
-							ActionEvent.ACTION_PERFORMED, command,
-							event.getWhen(), event.getModifiers());
+					SearchEvent.Type type = SearchEvent.Type.valueOf(command);
+					e = new SearchEvent(this, type, context);
 				}
-				((ActionListener)listeners[i+1]).actionPerformed(e);
+				((SearchListener)listeners[i+1]).searchEvent(e);
 			}
 		}
 	}
@@ -276,10 +245,39 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	}
 
 
+	/**
+	 * Called whenever a property in the search context is modified.
+	 * Subclasses should override if they listen for additional properties.
+	 *
+	 * @param e The property change event fired.
+	 */
 	@Override
-	protected EnableResult handleToggleButtons() {
+	protected void handleSearchContextPropertyChanged(PropertyChangeEvent e) {
 
-		EnableResult er = super.handleToggleButtons();
+		String prop = e.getPropertyName();
+
+		if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			JRadioButton button = newValue ? downButton : upButton;
+			button.setSelected(true);
+		}
+
+		else if (SearchContext.PROPERTY_MARK_ALL.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			markAllCheckBox.setSelected(newValue);
+		}
+
+		else {
+			super.handleSearchContextPropertyChanged(e);
+		}
+
+	}
+
+
+	@Override
+	protected FindReplaceButtonsEnableResult handleToggleButtons() {
+
+		FindReplaceButtonsEnableResult er = super.handleToggleButtons();
 		boolean enable = er.getEnable();
 
 		findNextButton.setEnabled(enable);
@@ -287,15 +285,11 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		// setBackground doesn't show up with XP Look and Feel!
 		//findTextComboBox.setBackground(enable ?
 		//		UIManager.getColor("ComboBox.background") : Color.PINK);
-		JTextComponent tc = getTextComponent(findTextCombo);
+		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		tc.setForeground(enable ? UIManager.getColor("TextField.foreground") :
 									Color.RED);
 
-		String tooltip = er.getToolTip();
-		if (tooltip!=null && tooltip.indexOf('\n')>-1) {
-			tooltip = tooltip.replaceFirst("\\\n", "</b><br><pre>");
-			tooltip = "<html><b>" + tooltip;
-		}
+		String tooltip = SearchUtil.getToolTip(er);
 		tc.setToolTipText(tooltip); // Always set, even if null
 
 		return er;
@@ -341,17 +335,16 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		searchConditionsPanel.add(temp, BorderLayout.LINE_START);
 		temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
-		temp.add(regExpCheckBox);
+		temp.add(regexCheckBox);
 		temp.add(markAllCheckBox);
 		searchConditionsPanel.add(temp, BorderLayout.LINE_END);
 
 		// Create the "Find what" label.
-		findFieldLabel = UIUtil.newLabel(getBundle(), "FindWhat",
-				findTextCombo);
+		findFieldLabel = UIUtil.newLabel(getBundle(), "FindWhat",findTextCombo);
 
 		// Create a "Find Next" button.
 		findNextButton = UIUtil.newButton(getBundle(), "Find");
-		findNextButton.setActionCommand(ACTION_FIND);
+		findNextButton.setActionCommand(SearchEvent.Type.FIND.name());
 		findNextButton.addActionListener(this);
 		findNextButton.setDefaultCapable(true);
 		findNextButton.setEnabled(false);	// Initially, nothing to look for.
@@ -387,6 +380,9 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	 */
 	@Override
 	protected void refreshUIFromContext() {
+		if (this.markAllCheckBox==null) {
+			return; // First time through, UI not realized yet
+		}
 		super.refreshUIFromContext();
 		markAllCheckBox.setSelected(context.getMarkAll());
 		boolean searchForward = context.getSearchForward();
@@ -396,13 +392,13 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 
 
 	/**
-	 * Removes an <code>ActionListener</code> from this dialog.
+	 * Removes a {@link SearchListener} from this dialog.
 	 *
 	 * @param l The listener to remove
-	 * @see #addActionListener(ActionListener)
+	 * @see #addSearchListener(SearchListener)
 	 */
-	public void removeActionListener(ActionListener l) {
-		listenerList.remove(ActionListener.class, l);
+	public void removeSearchListener(SearchListener l) {
+		listenerList.remove(SearchListener.class, l);
 	}
 
 

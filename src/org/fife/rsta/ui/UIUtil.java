@@ -24,6 +24,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
+import javax.swing.text.JTextComponent;
 
 
 /**
@@ -211,6 +212,17 @@ public class UIUtil {
 			// Swallow.  TODO: When we drop 1.4/1.5 support, use containsKey().
 		}
 		return mnemonic;
+	}
+
+
+	/**
+	 * Returns the text editor component for the specified combo box.
+	 *
+	 * @param combo The combo box.
+	 * @return The text component.
+	 */
+	public static final JTextComponent getTextComponent(JComboBox combo) {
+		return (JTextComponent)combo.getEditor().getEditorComponent();
 	}
 
 

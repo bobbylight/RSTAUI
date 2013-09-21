@@ -23,7 +23,7 @@ import javax.swing.DefaultComboBoxModel;
  * It also won't let you add an item to the combo box twice (i.e., no
  * duplicates), and it adds new items to the beginning of the list, not
  * the end (as <code>JComboBox</code>'s do by default).<br><br>
- * It defaults to 10 elements remembered.
+ * It defaults to 8 elements remembered.
  *
  * @author Robert Futrell
  * @version 0.8

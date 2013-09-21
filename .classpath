@@ -5,5 +5,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AutoComplete"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RSyntaxTextArea"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/laf-plugin-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/laf-widget-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/substance-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/substance-7.2.1-tools.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/trident-7.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/trident-7.2.1-base.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RText/lnfs/substance/trident-7.2.1-swing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

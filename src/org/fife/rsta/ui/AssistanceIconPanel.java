@@ -30,7 +30,7 @@ import org.fife.rsta.ui.search.AbstractSearchDialog;
  * @version 1.0
  */
 public class AssistanceIconPanel extends DecorativeIconPanel
-						implements FocusListener, PropertyChangeListener {
+						implements PropertyChangeListener {
 
 	/**
 	 * The tool tip text for the light bulb icon.  It is assumed that access
@@ -51,16 +51,18 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 		// purposes.
 		if (comp!=null) {
 
+			ComponentListener listener = new ComponentListener();
+
 			if (comp instanceof JComboBox) {
 				JComboBox combo = (JComboBox)comp;
 				Component c = combo.getEditor().getEditorComponent();
 				if (c instanceof JTextComponent) { // Always true
 					JTextComponent tc = (JTextComponent)c;
-					tc.addFocusListener(this);
+					tc.addFocusListener(listener);
 				}
 			}
 			else { // Usually a JTextComponent
-				comp.addFocusListener(this);
+				comp.addFocusListener(listener);
 			}
 
 			comp.addPropertyChangeListener(
@@ -68,26 +70,6 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 
 		}
 
-	}
-
-
-	/**
-	 * Called when the combo box or text component gains focus.
-	 *
-	 * @param e The focus event.
-	 */
-	public void focusGained(FocusEvent e) {
-		setShowIcon(true);
-	}
-
-
-	/**
-	 * Called when the combo box or text component loses focus.
-	 *
-	 * @param e The focus event.
-	 */
-	public void focusLost(FocusEvent e) {
-		setShowIcon(false);
 	}
 
 
@@ -134,6 +116,32 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 			setIcon(new ImageIcon(img));
 			setToolTipText(getAssistanceAvailableText());
 		}
+	}
+
+
+	/**
+	 * Listens for events in the text component we're annotating.
+	 */
+	private class ComponentListener implements FocusListener {
+
+		/**
+		 * Called when the combo box or text component gains focus.
+		 *
+		 * @param e The focus event.
+		 */
+		public void focusGained(FocusEvent e) {
+			setShowIcon(true);
+		}
+
+		/**
+		 * Called when the combo box or text component loses focus.
+		 *
+		 * @param e The focus event.
+		 */
+		public void focusLost(FocusEvent e) {
+			setShowIcon(false);
+		}
+
 	}
 
 
