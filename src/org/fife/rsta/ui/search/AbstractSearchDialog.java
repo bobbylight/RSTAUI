@@ -381,7 +381,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		searchConditionsPanel.add(regexCheckBox);
 
 		// Initialize any text fields.
-		findTextCombo = new SearchComboBox(false);
+		findTextCombo = new SearchComboBox(null, false);
 
 		// Initialize other stuff.
 		cancelButton = new JButton(getString("Cancel"));

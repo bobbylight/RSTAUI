@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
@@ -277,7 +278,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Create the "Replace with" text field.
-		replaceWithCombo = new SearchComboBox(true);
+		replaceWithCombo = new SearchComboBox(null, true);
 		textField = UIUtil.getTextComponent(replaceWithCombo);
 		textField.addFocusListener(replaceFocusAdapter);
 		textField.addKeyListener(replaceKeyListener);
@@ -452,11 +453,17 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 
 	/**
-	 * Called whenever the user changes the Look and Feel, etc.
-	 * This is overridden so we can reinstate the listeners that are evidently
-	 * lost on the JTextField portion of our combo box.
-	*/
+	 * This method should be called whenever the <code>LookAndFeel</code> of
+	 * the application changes.  This calls
+	 * <code>SwingUtilities.updateComponentTreeUI(this)</code> and does
+	 * other necessary things.<p>
+	 * Note that this is <em>not</em> an override, as JDialogs don't have an
+	 * <code>updateUI()</code> method.
+	 */
 	public void updateUI() {
+
+		SwingUtilities.updateComponentTreeUI(this);
+		pack();
 
 		// Create listeners for the combo boxes.
 		ReplaceFocusAdapter replaceFocusAdapter = new ReplaceFocusAdapter();

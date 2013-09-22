@@ -1,5 +1,6 @@
 package org.fife.rsta.ui.demo;
 
+import java.awt.BorderLayout;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.text.BadLocationException;
 
 import org.fife.rsta.ui.CollapsibleSectionPanel;
 import org.fife.rsta.ui.GoToDialog;
+import org.fife.rsta.ui.SizeGripIcon;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.rsta.ui.search.ReplaceToolBar;
@@ -19,6 +21,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
+import org.fife.ui.rtextarea.SearchResult;
 
 
 /**
@@ -32,27 +35,33 @@ import org.fife.ui.rtextarea.SearchEngine;
  */
 public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
-	private CollapsibleSectionPanel cp;
+	private CollapsibleSectionPanel csp;
 	private RSyntaxTextArea textArea;
 	private FindDialog findDialog;
 	private ReplaceDialog replaceDialog;
 	private FindToolBar findToolBar;
 	private ReplaceToolBar replaceToolBar;
+	private StatusBar statusBar;
 
 
 	public RSTAUIDemoApp() {
 
 		initSearchDialogs();
 
-		cp = new CollapsibleSectionPanel();
-		setContentPane(cp);
+		JPanel contentPane = new JPanel(new BorderLayout());
+		setContentPane(contentPane);
+		csp = new CollapsibleSectionPanel();
+		contentPane.add(csp);
 
 		setJMenuBar(createMenuBar());
 		
-		textArea = new RSyntaxTextArea(25, 60);
+		textArea = new RSyntaxTextArea(25, 80);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
-		cp.add(sp);
+		csp.add(sp);
+
+		statusBar = new StatusBar();
+		contentPane.add(statusBar, BorderLayout.SOUTH);
 
 		setTitle("RSTAUI Demo Application");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -81,11 +90,11 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		int ctrl = getToolkit().getMenuShortcutKeyMask();
 		int shift = InputEvent.SHIFT_MASK;
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F, ctrl|shift);
-		Action a = cp.addBottomComponent(ks, findToolBar);
+		Action a = csp.addBottomComponent(ks, findToolBar);
 		a.putValue(Action.NAME, "Show Find Search Bar");
 		menu.add(new JMenuItem(a));
 		ks = KeyStroke.getKeyStroke(KeyEvent.VK_H, ctrl|shift);
-		a = cp.addBottomComponent(ks, replaceToolBar);
+		a = csp.addBottomComponent(ks, replaceToolBar);
 		a.putValue(Action.NAME, "Toggle Bottom Component 2");
 		menu.add(new JMenuItem(a));
 
@@ -134,27 +143,39 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		SearchEvent.Type type = e.getType();
 		SearchContext context = e.getSearchContext();
+		SearchResult result = null;
 
 		switch (type) {
 			case MARK_ALL:
-				SearchEngine.markAll(textArea, context);
+				result = SearchEngine.markAll(textArea, context);
 				break;
 			case FIND:
-				if (!SearchEngine.find(textArea, context)) {
+				result = SearchEngine.find(textArea, context);
+				if (!result.wasFound()) {
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 				break;
 			case REPLACE:
-				if (!SearchEngine.replace(textArea, context)) {
+				result = SearchEngine.replace(textArea, context);
+				if (!result.wasFound()) {
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 				break;
 			case REPLACE_ALL:
-				int count = SearchEngine.replaceAll(textArea, context);
-				JOptionPane.showMessageDialog(null, count
-						+ " occurrences replaced.");
+				result = SearchEngine.replaceAll(textArea, context);
+				JOptionPane.showMessageDialog(null, result.getCount() +
+						" occurrences replaced.");
 				break;
 		}
+
+		String text = null;
+		if (result.getCount()==0) {
+			text = "Text not found";
+		}
+		else {
+			text = "Occurrences marked: " + result.getMarkedCount();
+		}
+		statusBar.setLabel(text);
 
 	}
 
@@ -163,7 +184,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -220,9 +241,10 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 				UIManager.setLookAndFeel(info.getClassName());
 				SwingUtilities.updateComponentTreeUI(RSTAUIDemoApp.this);
 				if (findDialog!=null) {
-					SwingUtilities.updateComponentTreeUI(findDialog);
-					SwingUtilities.updateComponentTreeUI(replaceDialog);
+					findDialog.updateUI();
+					replaceDialog.updateUI();
 				}
+				pack();
 			} catch (RuntimeException re) {
 				throw re; // FindBugs
 			} catch (Exception ex) {
@@ -263,6 +285,24 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 				findDialog.setVisible(false);
 			}
 			replaceDialog.setVisible(true);
+		}
+
+	}
+
+
+	private static class StatusBar extends JPanel {
+
+		private JLabel label;
+
+		public StatusBar() {
+			label = new JLabel("Ready");
+			setLayout(new BorderLayout());
+			add(label, BorderLayout.LINE_START);
+			add(new JLabel(new SizeGripIcon()), BorderLayout.LINE_END);
+		}
+
+		public void setLabel(String label) {
+			this.label.setText(label);
 		}
 
 	}

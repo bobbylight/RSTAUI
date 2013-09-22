@@ -28,7 +28,7 @@ class SearchUtil {
 	 *         specified in <code>res</code>.
 	 */
 	public static final String getToolTip(FindReplaceButtonsEnableResult res) {
-		String tooltip = res.getToolTip();
+		String tooltip = res.getError();
 		if (tooltip!=null && tooltip.indexOf('\n')>-1) {
 			tooltip = tooltip.replaceFirst("\\\n", "</b><br><pre>");
 			tooltip = "<html><b>" + tooltip;

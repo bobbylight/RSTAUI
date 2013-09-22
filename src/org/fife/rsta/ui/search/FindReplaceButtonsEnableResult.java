@@ -19,19 +19,19 @@ package org.fife.rsta.ui.search;
 class FindReplaceButtonsEnableResult {
 
 	private boolean enable;
-	private String tooltip;
+	private String error;
 
-	public FindReplaceButtonsEnableResult(boolean enable, String tooltip) {
+	public FindReplaceButtonsEnableResult(boolean enable, String error) {
 		this.enable = enable;
-		this.tooltip = tooltip;
+		this.error = error;
 	}
 
 	public boolean getEnable() {
 		return enable;
 	}
 
-	public String getToolTip() {
-		return tooltip;
+	public String getError() {
+		return error;
 	}
 
 	public void setEnable(boolean enable) {

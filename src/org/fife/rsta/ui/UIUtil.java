@@ -7,6 +7,7 @@
  */
 package org.fife.rsta.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -23,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
@@ -191,6 +193,23 @@ public class UIUtil {
 	 */
 	public static Border getEmpty5Border() {
 		return EMPTY_5_BORDER;
+	}
+
+
+	/**
+	 * Returns a color to use for "error" text in a text field.  This will
+	 * pick red for dark-text-on-light-background LookAndFeels, and a
+	 * brighter color for light-text-on-dark-background LookAndFeels.
+	 *
+	 * @return The color to use.
+	 */
+	public static final Color getErrorTextForeground() {
+		Color defaultFG = UIManager.getColor("TextField.foreground");
+		if (defaultFG.getRed()>=160 && defaultFG.getGreen()>=160 &&
+				defaultFG.getBlue()>=160) {
+			return new Color(255, 160, 160);
+		}
+		return Color.red;
 	}
 
 

@@ -13,9 +13,7 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
@@ -287,7 +285,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		//		UIManager.getColor("ComboBox.background") : Color.PINK);
 		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		tc.setForeground(enable ? UIManager.getColor("TextField.foreground") :
-									Color.RED);
+									UIUtil.getErrorTextForeground());
 
 		String tooltip = SearchUtil.getToolTip(er);
 		tc.setToolTipText(tooltip); // Always set, even if null

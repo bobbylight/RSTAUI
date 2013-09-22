@@ -22,6 +22,8 @@ import org.fife.rsta.ui.UIUtil;
  */
 class SearchComboBox extends RegexAwareComboBox {
 
+	private FindToolBar toolBar;
+
 
 	/**
 	 * Constructor.
@@ -29,8 +31,9 @@ class SearchComboBox extends RegexAwareComboBox {
 	 * @param replace Whether this combo box is for "replace" text (as opposed
 	 *        to "find" text).
 	 */
-	public SearchComboBox(boolean replace) {
+	public SearchComboBox(FindToolBar toolBar, boolean replace) {
 		super(replace);
+		this.toolBar = toolBar;
 		UIUtil.fixComboOrientation(this);
 	}
 
@@ -114,6 +117,15 @@ class SearchComboBox extends RegexAwareComboBox {
 
 		return vector;
 
+	}
+
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		if (toolBar!=null) {
+			toolBar.searchComboUpdateUICallback(this);
+		}
 	}
 
 

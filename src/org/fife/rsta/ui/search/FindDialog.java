@@ -19,6 +19,7 @@ import java.awt.event.KeyListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 import javax.swing.SpringLayout;
 import javax.swing.event.DocumentEvent;
@@ -197,11 +198,16 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	}
 
 	/**
-	 * Called whenever the user changes the Look and Feel, etc.
-	 * This is overridden so we can reinstate the listeners that are evidently
-	 * lost on the JTextField portion of our combo box.
+	 * This method should be called whenever the <code>LookAndFeel</code> of
+	 * the application changes.  This calls
+	 * <code>SwingUtilities.updateComponentTreeUI(this)</code> and does
+	 * other necessary things.<p>
+	 * Note that this is <em>not</em> an override, as JDialogs don't have an
+	 * <code>updateUI()</code> method.
 	 */
 	public void updateUI() {
+		SwingUtilities.updateComponentTreeUI(this);
+		pack();
 		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.addFocusListener(new FindFocusAdapter());
 		textField.addKeyListener(new FindKeyListener());

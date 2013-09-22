@@ -109,12 +109,14 @@ public class ReplaceToolBar extends FindToolBar {
 		JLabel findLabel = new JLabel(msg.getString("FindWhat"));
 		JLabel replaceLabel = new JLabel(msg.getString("ReplaceWith"));
 
-		findCombo = new SearchComboBox(false);
+		findCombo = new SearchComboBox(this, false);
 		JTextComponent findField = UIUtil.getTextComponent(findCombo);
 		findFieldListener.install(findField);
 		Container fcp = createContentAssistablePanel(findCombo);
 
-		replaceCombo = new SearchComboBox(true);
+		replaceCombo = new SearchComboBox(this, true);
+		JTextComponent replaceField = UIUtil.getTextComponent(replaceCombo);
+		findFieldListener.install(replaceField);
 		Container rcp = createContentAssistablePanel(replaceCombo);
 
 		// We use a "spacing" middle row, instead of spacing in the call to

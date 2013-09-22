@@ -73,7 +73,7 @@ public class CollapsibleSectionPanel extends JPanel {
 					timer = null;
 					tick = 0;
 					Dimension finalSize = down ?
-							new Dimension(0, 0) : currentBci.preferredSize;
+							new Dimension(0, 0) : currentBci.getRealPreferredSize();
 					currentBci.component.setPreferredSize(finalSize);
 					if (down) {
 						remove(currentBci.component);
@@ -87,7 +87,7 @@ public class CollapsibleSectionPanel extends JPanel {
 				}
 				else {
 					float proportion = !down ? (((float)tick)/totalTicks) : (1f- (((float)tick)/totalTicks));
-					Dimension size = new Dimension(currentBci.preferredSize);
+					Dimension size = new Dimension(currentBci.getRealPreferredSize());
 					size.height = (int)(size.height*proportion);
 					currentBci.component.setPreferredSize(size);
 				}
@@ -179,6 +179,7 @@ public class CollapsibleSectionPanel extends JPanel {
 				if (!info.component.isDisplayable()) {
 					SwingUtilities.updateComponentTreeUI(info.component);
 				}
+				info.uiUpdated();
 			}
 		}
 	}
@@ -187,11 +188,22 @@ public class CollapsibleSectionPanel extends JPanel {
 	private static class BottomComponentInfo {
 
 		private JComponent component;
-		private Dimension preferredSize;
+		private Dimension _preferredSize;
 
 		public BottomComponentInfo(JComponent component) {
 			this.component = component;
-			this.preferredSize = component.getPreferredSize();
+		}
+
+		public Dimension getRealPreferredSize() {
+			if (_preferredSize==null) {
+				_preferredSize = component.getPreferredSize();
+			}
+			return _preferredSize;
+		}
+
+		private void uiUpdated() {
+			// Remove explicit size previously set
+			component.setPreferredSize(null);
 		}
 
 	}

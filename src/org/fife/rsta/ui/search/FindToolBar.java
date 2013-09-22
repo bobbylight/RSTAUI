@@ -9,7 +9,6 @@
 package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -27,15 +26,19 @@ import java.beans.PropertyChangeListener;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -69,7 +72,6 @@ public class FindToolBar extends JPanel {
 	protected JCheckBox regexCheckBox;
 	protected JCheckBox markAllCheckBox;
 	private JLabel infoLabel;
-	private String textNotFound;
 	private Timer markAllTimer;
 
 	/**
@@ -87,6 +89,8 @@ public class FindToolBar extends JPanel {
 	 * @param listener An entity listening for search events.
 	 */
 	public FindToolBar(SearchListener listener) {
+
+		installKeyboardShortcuts();
 
 		markAllTimer = new Timer(250, new MarkAllEventNotifier());
 		markAllTimer.setRepeats(false);
@@ -114,8 +118,7 @@ public class FindToolBar extends JPanel {
 		rest.add(createButtonPanel());
 		rest.add(Box.createHorizontalStrut(15));
 
-		infoLabel = new JLabel("");
-		textNotFound = msg.getString("TextNotFound");
+		infoLabel = new JLabel();
 		rest.add(infoLabel);
 
 		rest.add(Box.createHorizontalGlue());
@@ -200,7 +203,7 @@ public class FindToolBar extends JPanel {
 //		JLabel label = new JLabel(msg.getString("FindWhat"));
 //		temp.add(label, BorderLayout.LINE_START);
 
-		findCombo = new SearchComboBox(false);
+		findCombo = new SearchComboBox(this, false);
 		JTextComponent findField = UIUtil.getTextComponent(findCombo);
 		findFieldListener.install(findField);
 		temp.add(createContentAssistablePanel(findCombo));
@@ -434,7 +437,7 @@ public class FindToolBar extends JPanel {
 		//		UIManager.getColor("ComboBox.background") : Color.PINK);
 		JTextComponent tc = UIUtil.getTextComponent(findCombo);
 		tc.setForeground(enable ? UIManager.getColor("TextField.foreground") :
-									Color.RED);
+									UIUtil.getErrorTextForeground());
 
 		String tooltip = SearchUtil.getToolTip(result);
 		tc.setToolTipText(tooltip); // Always set, even if null
@@ -463,6 +466,37 @@ public class FindToolBar extends JPanel {
 	}
 
 
+	private void installKeyboardShortcuts() {
+
+		InputMap im = getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		ActionMap am = getActionMap();
+
+		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+		im.put(ks, "searchForward");
+		am.put("searchForward", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				doSearch(true);
+			}
+		});
+
+		int shift = InputEvent.SHIFT_MASK;
+		int ctrl = InputEvent.CTRL_MASK;
+		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
+			ctrl = InputEvent.META_MASK;
+		}
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, shift);
+		im.put(ks, "searchBackward");
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ctrl);
+		im.put(ks, "searchBackward");
+		am.put("searchForward", new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				doSearch(false);
+			}
+		});
+
+	}
+
+
 	/**
 	 * Removes a {@link SearchListener} from this tool bar.
 	 *
@@ -483,6 +517,17 @@ public class FindToolBar extends JPanel {
 		JTextComponent findField = UIUtil.getTextComponent(findCombo);
 		findField.selectAll();
 		return findField.requestFocusInWindow();
+	}
+
+
+	/**
+	 * Callback called when a contained combo box has its LookAndFeel
+	 * modified.  This is a hack for us to add listeners back to it.
+	 *
+	 * @param combo The combo box.
+	 */
+	void searchComboUpdateUICallback(SearchComboBox combo) {
+		findFieldListener.install(UIUtil.getTextComponent(combo));
 	}
 
 
@@ -655,8 +700,9 @@ public class FindToolBar extends JPanel {
 		}
 
 		public void focusGained(FocusEvent e) {
+			JTextField field = (JTextField)e.getComponent();
 			if (selectAll) {
-				UIUtil.getTextComponent(findCombo).selectAll();
+				field.selectAll();
 			}
 			selectAll = true;
 		}
@@ -715,5 +761,6 @@ public class FindToolBar extends JPanel {
 		}
 
 	}
+
 
 }
