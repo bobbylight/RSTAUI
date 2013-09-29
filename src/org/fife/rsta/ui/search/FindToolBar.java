@@ -92,7 +92,7 @@ public class FindToolBar extends JPanel {
 
 		installKeyboardShortcuts();
 
-		markAllTimer = new Timer(250, new MarkAllEventNotifier());
+		markAllTimer = new Timer(300, new MarkAllEventNotifier());
 		markAllTimer.setRepeats(false);
 
 		setLayout(new BorderLayout());
@@ -588,15 +588,25 @@ public class FindToolBar extends JPanel {
 
 			if (source==matchCaseCheckBox) {
 				context.setMatchCase(matchCaseCheckBox.isSelected());
+				if (markAllCheckBox.isSelected()) {
+					doMarkAll(false);
+				}
 			}
 			else if (source==wholeWordCheckBox) {
 				context.setWholeWord(wholeWordCheckBox.isSelected());
+				if (markAllCheckBox.isSelected()) {
+					doMarkAll(false);
+				}
 			}
 			else if (source==regexCheckBox) {
 				context.setRegularExpression(regexCheckBox.isSelected());
+				if (markAllCheckBox.isSelected()) {
+					doMarkAll(false);
+				}
 			}
 			else if (source==markAllCheckBox) {
 				context.setMarkAll(markAllCheckBox.isSelected());
+				fireMarkAllEvent(); // Force an event to be fired
 			}
 			else {
 				handleSearchAction(e);
@@ -629,16 +639,10 @@ public class FindToolBar extends JPanel {
 			if (SearchContext.PROPERTY_MATCH_CASE.equals(prop)) {
 				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
 				matchCaseCheckBox.setSelected(newValue);
-				if (markAllCheckBox.isSelected()) {
-					doMarkAll(false);
-				}
 			}
 			else if (SearchContext.PROPERTY_MATCH_WHOLE_WORD.equals(prop)) {
 				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
 				wholeWordCheckBox.setSelected(newValue);
-				if (markAllCheckBox.isSelected()) {
-					doMarkAll(false);
-				}
 			}
 			//else if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
 			//	boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
@@ -652,16 +656,12 @@ public class FindToolBar extends JPanel {
 				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
 				regexCheckBox.setSelected(newValue);
 				handleRegExCheckBoxClicked();
-				if (markAllCheckBox.isSelected()) {
-					doMarkAll(false);
-				}
 			}
 			else if (SearchContext.PROPERTY_MARK_ALL.equals(prop)) {
 				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
 				markAllCheckBox.setSelected(newValue);
-				if (markAllCheckBox.isSelected()) {
-					doMarkAll(false);
-				}
+				// firing event handled in ActionListener, to prevent "other"
+				// tool bar from firing a second event
 			}
 			else if (SearchContext.PROPERTY_SEARCH_FOR.equals(prop)) {
 				String newValue = (String)e.getNewValue();
@@ -678,7 +678,9 @@ public class FindToolBar extends JPanel {
 				String oldValue = getReplaceText();
 				// Prevents IllegalStateExceptions
 				if (!newValue.equals(oldValue)) {
+					settingFindTextFromEvent = true;
 					setReplaceText(newValue);
+					settingFindTextFromEvent = false;
 				}
 			}
 
@@ -712,12 +714,19 @@ public class FindToolBar extends JPanel {
 
 		protected void handleDocumentEvent(DocumentEvent e) {
 			handleToggleButtons();
-			if (context.getMarkAll() && !settingFindTextFromEvent) {
+			if (!settingFindTextFromEvent) {
 				JTextComponent findField = UIUtil.getTextComponent(findCombo);
-				// Don't re-fire "mark all" events for "replace" text edits
 				if (e.getDocument()==findField.getDocument()) {
 					context.setSearchFor(findField.getText());
-					doMarkAll(true);
+					if (context.getMarkAll()) {
+						doMarkAll(true);
+					}
+				}
+				else { // Replace field's document
+					JTextComponent replaceField = UIUtil.getTextComponent(
+							replaceCombo);
+					context.setReplaceWith(replaceField.getText());
+					// Don't re-fire "mark all" events for "replace" text edits
 				}
 			}
 		}

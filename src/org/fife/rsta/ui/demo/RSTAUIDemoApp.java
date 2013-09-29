@@ -57,6 +57,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		
 		textArea = new RSyntaxTextArea(25, 80);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setMarkOccurrences(true);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		csp.add(sp);
 
@@ -169,7 +170,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		}
 
 		String text = null;
-		if (result.getCount()==0) {
+		if (result.getMarkedCount()==0) {
 			text = "Text not found";
 		}
 		else {

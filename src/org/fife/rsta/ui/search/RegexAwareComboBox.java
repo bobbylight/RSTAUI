@@ -8,10 +8,7 @@
  */
 package org.fife.rsta.ui.search;
 
-import java.awt.Component;
 import javax.swing.ComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 import javax.swing.text.JTextComponent;
 
 import org.fife.rsta.ui.ContentAssistable;
@@ -197,7 +194,6 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 			this.enabled = enabled;
 			if (enabled) {
 				AutoCompletion ac = getAutoCompletion();
-				ac.setListCellRenderer(new ContentAssistCellRenderer());
 				JTextComponent tc = (JTextComponent)getEditor().
 											getEditorComponent();
 				ac.install(tc);
@@ -217,24 +213,6 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 				firePropertyChange(prop, null, null);
 			}
 		}
-	}
-
-
-	/**
-	 * Renderer for the regex content assist.
-	 */
-	private static class ContentAssistCellRenderer
-									extends DefaultListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-								int index, boolean selected, boolean hasFocus) {
-			super.getListCellRendererComponent(list, value, index, selected,
-												hasFocus);
-			setText(((RegexCompletion)value).getShortDescription());
-			return this;
-		}
-
 	}
 
 
@@ -291,6 +269,14 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 		@Override
 		public String getInputText() {
 			return inputText;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString() {
+			return getShortDescription();
 		}
 
 	}
