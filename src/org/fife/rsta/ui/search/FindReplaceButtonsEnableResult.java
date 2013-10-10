@@ -16,7 +16,9 @@ package org.fife.rsta.ui.search;
  * @author Robert Futrell
  * @version 1.0
  */
-class FindReplaceButtonsEnableResult {
+// NOTE: This class is public to enable applications to create custom search
+// dialogs that extend AbstractSearchDialog, such as a FindInFilesDialog.
+public class FindReplaceButtonsEnableResult {
 
 	private boolean enable;
 	private String error;

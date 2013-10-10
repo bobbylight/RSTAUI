@@ -20,7 +20,9 @@ import org.fife.rsta.ui.UIUtil;
  * @author Robert Futrell
  * @version 1.0
  */
-class SearchComboBox extends RegexAwareComboBox {
+// NOTE: This class is public to facilitate applications creating other
+// subclasses, such as a FindInFilesDialog.
+public class SearchComboBox extends RegexAwareComboBox {
 
 	private FindToolBar toolBar;
 

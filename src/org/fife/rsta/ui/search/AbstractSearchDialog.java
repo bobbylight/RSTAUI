@@ -143,6 +143,18 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
+	 * Returns the default search context to use for this dialog.  Applications
+	 * that create new subclasses of this class can provide customized
+	 * search contexts here.
+	 *
+	 * @return The default search context.
+	 */
+	protected SearchContext createDefaultSearchContext() {
+		return new SearchContext();
+	}
+
+
+	/**
 	 * Returns a titled border for panels on search dialogs.
 	 *
 	 * @param title The title for the border.
@@ -367,7 +379,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		// The user should set a shared instance between all subclass
 		// instances, but to be safe we set individual ones.
 		contextListener = new SearchContextListener();
-		setSearchContext(new SearchContext());
+		setSearchContext(createDefaultSearchContext());
 
 		// Make a panel containing the option check boxes.
 		searchConditionsPanel = new JPanel();

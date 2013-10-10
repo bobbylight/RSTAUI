@@ -96,7 +96,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		menu.add(new JMenuItem(a));
 		ks = KeyStroke.getKeyStroke(KeyEvent.VK_H, ctrl|shift);
 		a = csp.addBottomComponent(ks, replaceToolBar);
-		a.putValue(Action.NAME, "Toggle Bottom Component 2");
+		a.putValue(Action.NAME, "Show Replace Search Bar");
 		menu.add(new JMenuItem(a));
 
 		mb.add(menu);
