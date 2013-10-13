@@ -10,6 +10,10 @@ package org.fife.rsta.ui.search;
 
 import java.util.Vector;
 
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
+import javax.swing.text.JTextComponent;
+
 import org.fife.rsta.ui.UIUtil;
 
 
@@ -37,6 +41,7 @@ public class SearchComboBox extends RegexAwareComboBox {
 		super(replace);
 		this.toolBar = toolBar;
 		UIUtil.fixComboOrientation(this);
+		updateTextFieldKeyMap();
 	}
 
 
@@ -122,12 +127,25 @@ public class SearchComboBox extends RegexAwareComboBox {
 	}
 
 
+	/**
+	 * Updates the input map of the text field inside of this search combo.
+	 */
+	private void updateTextFieldKeyMap() {
+		JTextComponent comp = UIUtil.getTextComponent(this);
+		// Swing maps Ctrl+H to "delete previous", when applications
+		// typically map it to "display 'Replace' UI."
+		InputMap im = comp.getInputMap();
+		im.put(KeyStroke.getKeyStroke("ctrl H"), "none");
+	}
+
+
 	@Override
 	public void updateUI() {
 		super.updateUI();
 		if (toolBar!=null) {
 			toolBar.searchComboUpdateUICallback(this);
 		}
+		updateTextFieldKeyMap();
 	}
 
 
