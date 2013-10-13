@@ -212,9 +212,13 @@ public class FindToolBar extends JPanel {
 	}
 
 
+	/**
+	 * Creates the buttons for this tool bar.
+	 */
 	protected void createFindButtons() {
 
 		findPrevButton = new JButton(msg.getString("FindPrev"));
+		makeEnterActivateButton(findPrevButton);
 		findPrevButton.setActionCommand("FindPrevious");
 		findPrevButton.addActionListener(listener);
 		findPrevButton.setEnabled(false);
@@ -225,6 +229,7 @@ public class FindToolBar extends JPanel {
 				return findPrevButton.getPreferredSize(); // Always bigger
 			}
 		};
+		makeEnterActivateButton(findButton);
 		findButton.setToolTipText(msg.getString("FindNext.ToolTip"));
 		findButton.setActionCommand("FindNext");
 		findButton.addActionListener(listener);
@@ -347,8 +352,10 @@ public class FindToolBar extends JPanel {
 		SearchEvent.Type type = null;
 		boolean forward = true;
 		String action = e.getActionCommand();
+		// JTextField returns *_DOWN_* modifiers, JButton returns the others (!)
 		int allowedModifiers =
-				InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK;
+				InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK | // field
+				InputEvent.CTRL_MASK|InputEvent.SHIFT_MASK; // JButton
 
 		if ("FindNext".equals(action)) {
 			type = SearchEvent.Type.FIND;
@@ -389,14 +396,13 @@ public class FindToolBar extends JPanel {
 			context.setReplaceWith(replaceCombo.getSelectedString());
 		}
 
-		// Use a different context to prevent modifying forward/backward
-		// property.  While this would likely never be noticed by folks, as
-		// they'd have to be using both the Find/Replace dialogs and these
-		// tool bars, it still would bug me.
-		SearchContext context2 = context.clone();
-		context2.setSearchForward(forward);
+		// Note: This will toggle the "search forward" radio buttons in the
+		// Find/Replace dialogs if the application is using them AND these
+		// tool bars, but that is a rare occurrence.  Cloning the context is
+		// out since that may cause problems for the pap if it caches it.
+		context.setSearchForward(forward);
 
-		SearchEvent se = new SearchEvent(this, type, context2);
+		SearchEvent se = new SearchEvent(this, type, context);
 		fireSearchEvent(se);
 		
 	}
@@ -471,7 +477,7 @@ public class FindToolBar extends JPanel {
 		InputMap im = getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		ActionMap am = getActionMap();
 
-		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+		KeyStroke ks = KeyStroke.getKeyStroke("ENTER");
 		im.put(ks, "searchForward");
 		am.put("searchForward", new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
@@ -493,6 +499,38 @@ public class FindToolBar extends JPanel {
 				doSearch(false);
 			}
 		});
+
+	}
+
+
+	/**
+	 * Makes the Enter key activate the button.  In Swing, this is a
+	 * complicated thing.  It's LAF-dependent whether or not this works
+	 * automatically; on most LAFs, it doesn't happen.  In WindowsLookAndFeel
+	 * it does, but *only* if the current window has a "default" button
+	 * specified.  Since these tool bars will typically be used in "main"
+	 * application windows, which don't have default buttons, we'll just
+	 * enable this property here and now.
+	 *
+	 * @param button The button that should respond to the Enter key.
+	 */
+	protected void makeEnterActivateButton(JButton button) {
+
+		InputMap im = button.getInputMap();
+
+		// Make "enter" being typed simulate clicking
+		im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
+		im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
+		
+		// Make "shift+enter" being typed simulate clicking also.  The listener
+		// will handle the backwards searching.  Not sure why the commented-out
+		// versions don't work, possibly SHIFT_MASK vs. SHIFT_DOWN_MASK issue.
+		//im.put(KeyStroke.getKeyStroke("pressed SHIFT ENTER"), "pressed");
+		//im.put(KeyStroke.getKeyStroke("released SHIFT ENTER"), "released");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK,
+				false), "pressed");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK,
+				true), "released");
 
 	}
 
@@ -615,17 +653,17 @@ public class FindToolBar extends JPanel {
 		}
 
 		@Override
-		public void focusGained(FocusEvent e) {
+		public void focusGained(final FocusEvent e) {
 			if (e.getSource() instanceof JCheckBox) { // Always true
 				Component opposite = e.getOppositeComponent();
 				if (opposite instanceof JTextField) {
-					// From Find or Replace field - don't select all, just keep
-					// focus in the text field itself.
+					// From Find or Replace field - don't select all,
+					// just keep focus in the text field itself.
 					findFieldListener.selectAll = false;
 					opposite.requestFocusInWindow();
 				}
 				else {
-					// From anywhere else in the app - focus and select all
+					// From anywhere else - focus and select all
 					findCombo.requestFocusInWindow();
 				}
 			}

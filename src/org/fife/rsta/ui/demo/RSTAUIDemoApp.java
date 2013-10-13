@@ -186,7 +186,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
+//					UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

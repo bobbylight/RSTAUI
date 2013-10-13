@@ -148,19 +148,6 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 
 
 	/**
-	 * Changes the search listener from one component to another.
-	 *
-	 * @param fromPanel The old <code>SearchListener</code> to remove.
-	 * @param toPanel The new <code>SearchListener</code> to add.
-	 */
-	public void changeSearchListener(SearchListener fromPanel,
-			SearchListener toPanel) {
-		this.removeSearchListener(fromPanel);
-		this.addSearchListener(toPanel);
-	}
-
-
-	/**
 	 * Notifies all listeners that have registered interest for notification on
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.

@@ -230,6 +230,9 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		if (SearchContext.PROPERTY_REPLACE_WITH.equals(prop)) {
 			String newValue = (String)e.getNewValue();
+			if (newValue==null) {
+				newValue = "";
+			}
 			String oldValue = getReplaceString();
 			// Prevents IllegalStateExceptions
 			if (!newValue.equals(oldValue)) {

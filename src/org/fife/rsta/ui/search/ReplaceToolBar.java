@@ -148,12 +148,14 @@ public class ReplaceToolBar extends FindToolBar {
 		super.createFindButtons();
 
 		replaceButton = new JButton(msg.getString("Replace"));
+		makeEnterActivateButton(replaceButton);
 		replaceButton.setToolTipText(msg.getString("Replace.ToolTip"));
 		replaceButton.setActionCommand("Replace");
 		replaceButton.addActionListener(listener);
 		replaceButton.setEnabled(false);
 
 		replaceAllButton = new JButton(msg.getString("ReplaceAll"));
+		makeEnterActivateButton(replaceAllButton);
 		replaceAllButton.setActionCommand("ReplaceAll");
 		replaceAllButton.addActionListener(listener);
 		replaceAllButton.setEnabled(false);
