@@ -120,15 +120,19 @@ public class CollapsibleSectionPanel extends JPanel {
 					if (down) {
 						remove(currentBci.component);
 						currentBci = null;
-						focusMainComponent();
-					}
-					else {
-						// We assume here that the component has some focusable
-						// child we want to play with
-						currentBci.component.requestFocusInWindow();
 					}
 				}
 				else {
+					if (tick==1) {
+						if (down) {
+							focusMainComponent();
+						}
+						else {
+							// We assume here that the component has some
+							// focusable child we want to play with
+							currentBci.component.requestFocusInWindow();
+						}
+					}
 					float proportion = !down ? (((float)tick)/totalTicks) : (1f- (((float)tick)/totalTicks));
 					Dimension size = new Dimension(currentBci.getRealPreferredSize());
 					size.height = (int)(size.height*proportion);
