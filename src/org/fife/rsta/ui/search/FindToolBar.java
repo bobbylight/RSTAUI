@@ -80,6 +80,8 @@ public class FindToolBar extends JPanel {
 	 */
 	private boolean settingFindTextFromEvent;
 
+	protected static final ResourceBundle searchMsg = ResourceBundle.getBundle(
+			"org.fife.rsta.ui.search.Search");
 	protected static final ResourceBundle msg = ResourceBundle.getBundle(
 			"org.fife.rsta.ui.search.SearchToolBar");
 
@@ -157,7 +159,7 @@ public class FindToolBar extends JPanel {
 		matchCaseCheckBox = createCB("MatchCase");
 		panel.add(matchCaseCheckBox);
 
-		regexCheckBox = createCB("Regex");
+		regexCheckBox = createCB("RegEx");
 		panel.add(regexCheckBox);
 
 		wholeWordCheckBox = createCB("WholeWord");
@@ -172,7 +174,7 @@ public class FindToolBar extends JPanel {
 
 
 	protected JCheckBox createCB(String key) {
-		JCheckBox cb = new JCheckBox(msg.getString(key));
+		JCheckBox cb = new JCheckBox(searchMsg.getString(key));
 		cb.addActionListener(listener);
 		cb.addFocusListener(listener);
 		return cb;
@@ -200,9 +202,6 @@ public class FindToolBar extends JPanel {
 		findFieldListener = new FindFieldListener();
 		JPanel temp = new JPanel(new BorderLayout());
 
-//		JLabel label = new JLabel(msg.getString("FindWhat"));
-//		temp.add(label, BorderLayout.LINE_START);
-
 		findCombo = new SearchComboBox(this, false);
 		JTextComponent findField = UIUtil.getTextComponent(findCombo);
 		findFieldListener.install(findField);
@@ -223,14 +222,14 @@ public class FindToolBar extends JPanel {
 		findPrevButton.addActionListener(listener);
 		findPrevButton.setEnabled(false);
 
-		findButton = new JButton(msg.getString("FindNext")) {
+		findButton = new JButton(searchMsg.getString("Find")) {
 			@Override
 			public Dimension getPreferredSize() {
 				return findPrevButton.getPreferredSize(); // Always bigger
 			}
 		};
 		makeEnterActivateButton(findButton);
-		findButton.setToolTipText(msg.getString("FindNext.ToolTip"));
+		findButton.setToolTipText(msg.getString("Find.ToolTip"));
 		findButton.setActionCommand("FindNext");
 		findButton.addActionListener(listener);
 		findButton.setEnabled(false);

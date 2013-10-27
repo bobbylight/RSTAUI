@@ -16,6 +16,7 @@ import org.fife.rsta.ui.search.ReplaceToolBar;
 import org.fife.rsta.ui.search.SearchEvent;
 import org.fife.rsta.ui.search.SearchListener;
 import org.fife.rsta.ui.search.FindToolBar;
+import org.fife.ui.rsyntaxtextarea.ErrorStrip;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -57,9 +58,13 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		
 		textArea = new RSyntaxTextArea(25, 80);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setCodeFoldingEnabled(true);
 		textArea.setMarkOccurrences(true);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		csp.add(sp);
+
+		ErrorStrip errorStrip = new ErrorStrip(textArea);
+		contentPane.add(errorStrip, BorderLayout.LINE_END);
 
 		statusBar = new StatusBar();
 		contentPane.add(statusBar, BorderLayout.SOUTH);
