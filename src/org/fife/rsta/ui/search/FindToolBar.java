@@ -279,7 +279,7 @@ public class FindToolBar extends JPanel {
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
 	 * 
-	 * @param event The <code>ActionEvent</code> object coming from a
+	 * @param e The <code>ActionEvent</code> object coming from a
 	 *        child component.
 	 */
 	protected void fireSearchEvent(SearchEvent e) {

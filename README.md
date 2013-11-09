@@ -2,6 +2,7 @@ This is a library for adding the following dialogs to an application using RSynt
 
 * Find Dialog
 * Replace Dialog
+* Find and Replace tool bars (a la Sublime Text)
 * Go to Line Dialog
 * Text File Properties Dialog (requires use of TextEditorPane)
 
