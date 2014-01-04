@@ -9,18 +9,18 @@
 package org.fife.rsta.ui.search;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ResourceBundle;
@@ -92,6 +92,8 @@ public class FindToolBar extends JPanel {
 	 */
 	public FindToolBar(SearchListener listener) {
 
+		// Keep focus in this component when tabbing through search controls
+		setFocusCycleRoot(true);
 		installKeyboardShortcuts();
 
 		markAllTimer = new Timer(300, new MarkAllEventNotifier());
@@ -176,7 +178,7 @@ public class FindToolBar extends JPanel {
 	protected JCheckBox createCB(String key) {
 		JCheckBox cb = new JCheckBox(searchMsg.getString(key));
 		cb.addActionListener(listener);
-		cb.addFocusListener(listener);
+		cb.addMouseListener(listener);
 		return cb;
 	}
 
@@ -346,7 +348,7 @@ public class FindToolBar extends JPanel {
 	/**
 	 * Creates a search event object and notifies all registered listeners.
 	 */
-	private void handleSearchAction(ActionEvent e) {
+	protected void handleSearchAction(ActionEvent e) {
 
 		SearchEvent.Type type = null;
 		boolean forward = true;
@@ -396,14 +398,15 @@ public class FindToolBar extends JPanel {
 		}
 
 		// Note: This will toggle the "search forward" radio buttons in the
-		// Find/Replace dialogs if the application is using them AND these
-		// tool bars, but that is a rare occurrence.  Cloning the context is
-		// out since that may cause problems for the pap if it caches it.
+		// Find/Replace dialogs if the application is using them AND these tool
+		// bars, but that is a rare occurrence.  Cloning the context is out
+		// since that may cause problems for the application if it caches it.
 		context.setSearchForward(forward);
 
 		SearchEvent se = new SearchEvent(this, type, context);
 		fireSearchEvent(se);
-		
+		handleToggleButtons(); // Replace button could toggle state
+
 	}
 
 
@@ -468,6 +471,7 @@ public class FindToolBar extends JPanel {
 		matchCaseCheckBox.setSelected(context.getMatchCase());
 		wholeWordCheckBox.setSelected(context.getWholeWord());
 		regexCheckBox.setSelected(context.isRegularExpression());
+		markAllCheckBox.setSelected(context.getMarkAll());
 	}
 
 
@@ -616,7 +620,7 @@ public class FindToolBar extends JPanel {
 	 * Listens for events in this tool bar.  Keeps the UI in sync with the
 	 * search context and vice versa.
 	 */
-	private class ToolBarListener extends FocusAdapter
+	private class ToolBarListener extends MouseAdapter
 			implements ActionListener, PropertyChangeListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -652,19 +656,10 @@ public class FindToolBar extends JPanel {
 		}
 
 		@Override
-		public void focusGained(final FocusEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() instanceof JCheckBox) { // Always true
-				Component opposite = e.getOppositeComponent();
-				if (opposite instanceof JTextField) {
-					// From Find or Replace field - don't select all,
-					// just keep focus in the text field itself.
-					findFieldListener.selectAll = false;
-					opposite.requestFocusInWindow();
-				}
-				else {
-					// From anywhere else - focus and select all
-					findCombo.requestFocusInWindow();
-				}
+				findFieldListener.selectAll = false;
+				findCombo.requestFocusInWindow();
 			}
 		}
 

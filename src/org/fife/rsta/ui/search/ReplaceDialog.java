@@ -84,6 +84,11 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	private String lastSearchString;
 	private String lastReplaceString;
 
+	/**
+	 * Our search listener, cached so we can grab its selected text easily.
+	 */
+	protected SearchListener searchListener;
+
 
 	/**
 	 * Creates a new <code>ReplaceDialog</code>.
@@ -137,6 +142,9 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		else {
 			super.actionPerformed(e);
+			if (SearchEvent.Type.FIND.name().equals(command)) {
+				handleToggleButtons(); // Replace button could toggle state
+			}
 		}
 
 	}
@@ -249,10 +257,21 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 	@Override
 	protected FindReplaceButtonsEnableResult handleToggleButtons() {
+
 		FindReplaceButtonsEnableResult er = super.handleToggleButtons();
-		replaceButton.setEnabled(er.getEnable());
-		replaceAllButton.setEnabled(er.getEnable());
+		boolean shouldReplace = er.getEnable();
+		replaceAllButton.setEnabled(shouldReplace);
+
+		// "Replace" is only enabled if text to search for is selected in
+		// the UI.
+		if (shouldReplace) {
+			String text = searchListener.getSelectedText();
+			shouldReplace = matchesSearchFor(text);
+		}
+		replaceButton.setEnabled(shouldReplace);
+
 		return er;
+
 	}
 
 
@@ -262,6 +281,8 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 * @param listener The component that listens for {@link SearchEvent}s.
 	 */
 	private void init(SearchListener listener) {
+
+		this.searchListener = listener;
 
 		ComponentOrientation orientation = ComponentOrientation.
 									getOrientation(getLocale());
@@ -433,8 +454,14 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		if (visible) {
 
+			// Select text entered in the UI
+			String text = searchListener.getSelectedText();
+			if (text!=null) {
+				findTextCombo.addItem(text);
+			}
+
 			String selectedItem = findTextCombo.getSelectedString();
-			if (selectedItem==null) {
+			if (selectedItem==null || selectedItem.length()==0) {
 				findNextButton.setEnabled(false);
 				replaceButton.setEnabled(false);
 				replaceAllButton.setEnabled(false);
@@ -540,6 +567,9 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 				// Remember what it originally was, in case they tabbed out.
 				lastReplaceString = replaceWithCombo.getSelectedString();
 			}
+
+			// Replace button's state might need to be changed.
+			handleToggleButtons();
 
 		}
 

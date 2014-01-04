@@ -31,6 +31,7 @@ import javax.swing.text.JTextComponent;
 
 import org.fife.rsta.ui.EscapableDialog;
 import org.fife.rsta.ui.UIUtil;
+import org.fife.ui.rsyntaxtextarea.RSyntaxUtilities;
 import org.fife.ui.rtextarea.SearchContext;
 
 
@@ -401,6 +402,36 @@ public class AbstractSearchDialog extends EscapableDialog
 		cancelButton.setActionCommand("Cancel");
 		cancelButton.addActionListener(this);
 
+	}
+
+
+	protected boolean matchesSearchFor(String text) {
+		if (text==null || text.length()==0) {
+			return false;
+		}
+		String searchFor = findTextCombo.getSelectedString();
+		if (searchFor!=null && searchFor.length()>0) {
+			boolean matchCase = caseCheckBox.isSelected();
+			if (regexCheckBox.isSelected()) {
+				int flags = Pattern.MULTILINE; // '^' and '$' are done per line.
+				flags = RSyntaxUtilities.getPatternFlags(matchCase, flags);
+				Pattern pattern = null;
+				try {
+					pattern = Pattern.compile(searchFor, flags);
+				} catch (PatternSyntaxException pse) {
+					pse.printStackTrace(); // Never happens
+					return false;
+				}
+				return pattern.matcher(text).matches();
+			}
+			else {
+				if (matchCase) {
+					return searchFor.equals(text);
+				}
+				return searchFor.equalsIgnoreCase(text);
+			}
+		}
+		return false;
 	}
 
 

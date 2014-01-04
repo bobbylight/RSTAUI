@@ -68,6 +68,11 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	// press.
 	private String lastSearchString;
 
+	/**
+	 * Our search listener, cached so we can grab its selected text easily.
+	 */
+	protected SearchListener searchListener;
+
 
 	/**
 	 * Creates a new <code>FindDialog</code>.
@@ -99,6 +104,8 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 * @param listener The component that listens for {@link SearchEvent}s.
 	 */
 	private void init(SearchListener listener) {
+
+		this.searchListener = listener;
 
 		ComponentOrientation orientation = ComponentOrientation.
 									getOrientation(getLocale());
@@ -186,15 +193,27 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 */
 	@Override
 	public void setVisible(boolean visible) {
+
 		if (visible) {
-			String selectedItem = (String)findTextCombo.getSelectedItem();
-			findNextButton.setEnabled(selectedItem!=null);
+
+			// Select text entered in the UI
+			String text = searchListener.getSelectedText();
+			if (text!=null) {
+				findTextCombo.addItem(text);
+			}
+
+			String selectedItem = findTextCombo.getSelectedString();
+			boolean nonEmpty = selectedItem!=null && selectedItem.length()>0;
+			findNextButton.setEnabled(nonEmpty);
 			super.setVisible(true);
 			focusFindTextField();
+
 		}
+
 		else {
 			super.setVisible(false);
 		}
+
 	}
 
 	/**

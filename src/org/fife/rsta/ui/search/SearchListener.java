@@ -33,4 +33,7 @@ public interface SearchListener extends EventListener {
 	void searchEvent(SearchEvent e);
 
 
+	String getSelectedText();
+
+
 }

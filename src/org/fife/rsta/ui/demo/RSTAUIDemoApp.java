@@ -14,6 +14,7 @@ import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.rsta.ui.search.ReplaceToolBar;
 import org.fife.rsta.ui.search.SearchEvent;
+import org.fife.rsta.ui.search.SearchEvent.Type;
 import org.fife.rsta.ui.search.SearchListener;
 import org.fife.rsta.ui.search.FindToolBar;
 import org.fife.ui.rsyntaxtextarea.ErrorStrip;
@@ -119,6 +120,11 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+	public String getSelectedText() {
+		return textArea.getSelectedText();
+	}
+
+
 	/**
 	 * Creates our Find and Replace dialogs.
 	 */
@@ -175,11 +181,19 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		}
 
 		String text = null;
-		if (result.getMarkedCount()==0) {
-			text = "Text not found";
+		if (result.wasFound()) {
+			text = "Text found; occurrences marked: " + result.getMarkedCount();
+		}
+		else if (type==Type.MARK_ALL) {
+			if (result.getMarkedCount()>0) {
+				text = "Occurrences marked: " + result.getMarkedCount();
+			}
+			else {
+				text = "";
+			}
 		}
 		else {
-			text = "Occurrences marked: " + result.getMarkedCount();
+			text = "Text not found";
 		}
 		statusBar.setLabel(text);
 

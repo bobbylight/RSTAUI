@@ -82,12 +82,14 @@ public class SearchComboBox extends RegexAwareComboBox {
 
 
 	/**
-	 * A utility method for <code>(String)getSelectedItem()</code>.
+	 * Returns the text in the text field of the combo box.
 	 *
-	 * @return The selected text in this combo box.
+	 * @return The text entered into this combo box.
 	 */
 	public String getSelectedString() {
-		return (String)getSelectedItem();
+		JTextComponent comp = UIUtil.getTextComponent(this);
+		return comp.getText();
+		//return (String)getSelectedItem();
 	}
 
 
