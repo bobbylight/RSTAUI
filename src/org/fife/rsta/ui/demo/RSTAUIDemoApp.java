@@ -2,7 +2,6 @@ package org.fife.rsta.ui.demo;
 
 import java.awt.BorderLayout;
 import java.awt.event.*;
-
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.text.BadLocationException;
@@ -14,7 +13,6 @@ import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.rsta.ui.search.ReplaceToolBar;
 import org.fife.rsta.ui.search.SearchEvent;
-import org.fife.rsta.ui.search.SearchEvent.Type;
 import org.fife.rsta.ui.search.SearchListener;
 import org.fife.rsta.ui.search.FindToolBar;
 import org.fife.ui.rsyntaxtextarea.ErrorStrip;
@@ -184,7 +182,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		if (result.wasFound()) {
 			text = "Text found; occurrences marked: " + result.getMarkedCount();
 		}
-		else if (type==Type.MARK_ALL) {
+		else if (type==SearchEvent.Type.MARK_ALL) {
 			if (result.getMarkedCount()>0) {
 				text = "Occurrences marked: " + result.getMarkedCount();
 			}
