@@ -45,6 +45,7 @@ public class CollapsibleSectionPanel extends JPanel {
 	private int tick;
 	private int totalTicks = 10;
 	private boolean down;
+	private boolean firstTick;
 
 	private static final int FRAME_MILLIS = 10;
 
@@ -123,7 +124,7 @@ public class CollapsibleSectionPanel extends JPanel {
 					}
 				}
 				else {
-					if (tick==1) {
+					if (firstTick) {
 						if (down) {
 							focusMainComponent();
 						}
@@ -132,8 +133,10 @@ public class CollapsibleSectionPanel extends JPanel {
 							// focusable child we want to play with
 							currentBci.component.requestFocusInWindow();
 						}
+						firstTick = false;
 					}
-					float proportion = !down ? (((float)tick)/totalTicks) : (1f- (((float)tick)/totalTicks));
+					float proportion = !down ? (((float)tick)/totalTicks) :
+						(1f- (((float)tick)/totalTicks));
 					Dimension size = new Dimension(currentBci.getRealPreferredSize());
 					size.height = (int)(size.height*proportion);
 					currentBci.component.setPreferredSize(size);
@@ -195,6 +198,7 @@ public class CollapsibleSectionPanel extends JPanel {
 			tick = totalTicks - tick;
 		}
 		down = true;
+		firstTick = true;
 
 		createTimer();
 		timer.start();
@@ -256,6 +260,7 @@ public class CollapsibleSectionPanel extends JPanel {
 		}
 		tick = 0;
 		down = false;
+		firstTick = true;
 
 		// Animate display of new bottom component.
 		createTimer();
