@@ -2,11 +2,13 @@ package org.fife.rsta.ui.demo;
 
 import java.awt.BorderLayout;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.text.BadLocationException;
 
 import org.fife.rsta.ui.CollapsibleSectionPanel;
+//import org.fife.rsta.ui.DocumentMap;
 import org.fife.rsta.ui.GoToDialog;
 import org.fife.rsta.ui.SizeGripIcon;
 import org.fife.rsta.ui.search.FindDialog;
@@ -64,6 +66,8 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		ErrorStrip errorStrip = new ErrorStrip(textArea);
 		contentPane.add(errorStrip, BorderLayout.LINE_END);
+//org.fife.rsta.ui.DocumentMap docMap = new org.fife.rsta.ui.DocumentMap(textArea);
+//contentPane.add(docMap, BorderLayout.LINE_END);
 
 		statusBar = new StatusBar();
 		contentPane.add(statusBar, BorderLayout.SOUTH);

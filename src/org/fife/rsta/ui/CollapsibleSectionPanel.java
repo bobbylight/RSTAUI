@@ -41,6 +41,7 @@ public class CollapsibleSectionPanel extends JPanel {
 	private List<BottomComponentInfo> bottomComponentInfos;
 	private BottomComponentInfo currentBci;
 
+	private boolean animate;
 	private Timer timer;
 	private int tick;
 	private int totalTicks = 10;
@@ -54,9 +55,20 @@ public class CollapsibleSectionPanel extends JPanel {
 	 * Constructor.
 	 */
 	public CollapsibleSectionPanel() {
+		this(true);
+	}
+
+
+	/**
+	 * Constructor.
+	 *
+	 * @param animate Whether the collapsible sections should animate in.
+	 */
+	public CollapsibleSectionPanel(boolean animate) {
 		super(new BorderLayout());
 		bottomComponentInfos = new ArrayList<BottomComponentInfo>();
 		installKeystrokes();
+		this.animate = animate;
 	}
 
 
@@ -189,6 +201,14 @@ public class CollapsibleSectionPanel extends JPanel {
 		if (currentBci==null) {
 			return;
 		}
+		if (!animate) {
+			remove(currentBci.component);
+			revalidate();
+			repaint();
+			currentBci = null;
+			focusMainComponent();
+			return;
+		}
 
 		if (timer!=null) {
 			if (down) {
@@ -254,6 +274,12 @@ public class CollapsibleSectionPanel extends JPanel {
 		}
 		currentBci = bci;
 		add(currentBci.component, BorderLayout.SOUTH);
+		if (!animate) {
+			currentBci.component.requestFocusInWindow();
+			revalidate();
+			repaint();
+			return;
+		}
 
 		if (timer!=null) {
 			timer.stop();
