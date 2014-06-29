@@ -108,7 +108,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	 *        is not currently available.
 	 */
 	public void setAssistanceEnabled(Image img) {
-		if (img==null && getIcon()!=EMPTY_ICON) {
+		if (img==null) {
 			setIcon(EMPTY_ICON);
 			setToolTipText(null);
 		}

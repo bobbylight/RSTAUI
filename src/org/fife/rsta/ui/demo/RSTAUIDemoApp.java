@@ -160,6 +160,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		SearchResult result = null;
 
 		switch (type) {
+			default: // Prevent FindBugs warning later
 			case MARK_ALL:
 				result = SearchEngine.markAll(textArea, context);
 				break;
