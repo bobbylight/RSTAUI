@@ -34,7 +34,7 @@ compileJava {
 
 ext.sharedManifest = manifest {
 	attributes('Class-Path': 'rsyntaxtextarea.jar autocomplete.jar',
-		'Specification-Title': 'SpellChecker',
+		'Specification-Title': 'RSTAUI',
 		'Specification-Version': version,
 		'Implementation-Title': 'org.fife.ui',
 		'Implementation-Version': version)
@@ -134,9 +134,9 @@ uploadArchives {
 					}
 					
 					scm {
-						url 'https://github.com/bobbylight/AutoComplete'
-						connection 'scm:git:git://github.com/bobbylight/AutoComplete'
-						developerConnection 'scm:git:git@github.com:bobbylight/AutoComplete'
+						url 'https://github.com/bobbylight/RSTAUI'
+						connection 'scm:git:git://github.com/bobbylight/RSTAUI'
+						developerConnection 'scm:git:git@github.com:bobbylight/RSTAUI'
 						tag '2.5.1'
 					}
 					
