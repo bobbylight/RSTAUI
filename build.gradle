@@ -139,7 +139,7 @@ uploadArchives {
 						url 'https://github.com/bobbylight/RSTAUI'
 						connection 'scm:git:git://github.com/bobbylight/RSTAUI'
 						developerConnection 'scm:git:git@github.com:bobbylight/RSTAUI'
-						tag '2.5.1'
+						tag '2.5.4'
 					}
 					
 					developers {
