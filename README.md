@@ -12,7 +12,7 @@ RSTAUI is available under a [modified BSD license](https://github.com/bobbylight
 
 # Example Usage
 
-A very simple example can be found in the [RSTAUIDemoApp class](https://github.com/bobbylight/RSTAUI/blob/master/src/org/fife/rsta/ui/demo/RSTAUIDemoApp.java) included in this project.
+A very simple example can be found in the [RSTAUIDemoApp class](https://github.com/bobbylight/RSTAUI/blob/master/src/main/java/org/fife/rsta/ui/demo/RSTAUIDemoApp.java) included in this project.
 
 # Sister Projects
 
