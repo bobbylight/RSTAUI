@@ -25,5 +25,5 @@ A very simple example can be found in the [RSTAUIDemoApp class](https://github.c
 
 * Add an issue on GitHub
 * Ask in the [project forum](http://fifesoft.com/forum/)
-* Check the project's [home page](http://fifesoft.com/rsyntaxtextarea)
+* Check the project's [home page](http://bobbylight.github.io/RSyntaxTextArea/)
 
