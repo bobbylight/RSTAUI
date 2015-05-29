@@ -8,7 +8,7 @@ This is a library for adding the following dialogs to an application using RSynt
 
 Searching support is fully featured - regex searches, match case, whole word, searching forward and backward, mark all occurrences.  Note that the actual searching functionality is handled in the RSyntaxTextArea project itself (see the SearchEngine class); this library just wraps that functionality in a UI.
 
-RSTAUI is available under a [modified BSD license](https://github.com/bobbylight/RSTAUI/blob/master/src/main/dist/RSTAUI.License.txt).  For more information, visit [http://fifesoft.com/rsyntaxtextarea](http://fifesoft.com/rsyntaxtextarea).
+RSTAUI is available under a [modified BSD license](https://github.com/bobbylight/RSTAUI/blob/master/src/main/dist/RSTAUI.License.txt).  For more information, visit [http://bobbylight.github.io/RSyntaxTextArea/](http://bobbylight.github.io/RSyntaxTextArea/).
 
 # Example Usage
 
