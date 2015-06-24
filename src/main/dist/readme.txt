@@ -27,19 +27,16 @@ robert -at- fifesoft dot com.
 
 * Compiling
 
-  If you wish to compile RSTAUI from source, the easiest way to do so
-  is via the included Ant build script.  The default target builds the jar.
-  
-  This project depends on the sister RSyntaxTextArea and AutoComplete projects.
-  It is recommended that you check all three projects out side by side.  Then,
-  to build:
+  RSTAUI is built using Gradle.  To compile the source, run all tests, and
+  build the distribution jar, you must check out RSTAUI and its sister projects,
+  RSyntaxTextArea and AutoComplete, side by side.  Then use Gradle to build:
   
      cd RSyntaxTextArea
-     ant
+     gradlew build
      cd ../AutoComplete
-     ant
+     gradlew build
      cd ../RSTAUI
-     ant
+     gradlew build
 
 * Example Usage
 
@@ -62,10 +59,6 @@ robert -at- fifesoft dot com.
 
     * https://github.com/bobbylight/RSTAUI
          Add a bug or enhancement request, peruse the Wiki, etc.
-
-    * http://fifesoft.com/rsyntaxtextarea
-         Project home page, which contains general information and example
-         source code.
 
 * Thanks
   
