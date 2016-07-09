@@ -10,6 +10,7 @@
 package org.fife.rsta.ui;
 
 import java.util.Vector;
+
 import javax.swing.DefaultComboBoxModel;
 
 
@@ -131,7 +132,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 * Sets the maximum number of items this combo box can hold.
 	 *
 	 * @param numElements The maximum number of items this combo box can hold.
-	 *        If <code>numElements <= 0</code>, then the capacity
+	 *        If <code>numElements &lt;= 0</code>, then the capacity
 	 *        of this combo box is set to <code>4</code>.
 	 */
 	public void setMaxNumElements(int numElements) {

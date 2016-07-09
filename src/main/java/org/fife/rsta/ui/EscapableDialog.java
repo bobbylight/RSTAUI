@@ -1,7 +1,7 @@
 /*
  * 08/06/2012
  *
- * EscapableDialog.java - A dialog that can be dismissed via the Escape key. 
+ * EscapableDialog.java - A dialog that can be dismissed via the Escape key.
  * This library is distributed under a modified BSD license.  See the included
  * RSTAUI.License.txt file for details.
  */
@@ -11,6 +11,7 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -59,6 +60,7 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent dialog.
+	 * @param modal Whether this dialog is modal.
 	 */
 	public EscapableDialog(Dialog owner, boolean modal) {
 		super(owner, modal);
@@ -70,6 +72,7 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent dialog.
+	 * @param title The title of this dialog.
 	 */
 	public EscapableDialog(Dialog owner, String title) {
 		super(owner, title);
@@ -81,6 +84,8 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent dialog.
+	 * @param title The title of this dialog.
+	 * @param modal Whether this dialog is modal.
 	 */
 	public EscapableDialog(Dialog owner, String title, boolean modal) {
 		super(owner, title, modal);
@@ -103,6 +108,7 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent frame.
+	 * @param modal Whether this dialog is modal.
 	 */
 	public EscapableDialog(Frame owner, boolean modal) {
 		super(owner, modal);
@@ -114,6 +120,7 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent frame.
+	 * @param title The title of this dialog.
 	 */
 	public EscapableDialog(Frame owner, String title) {
 		super(owner, title);
@@ -125,6 +132,8 @@ public abstract class EscapableDialog extends JDialog {
 	 * Constructor.
 	 *
 	 * @param owner The parent frame.
+	 * @param title The title of this dialog.
+	 * @param modal Whether this dialog is modal.
 	 */
 	public EscapableDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);

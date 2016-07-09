@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -458,6 +459,11 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * <code>substr(searchIn,startPos,startPos+searchStringLength)</code>
 	 * are whitespace.  While this isn't the best definition of "whole word",
 	 * it's the one we're going to use for now.
+	 *
+	 * @param searchIn The text to search in.
+	 * @param offset The offset of the possible word.
+	 * @param len The length of the possible word.
+	 * @return Whether the specified range represents a "whole word".
 	 */
 	public static final boolean isWholeWord(CharSequence searchIn,
 											int offset, int len) {

@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * FindToolBar - A tool bar for "find" operations in text areas.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -26,6 +26,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
@@ -280,7 +281,7 @@ public class FindToolBar extends JPanel {
 	 * Notifies all listeners that have registered interest for notification on
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
-	 * 
+	 *
 	 * @param e The <code>ActionEvent</code> object coming from a
 	 *        child component.
 	 */
@@ -347,6 +348,8 @@ public class FindToolBar extends JPanel {
 
 	/**
 	 * Creates a search event object and notifies all registered listeners.
+	 *
+	 * @param e The event.
 	 */
 	protected void handleSearchAction(ActionEvent e) {
 
@@ -524,7 +527,7 @@ public class FindToolBar extends JPanel {
 		// Make "enter" being typed simulate clicking
 		im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
 		im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
-		
+
 		// Make "shift+enter" being typed simulate clicking also.  The listener
 		// will handle the backwards searching.  Not sure why the commented-out
 		// versions don't work, possibly SHIFT_MASK vs. SHIFT_DOWN_MASK issue.

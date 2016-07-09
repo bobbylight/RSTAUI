@@ -1,7 +1,7 @@
 /*
  * 11/13/2003
  *
- * GoToDialog.java - A dialog allowing you to skip to a specific line number. 
+ * GoToDialog.java - A dialog allowing you to skip to a specific line number.
  * This library is distributed under a modified BSD license.  See the included
  * RSTAUI.License.txt file for details.
  */
@@ -16,6 +16,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -38,14 +39,14 @@ import javax.swing.text.DocumentFilter;
 /**
  * A "Go To" dialog allowing you to go to a specific line number in an
  * instance of RSyntaxTextArea.<p>
- * 
+ *
  * Example usage:
  * <pre>
  * GoToDialog dialog = new GoToDialog(window);
  * dialog.setMaxLineNumberAllowed(textArea.getLineCount());
  * dialog.setVisible(true);
  * int line = dialog.getLineNumber();
- * if (line>0) {
+ * if (line &gt; 0) {
  *    try {
  *       textArea.setCaretPosition(textArea.getLineStartOffset(line-1));
  *    } catch (BadLocationException ble) {

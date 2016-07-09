@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * SearchComboBox - The combo box used for "find" and "replace" dropdowns.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -20,7 +20,7 @@ import org.fife.rsta.ui.UIUtil;
 /**
  * The combo box used for entering text to "find" and "replace" in both the
  * Find/Replace dialogs as well as tool bars.
- * 
+ *
  * @author Robert Futrell
  * @version 1.0
  */
@@ -34,6 +34,8 @@ public class SearchComboBox extends RegexAwareComboBox {
 	/**
 	 * Constructor.
 	 *
+	 * @param toolBar The tool bar that owns this combo box, or {@code null}
+	 *        if it is not in a tool bar.
 	 * @param replace Whether this combo box is for "replace" text (as opposed
 	 *        to "find" text).
 	 */

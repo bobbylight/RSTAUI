@@ -49,6 +49,12 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 
 	/**
 	 * Constructor.
+	 *
+	 * @param model The combo box's model.
+	 * @param maxWidth The maximum width for this combo box.
+	 * @param replace Whether this is a "replace" combo box (as opposed to a
+	 *        "find" combo box).  This dictates what auto-complete choices the
+	 *        user is offered.
 	 */
 	public RegexAwareComboBox(ComboBoxModel model, int maxWidth,
 								boolean replace) {
@@ -185,7 +191,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	 * Toggles whether regex auto-complete is enabled.  This method will fire
 	 * a property change event of type
 	 * {@link ContentAssistable#ASSISTANCE_IMAGE}.
-	 * 
+	 *
 	 * @param enabled Whether regex auto complete should be enabled.
 	 * @see #isAutoCompleteEnabled()
 	 */
