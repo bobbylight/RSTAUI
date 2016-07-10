@@ -486,6 +486,7 @@ public class FindToolBar extends JPanel {
 		KeyStroke ks = KeyStroke.getKeyStroke("ENTER");
 		im.put(ks, "searchForward");
 		am.put("searchForward", new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				doSearch(true);
 			}
@@ -501,6 +502,7 @@ public class FindToolBar extends JPanel {
 		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ctrl);
 		im.put(ks, "searchBackward");
 		am.put("searchForward", new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				doSearch(false);
 			}
@@ -626,6 +628,7 @@ public class FindToolBar extends JPanel {
 	private class ToolBarListener extends MouseAdapter
 			implements ActionListener, PropertyChangeListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			Object source = e.getSource();
@@ -666,6 +669,7 @@ public class FindToolBar extends JPanel {
 			}
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent e) {
 
 			// A property changed on the context itself.
@@ -733,9 +737,11 @@ public class FindToolBar extends JPanel {
 
 		protected boolean selectAll;
 
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 		}
 
+		@Override
 		public void focusGained(FocusEvent e) {
 			JTextField field = (JTextField)e.getComponent();
 			if (selectAll) {
@@ -744,6 +750,7 @@ public class FindToolBar extends JPanel {
 			selectAll = true;
 		}
 
+		@Override
 		public void focusLost(FocusEvent e) {
 		}
 
@@ -766,6 +773,7 @@ public class FindToolBar extends JPanel {
 			}
 		}
 
+		@Override
 		public void insertUpdate(DocumentEvent e) {
 			handleDocumentEvent(e);
 		}
@@ -786,6 +794,7 @@ public class FindToolBar extends JPanel {
 			}
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e) {
 			handleDocumentEvent(e);
 		}
@@ -800,6 +809,7 @@ public class FindToolBar extends JPanel {
 	 */
 	private class MarkAllEventNotifier implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			fireMarkAllEvent();
 		}

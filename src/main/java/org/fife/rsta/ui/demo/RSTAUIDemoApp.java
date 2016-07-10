@@ -122,6 +122,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+	@Override
 	public String getSelectedText() {
 		return textArea.getSelectedText();
 	}
@@ -153,6 +154,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	 * Listens for events from our search dialogs and actually does the dirty
 	 * work.
 	 */
+	@Override
 	public void searchEvent(SearchEvent e) {
 
 		SearchEvent.Type type = e.getType();
@@ -205,6 +207,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -226,6 +229,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, c));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (findDialog.isVisible()) {
 				findDialog.setVisible(false);
@@ -259,6 +263,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 			this.info = info;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				UIManager.setLookAndFeel(info.getClassName());
@@ -285,6 +290,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, c));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (replaceDialog.isVisible()) {
 				replaceDialog.setVisible(false);
@@ -303,6 +309,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H, c));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (findDialog.isVisible()) {
 				findDialog.setVisible(false);

@@ -105,6 +105,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * Listens for actions in this search dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String command = e.getActionCommand();
@@ -586,6 +587,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	 */
 	private class SearchContextListener implements PropertyChangeListener {
 
+		@Override
 		public void propertyChange(PropertyChangeEvent e) {
 			handleSearchContextPropertyChanged(e);
 		}

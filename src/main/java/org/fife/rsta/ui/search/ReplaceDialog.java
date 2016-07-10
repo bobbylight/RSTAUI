@@ -520,6 +520,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	 */
 	private class ReplaceDocumentListener implements DocumentListener {
 
+		@Override
 		public void insertUpdate(DocumentEvent e) {
 			JTextComponent findWhatTextField =
 					UIUtil.getTextComponent(findTextCombo);
@@ -528,6 +529,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 			}
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e) {
 			JTextComponent findWhatTextField =
 					UIUtil.getTextComponent(findTextCombo);
@@ -542,6 +544,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 			}
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 		}
 

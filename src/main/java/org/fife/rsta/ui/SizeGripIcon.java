@@ -27,6 +27,7 @@ public class SizeGripIcon implements Icon {
 	 *
 	 * @return This icon's height.
 	 */
+	@Override
 	public int getIconHeight() {
 		return SIZE;
 	}
@@ -37,6 +38,7 @@ public class SizeGripIcon implements Icon {
 	 *
 	 * @return This icon's width.
 	 */
+	@Override
 	public int getIconWidth() {
 		return SIZE;
 	}
@@ -50,6 +52,7 @@ public class SizeGripIcon implements Icon {
 	 * @param x The x-coordinate at which to paint.
 	 * @param y The y-coordinate at which to paint.
 	 */
+	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 
 		Dimension dim = c.getSize();

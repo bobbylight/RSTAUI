@@ -106,6 +106,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 *
 	 * @param e The action event.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String command = e.getActionCommand();
@@ -426,6 +427,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	public void setVisible(boolean visible) {
 		if (visible) {
 			SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					filePathField.requestFocusInWindow();
 					filePathField.selectAll();
@@ -457,6 +459,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			}
 		}
 
+		@Override
 		public char current() {
 			if (index>=getEndIndex()) {
 				return DONE;
@@ -469,38 +472,46 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			}
 		}
 
+		@Override
 		public char first() {
 			index = getBeginIndex();
 			return current();
 		}
 
+		@Override
 		public int getBeginIndex() {
 			return 0;
 		}
 
+		@Override
 		public int getEndIndex() {
 			return doc.getLength();
 		}
 
+		@Override
 		public int getIndex() {
 			return index;
 		}
 
+		@Override
 		public char last() {
 			index = Math.max(0, getEndIndex() - 1);
 			return current();
 		}
 
+		@Override
 		public char next() {
 			index = Math.min(index+1, getEndIndex());
 			return current();
 		}
 
+		@Override
 		public char previous() {
 			index = Math.max(index-1, getBeginIndex());
 			return current();
 		}
 
+		@Override
 		public char setIndex(int pos) {
 			if (pos<getBeginIndex() || pos>getEndIndex()) {
 				throw new IllegalArgumentException("Illegal index: " + index);

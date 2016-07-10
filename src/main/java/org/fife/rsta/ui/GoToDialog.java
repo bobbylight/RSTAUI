@@ -289,6 +289,7 @@ public class GoToDialog extends EscapableDialog {
 			lineNumber = -1;
 			okButton.setEnabled(lineNumberField.getDocument().getLength()>0);
 			SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					lineNumberField.requestFocusInWindow();
 					lineNumberField.selectAll();
@@ -304,6 +305,7 @@ public class GoToDialog extends EscapableDialog {
 	 */
 	private class Listener implements ActionListener, DocumentListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (okButton==source) {
@@ -314,13 +316,16 @@ public class GoToDialog extends EscapableDialog {
 			}
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 		}
 
+		@Override
 		public void insertUpdate(DocumentEvent e) {
 			okButton.setEnabled(lineNumberField.getDocument().getLength()>0);
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e) {
 			okButton.setEnabled(lineNumberField.getDocument().getLength()>0);
 		}

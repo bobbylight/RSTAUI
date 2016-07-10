@@ -353,6 +353,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		KeyStroke ctrlF = KeyStroke.getKeyStroke(KeyEvent.VK_F, modifier);
 		im.put(ctrlF, "focusSearchForField");
 		am.put("focusSearchForField", new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AbstractFindReplaceDialog.this.requestFocus();
 			}

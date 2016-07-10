@@ -239,10 +239,12 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 */
 	private class FindDocumentListener implements DocumentListener {
 
+		@Override
 		public void insertUpdate(DocumentEvent e) {
 			handleToggleButtons();
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e) {
 			JTextComponent comp = UIUtil.getTextComponent(findTextCombo);
 			if (comp.getDocument().getLength()==0) {
@@ -253,6 +255,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 			}
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 		}
 
@@ -281,10 +284,12 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	private class FindKeyListener implements KeyListener {
 
 		// Listens for the user pressing a key down.
+		@Override
 		public void keyPressed(KeyEvent e) {
 		}
 
 		// Listens for a user releasing a key.
+		@Override
 		public void keyReleased(KeyEvent e) {
 
 			// This is an ugly hack to get around JComboBox's
@@ -303,6 +308,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		}
 
 		// Listens for a key being typed.
+		@Override
 		public void keyTyped(KeyEvent e) {
 		}
 

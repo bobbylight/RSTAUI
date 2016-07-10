@@ -94,6 +94,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	 *
 	 * @param e The change event.
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent e) {
 		Image img = (Image)e.getNewValue();
 		setAssistanceEnabled(img);
@@ -129,6 +130,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 		 *
 		 * @param e The focus event.
 		 */
+		@Override
 		public void focusGained(FocusEvent e) {
 			setShowIcon(true);
 		}
@@ -138,6 +140,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 		 *
 		 * @param e The focus event.
 		 */
+		@Override
 		public void focusLost(FocusEvent e) {
 			setShowIcon(false);
 		}

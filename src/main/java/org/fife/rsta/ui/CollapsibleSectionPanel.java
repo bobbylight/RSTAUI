@@ -121,6 +121,7 @@ public class CollapsibleSectionPanel extends JPanel {
 
 	private void createTimer() {
 		timer = new Timer(FRAME_MILLIS, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				tick++;
 				if (tick==totalTicks) {
@@ -363,6 +364,7 @@ public class CollapsibleSectionPanel extends JPanel {
 
 	private class HideBottomComponentAction extends AbstractAction {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			hideBottomComponent();
 		}
@@ -379,6 +381,7 @@ public class CollapsibleSectionPanel extends JPanel {
 			this.bci = bci;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			showBottomComponent(bci);
 		}
