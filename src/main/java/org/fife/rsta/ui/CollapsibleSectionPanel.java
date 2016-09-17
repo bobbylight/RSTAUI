@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * CollapsibleSectionPanel - A panel that can show or hide its contents.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -249,7 +250,7 @@ public class CollapsibleSectionPanel extends JPanel {
 	 */
 	public void setAnimationTime(int millis) {
 		if (millis<0) {
-			throw new IllegalArgumentException("millis must be > 0");
+			throw new IllegalArgumentException("millis must be >= 0");
 		}
 		totalTicks = Math.max(millis / FRAME_MILLIS, 1);
 	}
