@@ -58,6 +58,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	protected JCheckBox caseCheckBox;
 	protected JCheckBox wholeWordCheckBox;
 	protected JCheckBox regexCheckBox;
+	protected JCheckBox wrapCheckBox;
 	protected JPanel searchConditionsPanel;
 
 	/**
@@ -132,7 +133,11 @@ public class AbstractSearchDialog extends EscapableDialog
 		else if (command.equals("Cancel")) {
 			setVisible(false);
 		}
-
+		// They check/uncheck the "Wrap" checkbox on the Find dialog.
+		else if (command.equals("FlipWrap")) {
+			boolean wrap = wrapCheckBox.isSelected();
+			context.setSearchWrap(wrap);
+		}
 	}
 
 
@@ -292,6 +297,16 @@ public class AbstractSearchDialog extends EscapableDialog
 		return wholeWordCheckBox.getText();
 	}
 
+	/**
+	 * Returns the text for the "Wrap" check box.
+	 *
+	 * @return The text for the "Wrap" check box.
+	 * @see #setWrapCheckboxText
+	 */
+	public final String getWrapCheckboxText() {
+		return wrapCheckBox.getText();
+	}
+
 
 	/**
 	 * Called when the regex checkbox is clicked (or its value is modified
@@ -346,6 +361,10 @@ public class AbstractSearchDialog extends EscapableDialog
 				setSearchString(newValue);
 			}
 		}
+		else if (SearchContext.PROPERTY_SEARCH_WRAP.equals(prop)) {
+			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			wrapCheckBox.setSelected(newValue);
+		}
 
 	}
 
@@ -394,6 +413,9 @@ public class AbstractSearchDialog extends EscapableDialog
 		searchConditionsPanel.add(wholeWordCheckBox);
 		regexCheckBox = createCheckBox(msg, "RegEx");
 		searchConditionsPanel.add(regexCheckBox);
+
+		wrapCheckBox = createCheckBox(msg, "Wrap");
+		searchConditionsPanel.add(wrapCheckBox);
 
 		// Initialize any text fields.
 		findTextCombo = new SearchComboBox(null, false);
@@ -495,6 +517,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		this.caseCheckBox.setSelected(context.getMatchCase());
 		this.regexCheckBox.setSelected(context.isRegularExpression());
 		this.wholeWordCheckBox.setSelected(context.getWholeWord());
+		this.wrapCheckBox.setSelected(context.getSearchWrap());
 	}
 
 
@@ -581,6 +604,15 @@ public class AbstractSearchDialog extends EscapableDialog
 		wholeWordCheckBox.setText(text);
 	}
 
+	/**
+	 * Sets the text for the "Wrap" check box.
+	 *
+	 * @param text The text for the "Whole Word" check box.
+	 * @see #getWholeWordCheckboxText
+	 */
+	public final void setWrapCheckboxText(String text) {
+		wrapCheckBox.setText(text);
+	}
 
 	/**
 	 * Listens for properties changing in the search context.
