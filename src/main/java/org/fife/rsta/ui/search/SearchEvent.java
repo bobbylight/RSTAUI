@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * SearchEvent - The event fired for find/replace/mark all operations.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -45,7 +45,7 @@ public class SearchEvent extends EventObject {
 	/**
 	 * Types of search events.
 	 */
-	public static enum Type {
+	public enum Type {
 
 		/**
 		 * The event fired when the text to "mark all" has changed.
@@ -69,5 +69,5 @@ public class SearchEvent extends EventObject {
 		REPLACE_ALL;
 
 	}
-	
+
 }

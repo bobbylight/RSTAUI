@@ -67,8 +67,7 @@ public class GoToDialog extends EscapableDialog {
 	private int lineNumber;			// The line to go to, or -1 for Cancel.
 	private String errorDialogTitle;
 
-	private static final String MSG = "org.fife.rsta.ui.GoToDialog";
-	private static final ResourceBundle msg = ResourceBundle.getBundle(MSG);
+	private static final ResourceBundle MSG = ResourceBundle.getBundle("org.fife.rsta.ui.GoToDialog");
 
 
 	/**
@@ -116,15 +115,15 @@ public class GoToDialog extends EscapableDialog {
 		AbstractDocument doc = (AbstractDocument)lineNumberField.getDocument();
 		doc.addDocumentListener(l);
 		doc.setDocumentFilter(new NumberDocumentFilter());
-		JLabel label = UIUtil.newLabel(msg, "LineNumber", lineNumberField);
+		JLabel label = UIUtil.newLabel(MSG, "LineNumber", lineNumberField);
 		enterLineNumberPane.add(label);
 		enterLineNumberPane.add(Box.createHorizontalStrut(15));
 		enterLineNumberPane.add(lineNumberField);
 
 		// Make a panel containing the OK and Cancel buttons.
-		okButton = UIUtil.newButton(msg, "OK");
+		okButton = UIUtil.newButton(MSG, "OK");
 		okButton.addActionListener(l);
-		cancelButton = UIUtil.newButton(msg, "Cancel");
+		cancelButton = UIUtil.newButton(MSG, "Cancel");
 		cancelButton.addActionListener(l);
 		Container bottomPanel = createButtonPanel(okButton, cancelButton);
 
@@ -133,7 +132,7 @@ public class GoToDialog extends EscapableDialog {
 		contentPane.add(bottomPanel, BorderLayout.SOUTH);
 		JRootPane rootPane = getRootPane();
 		rootPane.setDefaultButton(okButton);
-		setTitle(msg.getString("GotoDialogTitle"));
+		setTitle(MSG.getString("GotoDialogTitle"));
 		setModal(true);
 		applyComponentOrientation(orientation);
 		pack();
@@ -201,7 +200,7 @@ public class GoToDialog extends EscapableDialog {
 	 */
 	protected void displayInvalidLineNumberMessage() {
 		JOptionPane.showMessageDialog(this,
-				msg.getString("LineNumberRange") + maxLineNumberAllowed + ".",
+				MSG.getString("LineNumberRange") + maxLineNumberAllowed + ".",
 				getErrorDialogTitle(),
 				JOptionPane.ERROR_MESSAGE);
 	}
@@ -227,7 +226,7 @@ public class GoToDialog extends EscapableDialog {
 	public String getErrorDialogTitle() {
 		String title = errorDialogTitle;
 		if (title==null) {
-			title = msg.getString("ErrorDialog.Title");
+			title = MSG.getString("ErrorDialog.Title");
 		}
 		return title;
 	}

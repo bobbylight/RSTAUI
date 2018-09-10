@@ -63,14 +63,14 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 	private TextEditorPane textArea;
 
-	private static final ResourceBundle msg = ResourceBundle.getBundle(
+	private static final ResourceBundle MSG = ResourceBundle.getBundle(
 							"org.fife.rsta.ui.TextFilePropertiesDialog");
 
 	private static final String[] LINE_TERMINATOR_LABELS = {
-		msg.getString("SysDef"),
-		msg.getString("CR"),
-		msg.getString("LF"),
-		msg.getString("CRLF"),
+		MSG.getString("SysDef"),
+		MSG.getString("CR"),
+		MSG.getString("LF"),
+		MSG.getString("CRLF"),
 	};
 
 	private static final String[] LINE_TERMINATORS = {
@@ -169,7 +169,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 	/**
 	 * Creates a "footer" component containing the OK and Cancel buttons.
-	 *  
+	 *
 	 * @param ok The OK button.
 	 * @param cancel The Cancel button.
 	 * @return The footer component for the dialog.
@@ -182,9 +182,9 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 		JPanel panel = new JPanel(new BorderLayout());
 		ComponentOrientation o = getComponentOrientation();
-		final int PADDING = 8;
-		int left = o.isLeftToRight() ? 0 : PADDING;
-		int right = o.isLeftToRight() ? PADDING : 0;
+		final int padding = 8;
+		int left = o.isLeftToRight() ? 0 : padding;
+		int right = o.isLeftToRight() ? padding : 0;
 		panel.setBorder(BorderFactory.createEmptyBorder(10, left, 0, right));
 		panel.add(buttonPanel, BorderLayout.LINE_END);
 		return panel;
@@ -200,7 +200,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 */
 	protected String createTitle(String fileName) {
 		return MessageFormat.format(
-			msg.getString("Title"), textArea.getFileName());
+			MSG.getString("Title"), textArea.getFileName());
 	}
 
 
@@ -211,7 +211,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 * @param file The file to get the size of.
 	 * @return The string.
 	 */
-	private static final String getFileSizeStringFor(File file) {
+	private static String getFileSizeStringFor(File file) {
 
 		int count = 0;
 		double tempSize = file.length();
@@ -219,7 +219,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 		// Keep dividing by 1024 until you get the largest unit that goes
 		// into this file's size.
-		while ( count<4 && ((tempSize = prevSize/1024f)>=1)) {
+		while (count<4 && ((tempSize = prevSize/1024f)>=1)) {
 			prevSize = tempSize;
 			count++;
 		}
@@ -266,17 +266,17 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		filePathField = new JTextField(40);
 		filePathField.setText(textArea.getFileFullPath());
 		filePathField.setEditable(false);
-		JLabel filePathLabel = UIUtil.newLabel(msg, "Path", filePathField);
+		JLabel filePathLabel = UIUtil.newLabel(MSG, "Path", filePathField);
 
-		JLabel linesLabel = new JLabel(msg.getString("Lines"));
+		JLabel linesLabel = new JLabel(MSG.getString("Lines"));
 		JLabel linesCountLabel = new JLabel(
 								Integer.toString(textArea.getLineCount()));
 
-		JLabel charsLabel = new JLabel(msg.getString("Characters"));
+		JLabel charsLabel = new JLabel(MSG.getString("Characters"));
 		JLabel charsCountLabel = new JLabel(
 						Integer.toString(textArea.getDocument().getLength()));
 
-		JLabel wordsLabel = new JLabel(msg.getString("Words"));
+		JLabel wordsLabel = new JLabel(MSG.getString("Words"));
 		JLabel wordsCountLabel = new JLabel(
 				Integer.toString(calculateWordCount(textArea)));
 
@@ -288,7 +288,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		setSelectedLineTerminator((String)textArea.getLineSeparator());
 		terminatorCombo.setActionCommand("TerminatorComboBox");
 		terminatorCombo.addActionListener(this);
-		JLabel terminatorLabel = UIUtil.newLabel(msg, "LineTerminator",
+		JLabel terminatorLabel = UIUtil.newLabel(MSG, "LineTerminator",
 				terminatorCombo);
 
 		encodingCombo = new JComboBox();
@@ -306,16 +306,16 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		setEncoding(textArea.getEncoding());
 		encodingCombo.setActionCommand("encodingCombo");
 		encodingCombo.addActionListener(this);
-		JLabel encodingLabel = UIUtil.newLabel(msg, "Encoding", encodingCombo);
+		JLabel encodingLabel = UIUtil.newLabel(MSG, "Encoding", encodingCombo);
 
-		JLabel sizeLabel = new JLabel(msg.getString("FileSize"));
+		JLabel sizeLabel = new JLabel(MSG.getString("FileSize"));
 		File file = new File(textArea.getFileFullPath());
 		String size = "";
 		if (file.exists() && !file.isDirectory()) {
 			size = getFileSizeStringFor(file);
 		}
 		JLabel sizeLabel2 = new JLabel(size);
-		
+
 		long temp = textArea.getLastSaveOrLoadTime();
 		String modifiedString;
 		if (temp<=0) { // 0 or -1, can be either
@@ -327,7 +327,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 					"hh:mm a  EEE, MMM d, yyyy");
 			modifiedString = sdf.format(modifiedDate);
 		}
-		JLabel modifiedLabel = new JLabel(msg.getString("LastModified"));
+		JLabel modifiedLabel = new JLabel(MSG.getString("LastModified"));
 		JLabel modified = new JLabel(modifiedString);
 
 		if (o.isLeftToRight()) {
@@ -354,11 +354,11 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		UIUtil.makeSpringCompactGrid(content2, 8,2, 0,0, 5,5);
 
 		// Make a panel for OK and cancel buttons.
-		okButton = UIUtil.newButton(msg, "OK");
+		okButton = UIUtil.newButton(MSG, "OK");
 		okButton.setActionCommand("OKButton");
 		okButton.addActionListener(this);
 		okButton.setEnabled(false);
-		JButton cancelButton = UIUtil.newButton(msg, "Cancel");
+		JButton cancelButton = UIUtil.newButton(MSG, "Cancel");
 		cancelButton.setActionCommand("CancelButton");
 		cancelButton.addActionListener(this);
 		Container buttons = createButtonFooter(okButton, cancelButton);
@@ -438,13 +438,16 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	}
 
 
+    /**
+     * Iterates over each character in a document.
+     */
 	private static class DocumentCharIterator implements CharacterIterator {
 
 		private Document doc;
 		private int index;
 		private Segment s;
 
-		public DocumentCharIterator(Document doc) {
+		DocumentCharIterator(Document doc) {
 			this.doc = doc;
 			index = 0;
 			s = new Segment();
@@ -519,7 +522,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			index = pos;
 			return current();
 		}
-		
+
 	}
 
 

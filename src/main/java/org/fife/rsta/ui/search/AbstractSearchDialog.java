@@ -74,7 +74,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	// Miscellaneous other stuff.
 	protected JButton cancelButton;
 
-	private static final ResourceBundle msg = ResourceBundle.
+	private static final ResourceBundle MSG = ResourceBundle.
 			getBundle("org.fife.rsta.ui.search.Search");
 
 
@@ -164,8 +164,9 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @return The border.
 	 */
 	protected Border createTitledBorder(String title) {
-		if (title!=null && title.charAt(title.length()-1)!=':')
-			title += ":";
+		if (title!=null && title.charAt(title.length()-1)!=':') {
+            title += ":";
+        }
 		return BorderFactory.createTitledBorder(title);
 	}
 
@@ -200,7 +201,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	protected ResourceBundle getBundle() {
-		return msg;
+		return MSG;
 	}
 
 
@@ -278,7 +279,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	public static String getString(String key) {
-		return msg.getString(key);
+		return MSG.getString(key);
 	}
 
 
@@ -388,11 +389,11 @@ public class AbstractSearchDialog extends EscapableDialog
 		searchConditionsPanel = new JPanel();
 		searchConditionsPanel.setLayout(new BoxLayout(
 						searchConditionsPanel, BoxLayout.Y_AXIS));
-		caseCheckBox = createCheckBox(msg, "MatchCase");
+		caseCheckBox = createCheckBox(MSG, "MatchCase");
 		searchConditionsPanel.add(caseCheckBox);
-		wholeWordCheckBox = createCheckBox(msg, "WholeWord");
+		wholeWordCheckBox = createCheckBox(MSG, "WholeWord");
 		searchConditionsPanel.add(wholeWordCheckBox);
-		regexCheckBox = createCheckBox(msg, "RegEx");
+		regexCheckBox = createCheckBox(MSG, "RegEx");
 		searchConditionsPanel.add(regexCheckBox);
 
 		// Initialize any text fields.
@@ -473,10 +474,14 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		try {
 			wsBefore = Character.isWhitespace(searchIn.charAt(offset - 1));
-		} catch (IndexOutOfBoundsException e) { wsBefore = true; }
+		} catch (IndexOutOfBoundsException e) {
+		    wsBefore = true;
+		}
 		try {
 			wsAfter  = Character.isWhitespace(searchIn.charAt(offset + len));
-		} catch (IndexOutOfBoundsException e) { wsAfter = true; }
+		} catch (IndexOutOfBoundsException e) {
+		    wsAfter = true;
+		}
 
 		return wsBefore && wsAfter;
 

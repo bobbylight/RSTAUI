@@ -133,8 +133,9 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 			tc = UIUtil.getTextComponent(replaceWithCombo);
 			String replaceText = tc.getText();
-			if (replaceText.length()!=0)
-				replaceWithCombo.addItem(replaceText);
+			if (replaceText.length()!=0) {
+                replaceWithCombo.addItem(replaceText);
+            }
 
 			fireSearchEvent(e); // Let parent application know
 

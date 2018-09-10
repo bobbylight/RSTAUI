@@ -250,6 +250,9 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	}
 
 
+    /**
+     * A completion representing a regular expression.
+     */
 	private static class RegexCompletion extends BasicCompletion {
 
 		private String inputText;
@@ -263,7 +266,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 		 * @param shortDesc A short description of the completion.  This will be
 		 *        displayed in the completion list.
 		 */
-		public RegexCompletion(CompletionProvider provider, String inputText,
+		RegexCompletion(CompletionProvider provider, String inputText,
 								String replacementText, String shortDesc) {
 			super(provider, replacementText, shortDesc);
 			this.inputText = inputText;

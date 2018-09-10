@@ -151,7 +151,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	 * Notifies all listeners that have registered interest for notification on
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
-	 * 
+	 *
 	 * @param event The <code>ActionEvent</code> object coming from a
 	 *        child component.
 	 */

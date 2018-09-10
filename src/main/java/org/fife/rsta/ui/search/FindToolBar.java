@@ -81,9 +81,9 @@ public class FindToolBar extends JPanel {
 	 */
 	private boolean settingFindTextFromEvent;
 
-	protected static final ResourceBundle searchMsg = ResourceBundle.getBundle(
+	protected static final ResourceBundle SEARCH_MSG = ResourceBundle.getBundle(
 			"org.fife.rsta.ui.search.Search");
-	protected static final ResourceBundle msg = ResourceBundle.getBundle(
+	protected static final ResourceBundle MSG = ResourceBundle.getBundle(
 			"org.fife.rsta.ui.search.SearchToolBar");
 
 	/**
@@ -177,7 +177,7 @@ public class FindToolBar extends JPanel {
 
 
 	protected JCheckBox createCB(String key) {
-		JCheckBox cb = new JCheckBox(searchMsg.getString(key));
+		JCheckBox cb = new JCheckBox(SEARCH_MSG.getString(key));
 		cb.addActionListener(listener);
 		cb.addMouseListener(listener);
 		return cb;
@@ -219,20 +219,20 @@ public class FindToolBar extends JPanel {
 	 */
 	protected void createFindButtons() {
 
-		findPrevButton = new JButton(msg.getString("FindPrev"));
+		findPrevButton = new JButton(MSG.getString("FindPrev"));
 		makeEnterActivateButton(findPrevButton);
 		findPrevButton.setActionCommand("FindPrevious");
 		findPrevButton.addActionListener(listener);
 		findPrevButton.setEnabled(false);
 
-		findButton = new JButton(searchMsg.getString("Find")) {
+		findButton = new JButton(SEARCH_MSG.getString("Find")) {
 			@Override
 			public Dimension getPreferredSize() {
 				return findPrevButton.getPreferredSize(); // Always bigger
 			}
 		};
 		makeEnterActivateButton(findButton);
-		findButton.setToolTipText(msg.getString("Find.ToolTip"));
+		findButton.setToolTipText(MSG.getString("Find.ToolTip"));
 		findButton.setActionCommand("FindNext");
 		findButton.addActionListener(listener);
 		findButton.setEnabled(false);

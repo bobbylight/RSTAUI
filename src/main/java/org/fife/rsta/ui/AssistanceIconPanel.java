@@ -36,14 +36,14 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	 * The tool tip text for the light bulb icon.  It is assumed that access
 	 * to this field is single-threaded (on the EDT).
 	 */
-	private static String ASSISTANCE_AVAILABLE;
+	private static String assistanceAvailable;
 
 
 	/**
 	 * Constructor.
 	 *
 	 * @param comp The component to listen to.  This can be <code>null</code>
-	 *        to create a "filler" icon panel for alignment purposes.  
+	 *        to create a "filler" icon panel for alignment purposes.
 	 */
 	public AssistanceIconPanel(JComponent comp) {
 
@@ -80,10 +80,10 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	 * @return The text.
 	 */
 	static String getAssistanceAvailableText() {
-		if (ASSISTANCE_AVAILABLE==null) {
-			ASSISTANCE_AVAILABLE = AbstractSearchDialog.getString("ContentAssistAvailable");
+		if (assistanceAvailable ==null) {
+			assistanceAvailable = AbstractSearchDialog.getString("ContentAssistAvailable");
 		}
-		return ASSISTANCE_AVAILABLE;
+		return assistanceAvailable;
 	}
 
 

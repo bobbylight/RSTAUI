@@ -56,7 +56,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		contentPane.add(csp);
 
 		setJMenuBar(createMenuBar());
-		
+
 		textArea = new RSyntaxTextArea(25, 80);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setCodeFoldingEnabled(true);
@@ -221,9 +221,12 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+    /**
+     * Opens the "Go to Line" dialog.
+     */
 	private class GoToLineAction extends AbstractAction {
 
-		public GoToLineAction() {
+		GoToLineAction() {
 			super("Go To Line...");
 			int c = getToolkit().getMenuShortcutKeyMask();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, c));
@@ -254,11 +257,14 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+    /**
+     * Changes the Look and Feel.
+     */
 	private class LookAndFeelAction extends AbstractAction {
 
 		private LookAndFeelInfo info;
 
-		public LookAndFeelAction(LookAndFeelInfo info) {
+		LookAndFeelAction(LookAndFeelInfo info) {
 			putValue(NAME, info.getName());
 			this.info = info;
 		}
@@ -282,9 +288,12 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+    /**
+     * Shows the Find dialog.
+     */
 	private class ShowFindDialogAction extends AbstractAction {
-		
-		public ShowFindDialogAction() {
+
+		ShowFindDialogAction() {
 			super("Find...");
 			int c = getToolkit().getMenuShortcutKeyMask();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, c));
@@ -301,9 +310,12 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+    /**
+     * Shows the Replace dialog.
+     */
 	private class ShowReplaceDialogAction extends AbstractAction {
-		
-		public ShowReplaceDialogAction() {
+
+		ShowReplaceDialogAction() {
 			super("Replace...");
 			int c = getToolkit().getMenuShortcutKeyMask();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H, c));
@@ -320,18 +332,21 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+    /**
+     * The status bar for this application.
+     */
 	private static class StatusBar extends JPanel {
 
 		private JLabel label;
 
-		public StatusBar() {
+		StatusBar() {
 			label = new JLabel("Ready");
 			setLayout(new BorderLayout());
 			add(label, BorderLayout.LINE_START);
 			add(new JLabel(new SizeGripIcon()), BorderLayout.LINE_END);
 		}
 
-		public void setLabel(String label) {
+		void setLabel(String label) {
 			this.label.setText(label);
 		}
 

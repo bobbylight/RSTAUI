@@ -298,7 +298,7 @@ public class CollapsibleSectionPanel extends JPanel {
 
 
 	/**
-	 * Displays a previously-registered "bottom component."
+	 * Displays a previously-registered "bottom component".
 	 *
 	 * @param comp A previously registered component.
 	 * @see #addBottomComponent(JComponent)
@@ -337,22 +337,22 @@ public class CollapsibleSectionPanel extends JPanel {
 
 
 	/**
-	 * Information about a "bottom component."
+	 * Information about a "bottom component".
 	 */
 	private static class BottomComponentInfo {
 
 		private JComponent component;
-		private Dimension _preferredSize;
+		private Dimension preferredSize;
 
-		public BottomComponentInfo(JComponent component) {
+		BottomComponentInfo(JComponent component) {
 			this.component = component;
 		}
 
-		public Dimension getRealPreferredSize() {
-			if (_preferredSize==null) {
-				_preferredSize = component.getPreferredSize();
+		Dimension getRealPreferredSize() {
+			if (preferredSize == null) {
+				preferredSize = component.getPreferredSize();
 			}
-			return _preferredSize;
+			return preferredSize;
 		}
 
 		private void uiUpdated() {
@@ -363,6 +363,9 @@ public class CollapsibleSectionPanel extends JPanel {
 	}
 
 
+    /**
+     * Hides the bottom component.
+     */
 	private class HideBottomComponentAction extends AbstractAction {
 
 		@Override
@@ -373,11 +376,14 @@ public class CollapsibleSectionPanel extends JPanel {
 	}
 
 
+    /**
+     * Shows the bottom component.
+     */
 	private class ShowBottomComponentAction extends AbstractAction {
 
 		private BottomComponentInfo bci;
 
-		public ShowBottomComponentAction(KeyStroke ks, BottomComponentInfo bci){
+		ShowBottomComponentAction(KeyStroke ks, BottomComponentInfo bci){
 			putValue(ACCELERATOR_KEY, ks);
 			this.bci = bci;
 		}

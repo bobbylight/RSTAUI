@@ -24,7 +24,7 @@ public interface ContentAssistable {
 	 * changes.  This will either be <code>null</code> for "no image," or
 	 * a <code>java.awt.Image</code>.
 	 */
-	public static final String ASSISTANCE_IMAGE	= "AssistanceImage";
+	String ASSISTANCE_IMAGE	= "AssistanceImage";
 
 
 }

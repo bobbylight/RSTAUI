@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * ReplaceToolBar - A tool bar for "replace" operations in text areas.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -124,8 +124,8 @@ public class ReplaceToolBar extends FindToolBar {
 
 		JPanel temp = new JPanel(new SpringLayout());
 
-		JLabel findLabel = new JLabel(msg.getString("FindWhat"));
-		JLabel replaceLabel = new JLabel(msg.getString("ReplaceWith"));
+		JLabel findLabel = new JLabel(MSG.getString("FindWhat"));
+		JLabel replaceLabel = new JLabel(MSG.getString("ReplaceWith"));
 
 		findCombo = new SearchComboBox(this, false);
 		JTextComponent findField = UIUtil.getTextComponent(findCombo);
@@ -165,14 +165,14 @@ public class ReplaceToolBar extends FindToolBar {
 
 		super.createFindButtons();
 
-		replaceButton = new JButton(searchMsg.getString("Replace"));
+		replaceButton = new JButton(SEARCH_MSG.getString("Replace"));
 		makeEnterActivateButton(replaceButton);
-		replaceButton.setToolTipText(msg.getString("Replace.ToolTip"));
+		replaceButton.setToolTipText(MSG.getString("Replace.ToolTip"));
 		replaceButton.setActionCommand("Replace");
 		replaceButton.addActionListener(listener);
 		replaceButton.setEnabled(false);
 
-		replaceAllButton = new JButton(searchMsg.getString("ReplaceAll"));
+		replaceAllButton = new JButton(SEARCH_MSG.getString("ReplaceAll"));
 		makeEnterActivateButton(replaceAllButton);
 		replaceAllButton.setActionCommand("ReplaceAll");
 		replaceAllButton.addActionListener(listener);

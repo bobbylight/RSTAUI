@@ -2,7 +2,7 @@
  * 09/20/2013
  *
  * SearchUtil - Utility methods for this package.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -15,8 +15,14 @@ package org.fife.rsta.ui.search;
  * @author Robert Futrell
  * @version 1.0
  */
-class SearchUtil {
+final class SearchUtil {
 
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private SearchUtil() {
+    }
 
 	/**
 	 * Formats an error message from a find/replace button enable result for
@@ -27,7 +33,7 @@ class SearchUtil {
 	 * @return The tool tip, or <code>null</code> if no error message was
 	 *         specified in <code>res</code>.
 	 */
-	public static final String getToolTip(FindReplaceButtonsEnableResult res) {
+	public static String getToolTip(FindReplaceButtonsEnableResult res) {
 		String tooltip = res.getError();
 		if (tooltip!=null && tooltip.indexOf('\n')>-1) {
 			tooltip = tooltip.replaceFirst("\\\n", "</b><br><pre>");

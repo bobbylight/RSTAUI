@@ -35,7 +35,7 @@ import javax.swing.text.JTextComponent;
  * @author Robert Futrell
  * @version 1.0
  */
-public class UIUtil {
+public final class UIUtil {
 
 	private static boolean desktopCreationAttempted;
 	private static Object desktop;
@@ -135,7 +135,7 @@ public class UIUtil {
 	 * @return The spring constraints for the specified component contained
 	 *         in <code>parent</code>.
 	 */
-	private static final SpringLayout.Constraints getConstraintsForCell(
+	private static SpringLayout.Constraints getConstraintsForCell(
 										int row, int col,
 										Container parent, int cols) {
 		SpringLayout layout = (SpringLayout) parent.getLayout();
@@ -203,7 +203,7 @@ public class UIUtil {
 	 *
 	 * @return The color to use.
 	 */
-	public static final Color getErrorTextForeground() {
+	public static Color getErrorTextForeground() {
 		Color defaultFG = UIManager.getColor("TextField.foreground");
 		if (defaultFG.getRed()>=160 && defaultFG.getGreen()>=160 &&
 				defaultFG.getBlue()>=160) {
@@ -215,12 +215,12 @@ public class UIUtil {
 
 	/**
 	 * Returns the mnemonic specified by the given key in a resource bundle.
-	 * 
+	 *
 	 * @param msg The resource bundle.
 	 * @param key The key for the mnemonic.
 	 * @return The mnemonic, or <code>0</code> if not found.
 	 */
-	public static final int getMnemonic(ResourceBundle msg, String key) {
+	public static int getMnemonic(ResourceBundle msg, String key) {
 		int mnemonic = 0;
 		try {
 			Object value = msg.getObject(key);
@@ -240,7 +240,7 @@ public class UIUtil {
 	 * @param combo The combo box.
 	 * @return The text component.
 	 */
-	public static final JTextComponent getTextComponent(JComboBox combo) {
+	public static JTextComponent getTextComponent(JComboBox combo) {
 		return (JTextComponent)combo.getEditor().getEditorComponent();
 	}
 
@@ -264,7 +264,7 @@ public class UIUtil {
 	 * @param xPad The x-padding between cells.
 	 * @param yPad The y-padding between cells.
 	 */
-	public static final void makeSpringCompactGrid(Container parent, int rows,
+	public static void makeSpringCompactGrid(Container parent, int rows,
 								int cols, int initialX, int initialY,
 								int xPad, int yPad) {
 
@@ -329,7 +329,7 @@ public class UIUtil {
 	 * @param key The key into the bundle containing the string text value.
 	 * @return The button.
 	 */
-	public static final JButton newButton(ResourceBundle bundle, String key) {
+	public static JButton newButton(ResourceBundle bundle, String key) {
 		JButton b = new JButton(bundle.getString(key));
 		b.setMnemonic(getMnemonic(bundle, key + ".Mnemonic"));
 		return b;
@@ -346,7 +346,7 @@ public class UIUtil {
 	 * @param labelFor The component the label is labeling.
 	 * @return The <code>JLabel</code>.
 	 */
-	public static final JLabel newLabel(ResourceBundle msg, String key,
+	public static JLabel newLabel(ResourceBundle msg, String key,
 			Component labelFor) {
 		JLabel label = new JLabel(msg.getString(key));
 		String mnemonicKey = key + ".Mnemonic";

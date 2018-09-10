@@ -88,8 +88,9 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 * Ensures the number if items remembered by this combo box is valid.
 	 */
 	private void ensureValidItemCount() {
-		while (getSize()>maxNumElements)
-			removeElementAt(getSize()-1);
+		while (getSize()>maxNumElements) {
+            removeElementAt(getSize() - 1);
+        }
 	}
 
 
