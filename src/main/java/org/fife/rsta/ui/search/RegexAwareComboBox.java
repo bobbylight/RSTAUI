@@ -23,10 +23,11 @@ import org.fife.ui.autocomplete.DefaultCompletionProvider;
 /**
  * A combo box that offers content assistance for regular expressions.
  *
+ * @param <E> The type of item in the combo box.
  * @author Robert Futrell
  * @version 1.0
  */
-public class RegexAwareComboBox extends MaxWidthComboBox
+public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 		implements ContentAssistable {
 
 	private boolean enabled;
@@ -43,7 +44,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	 *        user is offered.
 	 */
 	public RegexAwareComboBox(boolean replace) {
-		this(new RComboBoxModel(), 200, replace);
+		this(new RComboBoxModel<>(), 200, replace);
 	}
 
 
@@ -56,7 +57,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	 *        "find" combo box).  This dictates what auto-complete choices the
 	 *        user is offered.
 	 */
-	public RegexAwareComboBox(ComboBoxModel model, int maxWidth,
+	public RegexAwareComboBox(ComboBoxModel<E> model, int maxWidth,
 								boolean replace) {
 		super(model, maxWidth);
 		setEditable(true);
@@ -172,7 +173,7 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 	 * @return Whether any windows were visible.
 	 */
 	public boolean hideAutoCompletePopups() {
-		return ac==null ? false : ac.hideChildWindows();
+		return ac != null && ac.hideChildWindows();
 	}
 
 
@@ -272,17 +273,11 @@ public class RegexAwareComboBox extends MaxWidthComboBox
 			this.inputText = inputText;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String getInputText() {
 			return inputText;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public String toString() {
 			return getShortDescription();

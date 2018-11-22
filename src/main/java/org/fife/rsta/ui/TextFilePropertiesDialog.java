@@ -57,8 +57,8 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	private static final long serialVersionUID = 1L;
 
 	private JTextField filePathField;
-	private JComboBox terminatorCombo;
-	private JComboBox encodingCombo;
+	private JComboBox<String> terminatorCombo;
+	private JComboBox<String> encodingCombo;
 	private JButton okButton;
 
 	private TextEditorPane textArea;
@@ -280,7 +280,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		JLabel wordsCountLabel = new JLabel(
 				Integer.toString(calculateWordCount(textArea)));
 
-		terminatorCombo = new JComboBox(LINE_TERMINATOR_LABELS);
+		terminatorCombo = new JComboBox<>(LINE_TERMINATOR_LABELS);
 		if (textArea.isReadOnly()) {
 			terminatorCombo.setEnabled(false);
 		}
@@ -291,7 +291,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		JLabel terminatorLabel = UIUtil.newLabel(MSG, "LineTerminator",
 				terminatorCombo);
 
-		encodingCombo = new JComboBox();
+		encodingCombo = new JComboBox<>();
 		if (textArea.isReadOnly()) {
 			encodingCombo.setEnabled(false);
 		}

@@ -21,10 +21,11 @@ import javax.swing.JComboBox;
  * too large and the GUI looks ugly.  With this class you can set a maximum
  * width for the combo box, and its height will never be affected.
  *
+ * @param <E> The type of item in the combo box.
  * @author Robert Futrell
  * @version 0.5
  */
-public class MaxWidthComboBox extends JComboBox {
+public class MaxWidthComboBox<E> extends JComboBox<E> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,7 +51,7 @@ public class MaxWidthComboBox extends JComboBox {
 	 * @param model The model for this combo box.
 	 * @param maxWidth The maximum width for this combo box.
 	 */
-	public MaxWidthComboBox(ComboBoxModel model, int maxWidth) {
+	public MaxWidthComboBox(ComboBoxModel<E> model, int maxWidth) {
 		super(model);
 		this.maxWidth = maxWidth;
 	}

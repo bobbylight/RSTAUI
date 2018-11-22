@@ -26,7 +26,7 @@ import org.fife.rsta.ui.UIUtil;
  */
 // NOTE: This class is public to facilitate applications creating other
 // subclasses, such as a FindInFilesDialog.
-public class SearchComboBox extends RegexAwareComboBox {
+public class SearchComboBox extends RegexAwareComboBox<String> {
 
 	private FindToolBar toolBar;
 
@@ -55,7 +55,7 @@ public class SearchComboBox extends RegexAwareComboBox {
 	 * @param item The item to add.
 	 */
 	@Override
-	public void addItem(Object item) {
+	public void addItem(String item) {
 
 		// If they just searched for an item that's already in the list
 		// other than the first, move it to the first position.
@@ -73,7 +73,7 @@ public class SearchComboBox extends RegexAwareComboBox {
 	}
 
 
-	private int getIndexOf(Object item) {
+	private int getIndexOf(String item) {
 		for (int i=0; i<dataModel.getSize(); i++) {
 			if (dataModel.getElementAt(i).equals(item)) {
 				return i;
@@ -114,16 +114,16 @@ public class SearchComboBox extends RegexAwareComboBox {
 		// If they just searched for an item that's already in the list other
 		// than the first, move it to the first position.
 		else if (selectedIndex>0) {
-			Object item = getSelectedItem();
+			String item = (String)getSelectedItem();
 			removeItem(item);
 			insertItemAt(item, 0);
 			setSelectedIndex(0);
 		}
 
 		int itemCount = getItemCount();
-		Vector<String> vector = new Vector<String>(itemCount);
+		Vector<String> vector = new Vector<>(itemCount);
 		for (int i=0; i<itemCount; i++) {
-			vector.add((String)getItemAt(i));
+			vector.add(getItemAt(i));
 		}
 
 		return vector;
