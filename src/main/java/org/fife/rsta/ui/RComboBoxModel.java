@@ -29,7 +29,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author Robert Futrell
  * @version 0.8
  */
-public class RComboBoxModel extends DefaultComboBoxModel {
+public class RComboBoxModel<E> extends DefaultComboBoxModel<E> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 *
 	 * @param items The initial items to use to populate the combo box.
 	 */
-	public RComboBoxModel(Object[] items) {
+	public RComboBoxModel(E[] items) {
 		super(items);
 		setMaxNumElements(8);
 	}
@@ -66,7 +66,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 *
 	 * @param v The initial items to use to populate the combo box.
 	 */
-	public RComboBoxModel(Vector<?> v) {
+	public RComboBoxModel(Vector<E> v) {
 		super(v);
 		setMaxNumElements(8);
 	}
@@ -79,7 +79,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 * @param anObject The object to add.
 	 */
 	@Override
-	public void addElement(Object anObject) {
+	public void addElement(E anObject) {
 		insertElementAt(anObject, 0);
 	}
 
@@ -113,7 +113,7 @@ public class RComboBoxModel extends DefaultComboBoxModel {
 	 * @param index Location to add the object.
 	 */
 	@Override
-	public void insertElementAt(Object anObject, int index) {
+	public void insertElementAt(E anObject, int index) {
 
 		int oldPos = getIndexOf(anObject);
 		if (oldPos==index) { // Already at the desired location.

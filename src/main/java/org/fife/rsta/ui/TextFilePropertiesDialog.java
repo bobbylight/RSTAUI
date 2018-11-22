@@ -426,12 +426,9 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					filePathField.requestFocusInWindow();
-					filePathField.selectAll();
-				}
+			SwingUtilities.invokeLater(() -> {
+				filePathField.requestFocusInWindow();
+				filePathField.selectAll();
 			});
 		}
 		super.setVisible(visible);

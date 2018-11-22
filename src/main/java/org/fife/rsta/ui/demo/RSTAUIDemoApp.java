@@ -206,17 +206,14 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		SwingUtilities.invokeLater(() -> {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //					UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				new RSTAUIDemoApp().setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			new RSTAUIDemoApp().setVisible(true);
 		});
 	}
 
