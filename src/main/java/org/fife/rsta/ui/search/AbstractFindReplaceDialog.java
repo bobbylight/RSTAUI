@@ -244,13 +244,13 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		String prop = e.getPropertyName();
 
 		if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean) e.getNewValue();
 			JRadioButton button = newValue ? downButton : upButton;
 			button.setSelected(true);
 		}
 
 		else if (SearchContext.PROPERTY_MARK_ALL.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean) e.getNewValue();
 			markAllCheckBox.setSelected(newValue);
 		}
 

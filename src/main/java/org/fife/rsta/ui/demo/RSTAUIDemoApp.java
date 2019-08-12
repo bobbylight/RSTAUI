@@ -112,8 +112,8 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		menu = new JMenu("LookAndFeel");
 		ButtonGroup bg = new ButtonGroup();
 		LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
-		for (int i=0; i<infos.length; i++) {
-			addItem(new LookAndFeelAction(infos[i]), bg, menu);
+		for (LookAndFeelInfo info : infos) {
+			addItem(new LookAndFeelAction(info), bg, menu);
 		}
 		mb.add(menu);
 
@@ -159,7 +159,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		SearchEvent.Type type = e.getType();
 		SearchContext context = e.getSearchContext();
-		SearchResult result = null;
+		SearchResult result;
 
 		switch (type) {
 			default: // Prevent FindBugs warning later
@@ -185,7 +185,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 				break;
 		}
 
-		String text = null;
+		String text;
 		if (result.wasFound()) {
 			text = "Text found; occurrences marked: " + result.getMarkedCount();
 		}

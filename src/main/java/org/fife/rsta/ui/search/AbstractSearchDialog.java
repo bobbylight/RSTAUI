@@ -111,26 +111,29 @@ public class AbstractSearchDialog extends EscapableDialog
 		String command = e.getActionCommand();
 
 		// They check/uncheck the "Match Case" checkbox on the Find dialog.
-		if (command.equals("FlipMatchCase")) {
-			boolean matchCase = caseCheckBox.isSelected();
-			context.setMatchCase(matchCase);
-		}
+		switch (command) {
 
-		// They check/uncheck the "Whole word" checkbox on the Find dialog.
-		else if (command.equals("FlipWholeWord")) {
-			boolean wholeWord = wholeWordCheckBox.isSelected();
-			context.setWholeWord(wholeWord);
-		}
+			case "FlipMatchCase":
+				boolean matchCase = caseCheckBox.isSelected();
+				context.setMatchCase(matchCase);
+				break;
 
-		// They check/uncheck the "Regular expression" checkbox.
-		else if (command.equals("FlipRegEx")) {
-			boolean useRegEx = regexCheckBox.isSelected();
-			context.setRegularExpression(useRegEx);
-		}
+			// They check/uncheck the "Whole word" checkbox on the Find dialog.
+			case "FlipWholeWord":
+				boolean wholeWord = wholeWordCheckBox.isSelected();
+				context.setWholeWord(wholeWord);
+				break;
 
-		// If they press the "Cancel" button.
-		else if (command.equals("Cancel")) {
-			setVisible(false);
+			// They check/uncheck the "Regular expression" checkbox.
+			case "FlipRegEx":
+				boolean useRegEx = regexCheckBox.isSelected();
+				context.setRegularExpression(useRegEx);
+				break;
+
+			// If they press the "Cancel" button.
+			case "Cancel":
+				setVisible(false);
+				break;
 		}
 
 	}
@@ -319,11 +322,11 @@ public class AbstractSearchDialog extends EscapableDialog
 		String prop = e.getPropertyName();
 
 		if (SearchContext.PROPERTY_MATCH_CASE.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean) e.getNewValue();
 			caseCheckBox.setSelected(newValue);
 		}
 		else if (SearchContext.PROPERTY_MATCH_WHOLE_WORD.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean) e.getNewValue();
 			wholeWordCheckBox.setSelected(newValue);
 		}
 		//else if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
@@ -335,7 +338,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		//	...
 		//}
 		else if (SearchContext.PROPERTY_USE_REGEX.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean) e.getNewValue();
 			regexCheckBox.setSelected(newValue);
 			handleRegExCheckBoxClicked();
 		}
@@ -418,7 +421,7 @@ public class AbstractSearchDialog extends EscapableDialog
 			if (regexCheckBox.isSelected()) {
 				int flags = Pattern.MULTILINE; // '^' and '$' are done per line.
 				flags = RSyntaxUtilities.getPatternFlags(matchCase, flags);
-				Pattern pattern = null;
+				Pattern pattern;
 				try {
 					pattern = Pattern.compile(searchFor, flags);
 				} catch (PatternSyntaxException pse) {
@@ -467,8 +470,8 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * @param len The length of the possible word.
 	 * @return Whether the specified range represents a "whole word".
 	 */
-	public static final boolean isWholeWord(CharSequence searchIn,
-											int offset, int len) {
+	public static boolean isWholeWord(CharSequence searchIn,
+									  int offset, int len) {
 
 		boolean wsBefore, wsAfter;
 

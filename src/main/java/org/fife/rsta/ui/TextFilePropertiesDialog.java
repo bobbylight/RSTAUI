@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.BreakIterator;
 import java.text.CharacterIterator;
 import java.text.MessageFormat;
@@ -385,7 +386,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 		int count = encodingCombo.getItemCount();
 		for (int i=0; i<count; i++) {
-			String item = (String)encodingCombo.getItemAt(i);
+			String item = encodingCombo.getItemAt(i);
 			Charset cs2 = Charset.forName(item);
 			if (cs1.equals(cs2)) {
 				encodingCombo.setSelectedIndex(i);
@@ -394,9 +395,9 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		}
 
 		// Encoding not found: select default.
-		cs1 = Charset.forName("US-ASCII");
+		cs1 = StandardCharsets.US_ASCII;
 		for (int i=0; i<count; i++) {
-			String item = (String)encodingCombo.getItemAt(i);
+			String item = encodingCombo.getItemAt(i);
 			Charset cs2 = Charset.forName(item);
 			if (cs1.equals(cs2)) {
 				encodingCombo.setSelectedIndex(i);

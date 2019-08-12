@@ -12,7 +12,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,7 @@ public class CollapsibleSectionPanel extends JPanel {
 	 */
 	public CollapsibleSectionPanel(boolean animate) {
 		super(new BorderLayout());
-		bottomComponentInfos = new ArrayList<BottomComponentInfo>();
+		bottomComponentInfos = new ArrayList<>();
 		installKeystrokes();
 		this.animate = animate;
 	}
@@ -121,43 +120,40 @@ public class CollapsibleSectionPanel extends JPanel {
 
 
 	private void createTimer() {
-		timer = new Timer(FRAME_MILLIS, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tick++;
-				if (tick==totalTicks) {
-					timer.stop();
-					timer = null;
-					tick = 0;
-					Dimension finalSize = down ?
-							new Dimension(0, 0) : currentBci.getRealPreferredSize();
-					currentBci.component.setPreferredSize(finalSize);
-					if (down) {
-						remove(currentBci.component);
-						currentBci = null;
-					}
+		timer = new Timer(FRAME_MILLIS, e -> {
+			tick++;
+			if (tick==totalTicks) {
+				timer.stop();
+				timer = null;
+				tick = 0;
+				Dimension finalSize = down ?
+						new Dimension(0, 0) : currentBci.getRealPreferredSize();
+				currentBci.component.setPreferredSize(finalSize);
+				if (down) {
+					remove(currentBci.component);
+					currentBci = null;
 				}
-				else {
-					if (firstTick) {
-						if (down) {
-							focusMainComponent();
-						}
-						else {
-							// We assume here that the component has some
-							// focusable child we want to play with
-							currentBci.component.requestFocusInWindow();
-						}
-						firstTick = false;
-					}
-					float proportion = !down ? (((float)tick)/totalTicks) :
-						(1f- (((float)tick)/totalTicks));
-					Dimension size = new Dimension(currentBci.getRealPreferredSize());
-					size.height = (int)(size.height*proportion);
-					currentBci.component.setPreferredSize(size);
-				}
-				revalidate();
-				repaint();
 			}
+			else {
+				if (firstTick) {
+					if (down) {
+						focusMainComponent();
+					}
+					else {
+						// We assume here that the component has some
+						// focusable child we want to play with
+						currentBci.component.requestFocusInWindow();
+					}
+					firstTick = false;
+				}
+				float proportion = !down ? (((float)tick)/totalTicks) :
+					(1f- (((float)tick)/totalTicks));
+				Dimension size = new Dimension(currentBci.getRealPreferredSize());
+				size.height = (int)(size.height*proportion);
+				currentBci.component.setPreferredSize(size);
+			}
+			revalidate();
+			repaint();
 		});
 		timer.setRepeats(true);
 	}

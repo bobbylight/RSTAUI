@@ -94,8 +94,8 @@ public final class UIUtil {
 			if (desktop!=null) {
 				try {
 					Method m = desktop.getClass().getDeclaredMethod(
-								"browse", new Class[] { URI.class });
-					m.invoke(desktop, new Object[] { uri });
+								"browse", URI.class);
+					m.invoke(desktop, uri);
 					success = true;
 				} catch (RuntimeException re) {
 					throw re; // Keep FindBugs happy
@@ -164,7 +164,7 @@ public final class UIUtil {
 					Method m = desktopClazz.
 						getDeclaredMethod("isDesktopSupported");
 
-					boolean supported = ((Boolean)m.invoke(null)).booleanValue();
+					boolean supported = (Boolean) m.invoke(null);
 					if (supported) {
 						m = desktopClazz.getDeclaredMethod("getDesktop");
 						desktop = m.invoke(null);

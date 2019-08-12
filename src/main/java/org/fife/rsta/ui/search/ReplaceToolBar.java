@@ -234,7 +234,7 @@ public class ReplaceToolBar extends FindToolBar {
 			if (regexCheckBox.isSelected()) {
 				int flags = Pattern.MULTILINE; // '^' and '$' are done per line.
 				flags = RSyntaxUtilities.getPatternFlags(matchCase, flags);
-				Pattern pattern = null;
+				Pattern pattern;
 				try {
 					pattern = Pattern.compile(searchFor, flags);
 				} catch (PatternSyntaxException pse) {

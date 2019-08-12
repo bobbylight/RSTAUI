@@ -72,7 +72,6 @@ public class FindToolBar extends JPanel {
 	protected JCheckBox wholeWordCheckBox;
 	protected JCheckBox regexCheckBox;
 	protected JCheckBox markAllCheckBox;
-	private JLabel infoLabel;
 	private Timer markAllTimer;
 
 	/**
@@ -123,7 +122,7 @@ public class FindToolBar extends JPanel {
 		rest.add(createButtonPanel());
 		rest.add(Box.createHorizontalStrut(15));
 
-		infoLabel = new JLabel();
+		JLabel infoLabel = new JLabel();
 		rest.add(infoLabel);
 
 		rest.add(Box.createHorizontalGlue());
@@ -677,11 +676,11 @@ public class FindToolBar extends JPanel {
 			String prop = e.getPropertyName();
 
 			if (SearchContext.PROPERTY_MATCH_CASE.equals(prop)) {
-				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				boolean newValue = (Boolean) e.getNewValue();
 				matchCaseCheckBox.setSelected(newValue);
 			}
 			else if (SearchContext.PROPERTY_MATCH_WHOLE_WORD.equals(prop)) {
-				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				boolean newValue = (Boolean) e.getNewValue();
 				wholeWordCheckBox.setSelected(newValue);
 			}
 			//else if (SearchContext.PROPERTY_SEARCH_FORWARD.equals(prop)) {
@@ -693,12 +692,12 @@ public class FindToolBar extends JPanel {
 			//	...
 			//}
 			else if (SearchContext.PROPERTY_USE_REGEX.equals(prop)) {
-				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				boolean newValue = (Boolean) e.getNewValue();
 				regexCheckBox.setSelected(newValue);
 				handleRegExCheckBoxClicked();
 			}
 			else if (SearchContext.PROPERTY_MARK_ALL.equals(prop)) {
-				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				boolean newValue = (Boolean) e.getNewValue();
 				markAllCheckBox.setSelected(newValue);
 				// firing event handled in ActionListener, to prevent "other"
 				// tool bar from firing a second event
