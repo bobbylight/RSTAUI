@@ -114,9 +114,6 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	}
 
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -137,7 +134,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
                 replaceWithCombo.addItem(replaceText);
             }
 
-			fireSearchEvent(e); // Let parent application know
+			fireSearchEvent(SearchEvent.Type.REPLACE); // Let parent app know
 
 		}
 

@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import javax.swing.AbstractAction;
@@ -116,14 +117,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		}
 
 		else if (SearchEvent.Type.FIND.name().equals(command)) {
-
-			// Add the item to the combo box's list, if it isn't already there.
-			JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
-			findTextCombo.addItem(tc.getText());
-			context.setSearchFor(getSearchString());
-
-			fireSearchEvent(e); // Let parent application know
-
+			doSearch(true);
 		}
 
 		else {
@@ -147,15 +141,25 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	}
 
 
+	private void doSearch(boolean forward) {
+
+		// Add the item to the combo box's list, if it isn't already there.
+		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
+		findTextCombo.addItem(tc.getText());
+		context.setSearchFor(getSearchString());
+		context.setSearchForward(forward);
+
+		fireSearchEvent(SearchEvent.Type.FIND); // Let parent application know
+	}
+
 	/**
 	 * Notifies all listeners that have registered interest for notification on
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
 	 *
-	 * @param event The <code>ActionEvent</code> object coming from a
-	 *        child component.
+	 * @param type The type of search.
 	 */
-	protected void fireSearchEvent(ActionEvent event) {
+	protected void fireSearchEvent(SearchEvent.Type type) {
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
 		SearchEvent e = null;
@@ -165,8 +169,6 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 			if (listeners[i] == SearchListener.class) {
 				// Lazily create the event:
 				if (e == null) {
-					String command = event.getActionCommand();
-					SearchEvent.Type type = SearchEvent.Type.valueOf(command);
 					e = new SearchEvent(this, type, context);
 				}
 				((SearchListener)listeners[i+1]).searchEvent(e);
@@ -356,6 +358,23 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AbstractFindReplaceDialog.this.requestFocus();
+			}
+		});
+
+		// Shift+Enter and Ctrl+Enter both do a backwards search
+		int shift = InputEvent.SHIFT_MASK;
+		int ctrl = InputEvent.CTRL_MASK;
+		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
+			ctrl = InputEvent.META_MASK;
+		}
+		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, shift);
+		im.put(ks, "searchBackward");
+		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ctrl);
+		im.put(ks, "searchBackward");
+		am.put("searchBackward", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doSearch(false);
 			}
 		});
 	}

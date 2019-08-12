@@ -492,6 +492,7 @@ public class FindToolBar extends JPanel {
 			}
 		});
 
+		// Shift+Enter and Ctrl+Enter both do a backwards search
 		int shift = InputEvent.SHIFT_MASK;
 		int ctrl = InputEvent.CTRL_MASK;
 		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
@@ -501,7 +502,7 @@ public class FindToolBar extends JPanel {
 		im.put(ks, "searchBackward");
 		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ctrl);
 		im.put(ks, "searchBackward");
-		am.put("searchForward", new AbstractAction() {
+		am.put("searchBackward", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				doSearch(false);
