@@ -19,6 +19,8 @@ import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
 
+import java.awt.*;
+
 
 /**
  * A combo box that offers content assistance for regular expressions.
@@ -34,6 +36,7 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	private boolean replace;
 	private AutoCompletion ac;
 	private RegexAwareProvider provider;
+	private Image contentAssistImage;
 
 
 	/**
@@ -167,6 +170,21 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	}
 
 
+    /**
+     * Returns the image to display by this text field when content
+     * assistance is available.
+     *
+     * @return The image to display.
+     * @see #setContentAssistImage(Image)
+     */
+    public Image getContentAssistImage() {
+        if (contentAssistImage != null) {
+            return contentAssistImage;
+        }
+        return AbstractSearchDialog.getContentAssistImage();
+    }
+
+
 	/**
 	 * Hides any auto-complete windows that are visible.
 	 *
@@ -213,14 +231,27 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 			// property change support won't fire a notice if old and new are
 			// both non-null and old.equals(new).
 			if (enabled) {
-				firePropertyChange(prop, null,
-								AbstractSearchDialog.getContentAssistImage());
+				firePropertyChange(prop, null, getContentAssistImage());
 			}
 			else {
 				firePropertyChange(prop, null, null);
 			}
 		}
 	}
+
+
+    /**
+     * Sets the image to display by this text field when content
+     * assistance is available.
+     *
+     * @param image The image.  If this is {@code null}, a default image
+     *        (a light bulb) is used).  This should be kept small, around
+     *        8x8 for standard resolution monitors.
+     * @see #getContentAssistImage()
+     */
+    public void setContentAssistImage(Image image) {
+        contentAssistImage = image;
+    }
 
 
 	/**

@@ -527,6 +527,19 @@ public class AbstractSearchDialog extends EscapableDialog
 	}
 
 
+    /**
+     * Sets the image to display by this dialog's text fields when content
+     * assistance is available.
+     *
+     * @param image The image.  If this is {@code null}, a default image
+     *        (a light bulb) is used).  This should be kept small, around
+     *        8x8 for standard resolution monitors.
+     */
+    public void setContentAssistImage(Image image) {
+        findTextCombo.setContentAssistImage(image);
+    }
+
+
 	/**
 	 * Sets the text for the "Match Case" check box.
 	 *

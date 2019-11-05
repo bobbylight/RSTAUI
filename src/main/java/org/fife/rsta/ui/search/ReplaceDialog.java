@@ -7,11 +7,7 @@
  */
 package org.fife.rsta.ui.search;
 
-import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -395,6 +391,13 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 		applyComponentOrientation(orientation);
 
 	}
+
+
+    @Override
+    public void setContentAssistImage(Image image) {
+        super.setContentAssistImage(image);
+        replaceWithCombo.setContentAssistImage(image);
+    }
 
 
 	/**
