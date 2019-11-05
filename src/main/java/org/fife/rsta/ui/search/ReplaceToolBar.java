@@ -8,11 +8,7 @@
  */
 package org.fife.rsta.ui.search;
 
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -263,6 +259,12 @@ public class ReplaceToolBar extends FindToolBar {
 		handleToggleButtons(); // Replace button state may change
 		return result;
 	}
+
+	@Override
+    public void setContentAssistImage(Image image) {
+        super.setContentAssistImage(image);
+        replaceCombo.setContentAssistImage(image);
+    }
 
 
 	/**

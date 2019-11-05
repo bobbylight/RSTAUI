@@ -8,10 +8,7 @@
  */
 package org.fife.rsta.ui.search;
 
-import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -575,6 +572,19 @@ public class FindToolBar extends JPanel {
 	void searchComboUpdateUICallback(SearchComboBox combo) {
 		findFieldListener.install(UIUtil.getTextComponent(combo));
 	}
+
+
+    /**
+     * Sets the image to display by this dialog's text fields when content
+     * assistance is available.
+     *
+     * @param image The image.  If this is {@code null}, a default image
+     *        (a light bulb) is used).  This should be kept small, around
+     *        8x8 for standard resolution monitors.
+     */
+    public void setContentAssistImage(Image image) {
+        findCombo.setContentAssistImage(image);
+    }
 
 
 	protected void setFindText(String text) {
