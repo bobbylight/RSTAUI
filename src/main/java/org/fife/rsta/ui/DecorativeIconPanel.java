@@ -41,8 +41,7 @@ public class DecorativeIconPanel extends JPanel {
 	private JLabel iconLabel;
 	private boolean showIcon;
 	private String tip;
-
-	private EmptyIcon emptyIcon = new EmptyIcon(DEFAULT_WIDTH);
+	private EmptyIcon emptyIcon;
 
 
 	/**
