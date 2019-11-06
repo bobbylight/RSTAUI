@@ -110,7 +110,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	 */
 	public void setAssistanceEnabled(Image img) {
 		if (img==null) {
-			setIcon(EMPTY_ICON);
+			setIcon(null);
 			setToolTipText(null);
 		}
 		else {

@@ -26,7 +26,7 @@ import org.fife.ui.autocomplete.EmptyIcon;
  * icons, etc.
  *
  * @author Robert Futrell
- * @version 1.0
+ * @version 1.1
  * @see AssistanceIconPanel
  */
 public class DecorativeIconPanel extends JPanel {
@@ -36,21 +36,36 @@ public class DecorativeIconPanel extends JPanel {
 	 * listening to with other combo boxes or text fields without a
 	 * DecorativeIconPanel.
 	 */
-	public static final int WIDTH		= 8;
+	private static final int DEFAULT_WIDTH = 8;
 
 	private JLabel iconLabel;
 	private boolean showIcon;
 	private String tip;
 
-	protected static final EmptyIcon EMPTY_ICON = new EmptyIcon(WIDTH);
+	private EmptyIcon emptyIcon = new EmptyIcon(DEFAULT_WIDTH);
 
 
 	/**
 	 * Constructor.
 	 */
 	public DecorativeIconPanel() {
-		setLayout(new BorderLayout());
-		iconLabel = new JLabel(EMPTY_ICON) {
+        this(DEFAULT_WIDTH);
+    }
+
+
+    /**
+     * Constructor.
+     *
+     * @param iconWidth The with of decorative icons that will be added to
+     *        this panel.  This is used to ensure the proper amount of padding
+     *        when no icon is being shown.
+     */
+    public DecorativeIconPanel(int iconWidth) {
+
+        setLayout(new BorderLayout());
+        emptyIcon = new EmptyIcon(iconWidth);
+
+		iconLabel = new JLabel(emptyIcon) {
 			@Override
 			public String getToolTipText(MouseEvent e) {
 				return showIcon ? tip : null;
@@ -120,7 +135,7 @@ public class DecorativeIconPanel extends JPanel {
 	 */
 	public void setIcon(Icon icon) {
 		if (icon==null) {
-			icon = EMPTY_ICON;
+			icon = emptyIcon;
 		}
 		iconLabel.setIcon(icon);
 	}
