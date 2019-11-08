@@ -39,13 +39,32 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	private static String assistanceAvailable;
 
 
+    /**
+     * Constructor.
+     *
+     * @param comp The component to listen to.  This can be <code>null</code>
+     *        to create a "filler" icon panel for alignment purposes.
+     */
+    public AssistanceIconPanel(JComponent comp) {
+        init(comp);
+    }
+
+
 	/**
 	 * Constructor.
 	 *
 	 * @param comp The component to listen to.  This can be <code>null</code>
 	 *        to create a "filler" icon panel for alignment purposes.
+     * @param iconWidth The with of decorative icons that will be added to
+     *        this panel.  This is used to ensure the proper amount of padding
+     *        when no icon is being shown.
 	 */
-	public AssistanceIconPanel(JComponent comp) {
+	public AssistanceIconPanel(JComponent comp, int iconWidth) {
+        super(iconWidth);
+        init(comp);
+    }
+
+    private void init(JComponent comp) {
 
 		// null can be passed to make a "filler" icon panel for alignment
 		// purposes.
