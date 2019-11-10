@@ -117,7 +117,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		}
 
 		else if (SearchEvent.Type.FIND.name().equals(command)) {
-			doSearch(true);
+			doSearch(context.getSearchForward()); // Keep current direction
 		}
 
 		else {
@@ -147,9 +147,19 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		findTextCombo.addItem(tc.getText());
 		context.setSearchFor(getSearchString());
-		context.setSearchForward(forward);
 
-		fireSearchEvent(SearchEvent.Type.FIND); // Let parent application know
+		// If the ask is to search in the opposite direction from the UI's
+		// current direction, use a cloned search context to avoid updating
+		// the UI when we shouldn't (e.g. from a keyboard shortcut to search
+		// backward).
+		SearchContext contextToFire = context;
+		if (forward != context.getSearchForward()) {
+			contextToFire = context.clone();
+			contextToFire.setSearchForward(forward);
+		}
+
+		// Let parent application know
+		fireSearchEvent(SearchEvent.Type.FIND, contextToFire);
 	}
 
 	/**
@@ -158,8 +168,18 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	 * <code>event</code> parameter.
 	 *
 	 * @param type The type of search.
+	 * @param context The search context to fire.  If this is {@code null}, this
+	 *        dialog's current context (e.g. its current state) is used.  This
+	 *        parameter allows for scenarios where we want to search differently
+	 *        than what our UI displays; for example, binding a keyboard
+	 *        shortcut to "search backwards" no matter what.
 	 */
-	protected void fireSearchEvent(SearchEvent.Type type) {
+	protected void fireSearchEvent(SearchEvent.Type type, SearchContext context) {
+
+		if (context == null) {
+			context = this.context;
+		}
+
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
 		SearchEvent e = null;
@@ -361,7 +381,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 			}
 		});
 
-		// Shift+Enter and Ctrl+Enter both do a backwards search
+		// Shift+Enter and Ctrl+Enter both do a backwards/opposite search
 		int shift = InputEvent.SHIFT_MASK;
 		int ctrl = InputEvent.CTRL_MASK;
 		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
@@ -374,7 +394,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		am.put("searchBackward", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				doSearch(false);
+				doSearch(!context.getSearchForward());
 			}
 		});
 	}

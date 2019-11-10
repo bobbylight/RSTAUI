@@ -130,7 +130,8 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
                 replaceWithCombo.addItem(replaceText);
             }
 
-			fireSearchEvent(SearchEvent.Type.REPLACE); // Let parent app know
+			// Let parent app know
+			fireSearchEvent(SearchEvent.Type.valueOf(command), null);
 
 		}
 
