@@ -396,13 +396,17 @@ public class FindToolBar extends JPanel {
 			context.setReplaceWith(replaceCombo.getSelectedString());
 		}
 
-		// Note: This will toggle the "search forward" radio buttons in the
-		// Find/Replace dialogs if the application is using them AND these tool
-		// bars, but that is a rare occurrence.  Cloning the context is out
-		// since that may cause problems for the application if it caches it.
-		context.setSearchForward(forward);
+		// If the ask is to search in the opposite direction from the UI's
+		// current direction, use a cloned search context to avoid updating
+		// the UI when we shouldn't (e.g. from a keyboard shortcut to search
+		// backward).
+		SearchContext contextToFire = context;
+		if (forward != context.getSearchForward()) {
+			contextToFire = context.clone();
+			contextToFire.setSearchForward(forward);
+		}
 
-		SearchEvent se = new SearchEvent(this, type, context);
+		SearchEvent se = new SearchEvent(this, type, contextToFire);
 		fireSearchEvent(se);
 		handleToggleButtons(); // Replace button could toggle state
 
