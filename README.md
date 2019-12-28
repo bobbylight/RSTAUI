@@ -29,7 +29,7 @@ Then use Gradle to build:
     cd ../AutoComplete
     gradlew build
     cd ../RSTAUI
-    gradlew build
+    gradlew build --warning-mode all
 
 ## Example Usage
 

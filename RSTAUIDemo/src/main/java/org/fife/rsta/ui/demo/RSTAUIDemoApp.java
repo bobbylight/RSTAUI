@@ -35,7 +35,7 @@ import org.fife.ui.rtextarea.SearchResult;
  * @author Robert Futrell
  * @version 1.0
  */
-public class RSTAUIDemoApp extends JFrame implements SearchListener {
+public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 	private CollapsibleSectionPanel csp;
 	private RSyntaxTextArea textArea;

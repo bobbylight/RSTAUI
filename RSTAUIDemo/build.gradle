@@ -1,0 +1,16 @@
+archivesBaseName = 'rstauidemo'
+
+dependencies {
+    implementation project(':RSTAUI')
+}
+
+jar {
+    manifest {
+        attributes('Class-Path': 'rsyntaxtextarea.jar autocomplete.jar',
+                'Specification-Title': 'RSTAUIDemo',
+                'Specification-Version': archiveVersion,
+                'Implementation-Title': 'org.fife.ui',
+                'Implementation-Version': archiveVersion,
+                'Main-Class': 'org.fife.rsta.ui.demo.RSTAUIDemoApp')
+    }
+}
