@@ -46,7 +46,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	private StatusBar statusBar;
 
 
-	public RSTAUIDemoApp() {
+	private RSTAUIDemoApp() {
 
 		initSearchDialogs();
 
