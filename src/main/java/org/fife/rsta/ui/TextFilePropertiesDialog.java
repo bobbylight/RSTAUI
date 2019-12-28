@@ -225,13 +225,24 @@ public class TextFilePropertiesDialog extends EscapableDialog
 			count++;
 		}
 
-		String suffix = null;
+		String suffix;
 		switch (count) {
-			case 0 : suffix = "bytes"; break;
-			case 1 : suffix = "KB"; break;
-			case 2 : suffix = "MB"; break;
-			case 3 : suffix = "GB"; break;
-			case 4 : suffix = "TB"; break;
+			case 0:
+			    suffix = "bytes";
+			    break;
+			case 1:
+			    suffix = "KB";
+			    break;
+			case 2:
+			    suffix = "MB";
+			    break;
+			case 3:
+			    suffix = "GB";
+			    break;
+			case 4:
+            default: // SpotBugs, never happens
+			    suffix = "TB";
+			    break;
 		}
 
 		NumberFormat fileSizeFormat = NumberFormat.getNumberInstance();
@@ -299,8 +310,8 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		UIUtil.fixComboOrientation(encodingCombo);
 
 		// Populate the combo box with all available encodings.
-		Map<String, Charset> availcs = Charset.availableCharsets();
-		Set<String> charsetNames = availcs.keySet();
+		Map<String, Charset> availableCharsets = Charset.availableCharsets();
+		Set<String> charsetNames = availableCharsets.keySet();
 		for (String charsetName : charsetNames) {
 			encodingCombo.addItem(charsetName);
 		}

@@ -73,7 +73,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 			ComponentListener listener = new ComponentListener();
 
 			if (comp instanceof JComboBox) {
-				JComboBox combo = (JComboBox)comp;
+				JComboBox<?> combo = (JComboBox<?>)comp;
 				Component c = combo.getEditor().getEditorComponent();
 				if (c instanceof JTextComponent) { // Always true
 					JTextComponent tc = (JTextComponent)c;

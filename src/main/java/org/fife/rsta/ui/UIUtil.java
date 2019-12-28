@@ -116,8 +116,8 @@ public final class UIUtil {
 	 *
 	 * @param combo The combo box.
 	 */
-	public static void fixComboOrientation(JComboBox combo) {
-		ListCellRenderer r = combo.getRenderer();
+	public static void fixComboOrientation(JComboBox<?> combo) {
+		ListCellRenderer<?> r = combo.getRenderer();
 		if (r instanceof Component) {
 			ComponentOrientation o = ComponentOrientation.
 							getOrientation(Locale.getDefault());
@@ -240,7 +240,7 @@ public final class UIUtil {
 	 * @param combo The combo box.
 	 * @return The text component.
 	 */
-	public static JTextComponent getTextComponent(JComboBox combo) {
+	public static JTextComponent getTextComponent(JComboBox<?> combo) {
 		return (JTextComponent)combo.getEditor().getEditorComponent();
 	}
 

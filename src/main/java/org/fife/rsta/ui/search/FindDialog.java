@@ -14,8 +14,6 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -115,7 +113,6 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		enterTextPane.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.addFocusListener(new FindFocusAdapter());
-		textField.addKeyListener(new FindKeyListener());
 		textField.getDocument().addDocumentListener(new FindDocumentListener());
 		JPanel temp = new JPanel(new BorderLayout());
 		temp.add(findTextCombo);
@@ -229,7 +226,6 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		pack();
 		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.addFocusListener(new FindFocusAdapter());
-		textField.addKeyListener(new FindKeyListener());
 		textField.getDocument().addDocumentListener(new FindDocumentListener());
 	}
 
@@ -276,43 +272,4 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		}
 
 	}
-
-
-	/**
-	 * Listens for key presses in the find dialog.
-	 */
-	private class FindKeyListener implements KeyListener {
-
-		// Listens for the user pressing a key down.
-		@Override
-		public void keyPressed(KeyEvent e) {
-		}
-
-		// Listens for a user releasing a key.
-		@Override
-		public void keyReleased(KeyEvent e) {
-
-			// This is an ugly hack to get around JComboBox's
-			// insistence on eating the first Enter keypress
-			// it receives when it has focus and its selected item
-			// has changed since the last time it lost focus.
-			if (e.getKeyCode()==KeyEvent.VK_ENTER && isPreJava6JRE()) {
-				String searchString = (String)findTextCombo.getSelectedItem();
-				if (!searchString.equals(lastSearchString)) {
-					findNextButton.doClick(0);
-					lastSearchString = searchString;
-					UIUtil.getTextComponent(findTextCombo).selectAll();
-				}
-			}
-
-		}
-
-		// Listens for a key being typed.
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-
-	}
-
-
 }

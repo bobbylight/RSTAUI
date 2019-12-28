@@ -73,7 +73,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 		contentPane.add(statusBar, BorderLayout.SOUTH);
 
 		setTitle("RSTAUI Demo Application");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
 
@@ -131,7 +131,7 @@ public class RSTAUIDemoApp extends JFrame implements SearchListener {
 	/**
 	 * Creates our Find and Replace dialogs.
 	 */
-	public void initSearchDialogs() {
+	private void initSearchDialogs() {
 
 		findDialog = new FindDialog(this, this);
 		replaceDialog = new ReplaceDialog(this, this);

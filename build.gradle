@@ -1,6 +1,9 @@
-['java', 'checkstyle', 'distribution', 'maven-publish', 'signing'].each { apply plugin: it }
+plugins {
+    id 'com.github.spotbugs' version '2.0.1'
+}
+['java', 'checkstyle', 'com.github.spotbugs', 'distribution', 'maven-publish', 'signing'].each { apply plugin: it }
 
-assert org.gradle.api.JavaVersion.current().isJava8Compatible()
+assert JavaVersion.current().isJava8Compatible()
 
 group = 'com.fifesoft'
 archivesBaseName = 'rstaui'
@@ -30,6 +33,13 @@ checkstyle {
     configFile = 'config/checkstyle/checkstyle.xml' as File
 }
 
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
 compileJava {
 	sourceCompatibility javaVersion
 	targetCompatibility javaVersion
@@ -45,6 +55,11 @@ ext.sharedManifest = manifest {
 		'Implementation-Title': 'org.fife.ui',
 		'Implementation-Version': version)
 
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 jar {
 	manifest { from sharedManifest }

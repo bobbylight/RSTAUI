@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
@@ -287,20 +285,17 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		// Create listeners for the combo boxes.
 		ReplaceFocusAdapter replaceFocusAdapter = new ReplaceFocusAdapter();
-		ReplaceKeyListener replaceKeyListener = new ReplaceKeyListener();
 		ReplaceDocumentListener replaceDocumentListener = new ReplaceDocumentListener();
 
 		// Create the "Find what" text field.
 		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Create the "Replace with" text field.
 		replaceWithCombo = new SearchComboBox(null, true);
 		textField = UIUtil.getTextComponent(replaceWithCombo);
 		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Create the "Replace with" label.
@@ -499,19 +494,16 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		// Create listeners for the combo boxes.
 		ReplaceFocusAdapter replaceFocusAdapter = new ReplaceFocusAdapter();
-		ReplaceKeyListener replaceKeyListener = new ReplaceKeyListener();
 		ReplaceDocumentListener replaceDocumentListener = new ReplaceDocumentListener();
 
 		// Fix the Find What combo box's listeners.
 		JTextComponent textField = UIUtil.getTextComponent(findTextCombo);
 		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 		// Fix the Replace With combo box's listeners.
 		textField = UIUtil.getTextComponent(replaceWithCombo);
 		textField.addFocusListener(replaceFocusAdapter);
-		textField.addKeyListener(replaceKeyListener);
 		textField.getDocument().addDocumentListener(replaceDocumentListener);
 
 	}
@@ -579,44 +571,4 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 		}
 
 	}
-
-
-	/**
-	 * Listens for key presses in the replace dialog.
-	 */
-	private class ReplaceKeyListener extends KeyAdapter {
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-
-			// This is an ugly hack to get around JComboBox's insistence on
-			// eating the first Enter keypress it receives when it has focus.
-			if (e.getKeyCode()==KeyEvent.VK_ENTER && isPreJava6JRE()) {
-				if (e.getSource()==UIUtil.getTextComponent(findTextCombo)) {
-					String replaceString = replaceWithCombo.getSelectedString();
-					lastReplaceString = replaceString;	// Just in case it changed too.
-					String searchString = findTextCombo.getSelectedString();
-					if (!searchString.equals(lastSearchString)) {
-						findNextButton.doClick(0);
-						lastSearchString = searchString;
-						UIUtil.getTextComponent(findTextCombo).selectAll();
-					}
-				}
-				else { // if (e.getSource()==getTextComponent(replaceWithComboBox)) {
-					String searchString = findTextCombo.getSelectedString();
-					lastSearchString = searchString;	// Just in case it changed too.
-					String replaceString = replaceWithCombo.getSelectedString();
-					if (!replaceString.equals(lastReplaceString)) {
-						findNextButton.doClick(0);
-						lastReplaceString = replaceString;
-						UIUtil.getTextComponent(replaceWithCombo).selectAll();
-					}
-				}
-			}
-
-		}
-
-	}
-
-
 }

@@ -110,9 +110,9 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		String command = e.getActionCommand();
 
-		// They check/uncheck the "Match Case" checkbox on the Find dialog.
 		switch (command) {
 
+            // They check/uncheck the "Match Case" checkbox on the Find dialog.
 			case "FlipMatchCase":
 				boolean matchCase = caseCheckBox.isSelected();
 				context.setMatchCase(matchCase);
@@ -132,6 +132,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 			// If they press the "Cancel" button.
 			case "Cancel":
+            default: // SpotBugs
 				setVisible(false);
 				break;
 		}
@@ -451,7 +452,11 @@ public class AbstractSearchDialog extends EscapableDialog
 	 * programmitcally press the Find button.
 	 *
 	 * @return Whether this is a 1.4 or 1.5 JRE.
+     * @deprecated This library no longer supports Java versions earlier
+     *             than Java 8.  This method is deprecated instead of
+     *             removed to avoid a major version bump.
 	 */
+	@Deprecated
 	protected static boolean isPreJava6JRE() {
 		// We only support 1.4+, so no need to check 1.3, etc.
 		String version = System.getProperty("java.specification.version");
@@ -584,7 +589,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * Sets the <code>java.lang.String</code> to search for.
 	 *
-	 * @param newSearchString The <code>tring</code> to put into
+	 * @param newSearchString The <code>string</code> to put into
 	 *        the search field.
 	 */
 	public void setSearchString(String newSearchString) {
