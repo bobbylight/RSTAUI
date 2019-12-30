@@ -22,14 +22,8 @@ For more information, visit [http://bobbylight.github.io/RSyntaxTextArea/](http:
 ## Compiling
 
 RSTAUI is built using Gradle.  To compile the source, run all tests, and build the distribution jar,
-you must check out RSTAUI and its sister projects, `RSyntaxTextArea` and `AutoComplete`, side by side.
-Then use Gradle to build:
+simply change into the project directory and run:
 
-    cd RSyntaxTextArea
-    gradlew build
-    cd ../AutoComplete
-    gradlew build
-    cd ../RSTAUI
     gradlew build --warning-mode all
 
 ## Example Usage

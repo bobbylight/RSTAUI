@@ -8,6 +8,7 @@ group 'com.fifesoft'
 allprojects {
 
     repositories {
+        mavenLocal()
         mavenCentral()
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots'
@@ -37,11 +38,8 @@ subprojects {
     }
 
     dependencies {
-        // Paths are relative to submodules
-        implementation files("${projectDir.absolutePath}/../../RSyntaxTextArea/RSyntaxTextArea/build/classes/java/main")
-        implementation files("${projectDir.absolutePath}/../../RSyntaxTextArea/RSyntaxTextArea/build/resources/main")
-        implementation files("${projectDir.absolutePath}/../../AutoComplete/AutoComplete/build/classes/java/main")
-        implementation files("${projectDir.absolutePath}/../../AutoComplete/AutoComplete/build/resources/main")
+        implementation 'com.fifesoft:rsyntaxtextarea:3.0.8-SNAPSHOT'
+        implementation 'com.fifesoft:autocomplete:3.0.4'
         testImplementation 'junit:junit:4.12'
     }
 
