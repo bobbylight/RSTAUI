@@ -38,7 +38,7 @@ subprojects {
     }
 
     dependencies {
-        implementation 'com.fifesoft:rsyntaxtextarea:3.0.8-SNAPSHOT'
+        implementation 'com.fifesoft:rsyntaxtextarea:3.0.8'
         implementation 'com.fifesoft:autocomplete:3.0.4'
         testImplementation 'junit:junit:4.12'
     }
