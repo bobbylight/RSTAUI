@@ -16,7 +16,7 @@ allprojects {
     }
 
     wrapper {
-        gradleVersion = '6.0.1'
+        gradleVersion = '6.1'
     }
 }
 
@@ -27,7 +27,7 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
 
     checkstyle {
-        toolVersion = '8.27'
+        toolVersion = '8.28'
     }
 
     tasks.withType(com.github.spotbugs.SpotBugsTask) {
@@ -35,12 +35,6 @@ subprojects {
             xml.enabled = false
             html.enabled = true
         }
-    }
-
-    dependencies {
-        implementation 'com.fifesoft:rsyntaxtextarea:3.0.8'
-        implementation 'com.fifesoft:autocomplete:3.0.4'
-        testImplementation 'junit:junit:4.12'
     }
 
     compileJava {

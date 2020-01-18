@@ -4,7 +4,7 @@
  * SearchEvent - The event fired for find/replace/mark all operations.
  *
  * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
+ * RSTAUI.license.txt file for details.
  */
 package org.fife.rsta.ui.search;
 

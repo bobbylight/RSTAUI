@@ -1,8 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
 ['distribution', 'maven-publish', 'signing'].each { apply plugin: it }
 
 assert JavaVersion.current().isJava8Compatible()
 
 archivesBaseName = 'rstaui'
+
+dependencies {
+    api 'com.fifesoft:rsyntaxtextarea:3.0.8'
+    api 'com.fifesoft:autocomplete:3.0.4'
+    testImplementation 'junit:junit:4.12'
+}
+
 ext.isReleaseVersion = !project.version.endsWith('SNAPSHOT')
 
 ext.sharedManifest = manifest {
@@ -89,7 +100,7 @@ publishing {
                 licenses {
                     license {
                         name = 'BSD-3-Clause'
-                        url = 'http://fifesoft.com/rsyntaxtextarea/RSyntaxTextArea.License.txt'
+                        url = 'https://github.com/bobbylight/RSTAUI/blob/master/RSTAUI/src/main/dist/RSTAUI.License.txt'
                     }
                 }
                 developers {
