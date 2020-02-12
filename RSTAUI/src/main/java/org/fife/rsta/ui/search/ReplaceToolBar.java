@@ -85,27 +85,30 @@ public class ReplaceToolBar extends FindToolBar {
 		regexCheckBox = createCB("RegEx");
 		wholeWordCheckBox = createCB("WholeWord");
 		markAllCheckBox = createCB("MarkAll");
+		wrapCheckBox = createCB("Wrap");
 		// We use a "spacing" middle row, instead of spacing in the call to
 		// UIUtil.makeSpringCompactGrid(), as the latter adds trailing
 		// spacing after the final "row", which screws up our alignment.
 		Dimension spacing = new Dimension(1, 5);
 		Component space1 = Box.createRigidArea(spacing);
 		Component space2 = Box.createRigidArea(spacing);
+		Component space3 = Box.createRigidArea(spacing);
+		Component space4 = Box.createRigidArea(spacing);
 
 		ComponentOrientation orientation = ComponentOrientation.
 				getOrientation(getLocale());
 
 		if (orientation.isLeftToRight()) {
-			optionPanel.add(matchCaseCheckBox); optionPanel.add(wholeWordCheckBox);
-			optionPanel.add(space1);            optionPanel.add(space2);
-			optionPanel.add(regexCheckBox);     optionPanel.add(markAllCheckBox);
+			optionPanel.add(matchCaseCheckBox); optionPanel.add(wholeWordCheckBox); optionPanel.add(wrapCheckBox);
+			optionPanel.add(space1);            optionPanel.add(space2);            optionPanel.add(space3);
+			optionPanel.add(regexCheckBox);     optionPanel.add(markAllCheckBox);   optionPanel.add(space4);
 		}
 		else {
-			optionPanel.add(wholeWordCheckBox); optionPanel.add(matchCaseCheckBox);
-			optionPanel.add(space2);            optionPanel.add(space1);
-			optionPanel.add(markAllCheckBox);   optionPanel.add(regexCheckBox);
+			optionPanel.add(wrapCheckBox); optionPanel.add(wholeWordCheckBox); optionPanel.add(matchCaseCheckBox);
+			optionPanel.add(space3);       optionPanel.add(space2);            optionPanel.add(space1);
+			optionPanel.add(space4);       optionPanel.add(markAllCheckBox);   optionPanel.add(regexCheckBox);
 		}
-		UIUtil.makeSpringCompactGrid(optionPanel, 3,2, 0,0, 0,0);
+		UIUtil.makeSpringCompactGrid(optionPanel, 3,3, 0,0, 0,0);
 		panel.add(optionPanel);
 
 		return panel;

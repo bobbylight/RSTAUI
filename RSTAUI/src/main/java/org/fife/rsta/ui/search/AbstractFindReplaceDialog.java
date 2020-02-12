@@ -339,6 +339,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
 		temp.add(caseCheckBox);
 		temp.add(wholeWordCheckBox);
+		temp.add(wrapCheckBox);
 		searchConditionsPanel.add(temp, BorderLayout.LINE_START);
 		temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));

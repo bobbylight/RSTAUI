@@ -69,6 +69,8 @@ public class FindToolBar extends JPanel {
 	protected JCheckBox wholeWordCheckBox;
 	protected JCheckBox regexCheckBox;
 	protected JCheckBox markAllCheckBox;
+	protected JCheckBox wrapCheckBox;
+	private JLabel infoLabel;
 	private Timer markAllTimer;
 
 	/**
@@ -126,7 +128,6 @@ public class FindToolBar extends JPanel {
 
 		// Get ready to go.
 		applyComponentOrientation(orientation);
-
 	}
 
 
@@ -153,7 +154,7 @@ public class FindToolBar extends JPanel {
 		filler.setBorder(BorderFactory.createEmptyBorder());
 		filler.add(findButton);//bp);
 		panel.add(filler);
-		panel.add(Box.createHorizontalStrut(5));
+		panel.add(Box.createHorizontalStrut(6));
 
 		matchCaseCheckBox = createCB("MatchCase");
 		panel.add(matchCaseCheckBox);
@@ -166,6 +167,9 @@ public class FindToolBar extends JPanel {
 
 		markAllCheckBox = createCB("MarkAll");
 		panel.add(markAllCheckBox);
+
+		wrapCheckBox = createCB("Wrap");
+		panel.add(wrapCheckBox);
 
 		return panel;
 
@@ -475,6 +479,7 @@ public class FindToolBar extends JPanel {
 		wholeWordCheckBox.setSelected(context.getWholeWord());
 		regexCheckBox.setSelected(context.isRegularExpression());
 		markAllCheckBox.setSelected(context.getMarkAll());
+		wrapCheckBox.setSelected(context.getSearchWrap());
 	}
 
 
@@ -669,6 +674,9 @@ public class FindToolBar extends JPanel {
 				context.setMarkAll(markAllCheckBox.isSelected());
 				fireMarkAllEvent(); // Force an event to be fired
 			}
+			else if (source == wrapCheckBox) {
+				context.setSearchWrap(wrapCheckBox.isSelected());
+			}
 			else {
 				handleSearchAction(e);
 			}
@@ -735,6 +743,10 @@ public class FindToolBar extends JPanel {
 					setReplaceText(newValue);
 					settingFindTextFromEvent = false;
 				}
+			}
+			else if (SearchContext.PROPERTY_SEARCH_WRAP.equals(prop)) {
+				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				wrapCheckBox.setSelected(newValue);
 			}
 
 		}
