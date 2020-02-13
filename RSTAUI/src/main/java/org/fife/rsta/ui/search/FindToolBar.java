@@ -93,7 +93,6 @@ public class FindToolBar extends JPanel {
 
 		// Keep focus in this component when tabbing through search controls
 		setFocusCycleRoot(true);
-		installKeyboardShortcuts();
 
 		markAllTimer = new Timer(300, new MarkAllEventNotifier());
 		markAllTimer.setRepeats(false);
@@ -467,7 +466,7 @@ public class FindToolBar extends JPanel {
 	 * called whenever a new search context is installed on this tool bar
 	 * (which should practically be never).
 	 */
-	protected void initUIFromContext() {
+	private void initUIFromContext() {
 		if (findCombo==null) { // First time through, stuff not initialized yet
 			return;
 		}
@@ -480,40 +479,6 @@ public class FindToolBar extends JPanel {
 		regexCheckBox.setSelected(context.isRegularExpression());
 		markAllCheckBox.setSelected(context.getMarkAll());
 		wrapCheckBox.setSelected(context.getSearchWrap());
-	}
-
-
-	private void installKeyboardShortcuts() {
-
-		InputMap im = getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-		ActionMap am = getActionMap();
-
-		KeyStroke ks = KeyStroke.getKeyStroke("ENTER");
-		im.put(ks, "searchForward");
-		am.put("searchForward", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doSearch(true);
-			}
-		});
-
-		// Shift+Enter and Ctrl+Enter both do a backwards search
-		int shift = InputEvent.SHIFT_MASK;
-		int ctrl = InputEvent.CTRL_MASK;
-		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
-			ctrl = InputEvent.META_MASK;
-		}
-		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, shift);
-		im.put(ks, "searchBackward");
-		ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, ctrl);
-		im.put(ks, "searchBackward");
-		am.put("searchBackward", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doSearch(false);
-			}
-		});
-
 	}
 
 
@@ -745,7 +710,7 @@ public class FindToolBar extends JPanel {
 				}
 			}
 			else if (SearchContext.PROPERTY_SEARCH_WRAP.equals(prop)) {
-				boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+				boolean newValue = (Boolean)e.getNewValue();
 				wrapCheckBox.setSelected(newValue);
 			}
 

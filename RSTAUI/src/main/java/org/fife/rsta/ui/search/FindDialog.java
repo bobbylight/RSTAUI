@@ -137,7 +137,9 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		temp = new JPanel(new BorderLayout());
 		bottomPanel.setBorder(UIUtil.getEmpty5Border());
 		temp.add(searchConditionsPanel, BorderLayout.LINE_START);
-		temp.add(dirPanel);
+		JPanel temp2 = new JPanel(new BorderLayout());
+		temp2.add(dirPanel, BorderLayout.NORTH);
+		temp.add(temp2);
 		bottomPanel.add(temp, BorderLayout.LINE_START);
 
 		// Now, make a panel containing all the above stuff.

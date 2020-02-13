@@ -1,6 +1,6 @@
 package org.fife.rsta.ui.demo;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -168,13 +168,13 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 				break;
 			case FIND:
 				result = SearchEngine.find(textArea, context);
-				if (!result.wasFound()) {
+				if (!result.wasFound() || result.isWrapped()) {
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 				break;
 			case REPLACE:
 				result = SearchEngine.replace(textArea, context);
-				if (!result.wasFound()) {
+				if (!result.wasFound() || result.isWrapped()) {
 					UIManager.getLookAndFeel().provideErrorFeedback(textArea);
 				}
 				break;
