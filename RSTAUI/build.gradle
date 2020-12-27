@@ -9,9 +9,9 @@ assert JavaVersion.current().isJava8Compatible()
 archivesBaseName = 'rstaui'
 
 dependencies {
-    api 'com.fifesoft:rsyntaxtextarea:3.1.0'
-    api 'com.fifesoft:autocomplete:3.1.0'
-    testImplementation 'junit:junit:4.13'
+    api 'com.fifesoft:rsyntaxtextarea:3.1.2'
+    api 'com.fifesoft:autocomplete:3.1.1'
+    testImplementation 'junit:junit:4.13.1'
 }
 
 ext.isReleaseVersion = !project.version.endsWith('SNAPSHOT')

@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.spotbugs' version '4.0.1'
+    id 'com.github.spotbugs' version '4.6.0'
 }
 
 group 'com.fifesoft'
@@ -16,7 +16,7 @@ allprojects {
     }
 
     wrapper {
-        gradleVersion = '6.2.2'
+        gradleVersion = '6.7.1'
     }
 }
 
@@ -27,7 +27,7 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
 
     checkstyle {
-        toolVersion = '8.30'
+        toolVersion = '8.37'
     }
 
     spotbugsMain {
