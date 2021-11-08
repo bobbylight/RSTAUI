@@ -240,18 +240,22 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	}
 
 
-    /**
-     * Sets the image to display by this text field when content
-     * assistance is available.
-     *
-     * @param image The image.  If this is {@code null}, a default image
-     *        (a light bulb) is used).  This should be kept small, around
-     *        8x8 for standard resolution monitors.
-     * @see #getContentAssistImage()
-     */
-    public void setContentAssistImage(Image image) {
-        contentAssistImage = image;
-    }
+	/**
+	 * Sets the image to display by this text field when content
+	 * assistance is available.
+	 *
+	 * @param image The image.  If this is {@code null}, a default image
+	 *        (a light bulb) is used).  This should be kept small, around
+	 *        8x8 for standard resolution monitors.
+	 * @see #getContentAssistImage()
+	 */
+	public void setContentAssistImage(Image image) {
+		if (image != contentAssistImage) {
+			Image old = contentAssistImage;
+			contentAssistImage = image;
+			firePropertyChange(ContentAssistable.ASSISTANCE_IMAGE, old, image);
+		}
+	}
 
 
 	/**

@@ -32,6 +32,9 @@ import org.fife.rsta.ui.search.AbstractSearchDialog;
 public class AssistanceIconPanel extends DecorativeIconPanel
 						implements PropertyChangeListener {
 
+	private ComponentListener listener;
+	private JComponent listenedToComponent;
+
 	/**
 	 * The tool tip text for the light bulb icon.  It is assumed that access
 	 * to this field is single-threaded (on the EDT).
@@ -66,14 +69,16 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 
     private void init(JComponent comp) {
 
+		listenedToComponent = comp;
+
 		// null can be passed to make a "filler" icon panel for alignment
 		// purposes.
-		if (comp!=null) {
+		if (listenedToComponent != null) {
 
-			ComponentListener listener = new ComponentListener();
+			listener = new ComponentListener();
 
-			if (comp instanceof JComboBox) {
-				JComboBox<?> combo = (JComboBox<?>)comp;
+			if (listenedToComponent instanceof JComboBox) {
+				JComboBox<?> combo = (JComboBox<?>)listenedToComponent;
 				Component c = combo.getEditor().getEditorComponent();
 				if (c instanceof JTextComponent) { // Always true
 					JTextComponent tc = (JTextComponent)c;
@@ -81,10 +86,10 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 				}
 			}
 			else { // Usually a JTextComponent
-				comp.addFocusListener(listener);
+				listenedToComponent.addFocusListener(listener);
 			}
 
-			comp.addPropertyChangeListener(
+			listenedToComponent.addPropertyChangeListener(
 				ContentAssistable.ASSISTANCE_IMAGE, this);
 
 		}
@@ -135,6 +140,35 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 		else {
 			setIcon(new ImageIcon(img));
 			setToolTipText(getAssistanceAvailableText());
+		}
+	}
+
+
+	@Override
+	public void updateUI() {
+
+		// Since we actually listen to a child component of combo boxes,
+		// we must stop listening to the prior child component...
+		if (listenedToComponent instanceof JComboBox) {
+			JComboBox<?> combo = (JComboBox<?>)listenedToComponent;
+			Component c = combo.getEditor().getEditorComponent();
+			if (c instanceof JTextComponent) { // Always true
+				JTextComponent tc = (JTextComponent)c;
+				tc.removeFocusListener(listener);
+			}
+		}
+
+		super.updateUI();
+
+		// And start listening to the new one, since this might have
+		// changed because of the UI change.
+		if (listenedToComponent instanceof JComboBox) {
+			JComboBox<?> combo = (JComboBox<?>)listenedToComponent;
+			Component c = combo.getEditor().getEditorComponent();
+			if (c instanceof JTextComponent) { // Always true
+				JTextComponent tc = (JTextComponent)c;
+				tc.addFocusListener(listener);
+			}
 		}
 	}
 
