@@ -1,4 +1,7 @@
 # RSTAUI
+![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/gradle.yml/badge.svg)
+![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/codeql-analysis.yml/badge.svg)
+
 This is a library for adding the following dialogs to an application using `RSyntaxTextArea` as an
 editor:
 
