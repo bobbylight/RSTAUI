@@ -16,7 +16,7 @@ allprojects {
     }
 
     wrapper {
-        gradleVersion = '7.0.2'
+        gradleVersion = '7.3.1'
     }
 }
 
@@ -27,7 +27,7 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
 
     checkstyle {
-        toolVersion = '8.43'
+        toolVersion = '9.2'
     }
 
     spotbugsMain {
