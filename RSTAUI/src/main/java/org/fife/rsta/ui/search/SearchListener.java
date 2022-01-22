@@ -14,7 +14,7 @@ import org.fife.ui.rtextarea.SearchEngine;
 
 
 /**
- * Listens for events fired from a Find or Replace dialog/tool bar.
+ * Listens for events fired from a Find or Replace dialog/toolbar.
  * Applications can implement this class to listen for the user searching for
  * text, and actually perform the operation via {@link SearchEngine} in
  * response.
@@ -33,6 +33,11 @@ public interface SearchListener extends EventListener {
 	void searchEvent(SearchEvent e);
 
 
+	/**
+	 * Returns the selected text.
+	 *
+	 * @return The selected text.
+	 */
 	String getSelectedText();
 
 

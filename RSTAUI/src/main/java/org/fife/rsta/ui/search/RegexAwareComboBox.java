@@ -25,9 +25,9 @@ import java.awt.*;
 /**
  * A combo box that offers content assistance for regular expressions.
  *
- * @param <E> The type of item in the combo box.
  * @author Robert Futrell
  * @version 1.0
+ * @param <E> The type of item in the combo box.
  */
 public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 		implements ContentAssistable {
@@ -106,7 +106,8 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 		p.addCompletion(new RegexCompletion(p, "+",    "+",  "X+ - Greedy match, 1 or more times"));
 		p.addCompletion(new RegexCompletion(p, "{",    "{",  "X{n} - Greedy match, exactly n times"));
 		p.addCompletion(new RegexCompletion(p, "{",    "{",  "X{n,} - Greedy match, at least n times"));
-		p.addCompletion(new RegexCompletion(p, "{",    "{",  "X{n,m} - Greedy match, at least n but no more than m times"));
+		p.addCompletion(new RegexCompletion(p, "{",    "{",
+			"X{n,m} - Greedy match, at least n but no more than m times"));
 		p.addCompletion(new RegexCompletion(p, "??",   "??", "X?? - Lazy match, 0 or 1 times"));
 		p.addCompletion(new RegexCompletion(p, "*?",   "*?", "X*? - Lazy match, 0 or more times"));
 		p.addCompletion(new RegexCompletion(p, "+?",   "+?", "X+? - Lazy match, 1 or more times"));
@@ -286,9 +287,9 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	}
 
 
-    /**
-     * A completion representing a regular expression.
-     */
+	/**
+	 * A completion representing a regular expression.
+	 */
 	private static class RegexCompletion extends BasicCompletion {
 
 		private String inputText;

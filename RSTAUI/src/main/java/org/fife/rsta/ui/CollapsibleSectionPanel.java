@@ -359,9 +359,9 @@ public class CollapsibleSectionPanel extends JPanel {
 	}
 
 
-    /**
-     * Hides the bottom component.
-     */
+	/**
+	 * Hides the bottom component.
+	 */
 	private class HideBottomComponentAction extends AbstractAction {
 
 		@Override
@@ -372,9 +372,9 @@ public class CollapsibleSectionPanel extends JPanel {
 	}
 
 
-    /**
-     * Shows the bottom component.
-     */
+	/**
+	 * Shows the bottom component.
+	 */
 	private class ShowBottomComponentAction extends AbstractAction {
 
 		private BottomComponentInfo bci;

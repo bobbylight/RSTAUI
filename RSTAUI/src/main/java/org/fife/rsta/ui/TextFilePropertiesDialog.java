@@ -447,9 +447,9 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	}
 
 
-    /**
-     * Iterates over each character in a document.
-     */
+	/**
+	 * Iterates over each character in a document.
+	 */
 	private static class DocumentCharIterator implements CharacterIterator {
 
 		private Document doc;

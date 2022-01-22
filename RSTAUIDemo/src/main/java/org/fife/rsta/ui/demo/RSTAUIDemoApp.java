@@ -66,8 +66,8 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		ErrorStrip errorStrip = new ErrorStrip(textArea);
 		contentPane.add(errorStrip, BorderLayout.LINE_END);
-//org.fife.rsta.ui.DocumentMap docMap = new org.fife.rsta.ui.DocumentMap(textArea);
-//contentPane.add(docMap, BorderLayout.LINE_END);
+		//org.fife.rsta.ui.DocumentMap docMap = new org.fife.rsta.ui.DocumentMap(textArea);
+		//contentPane.add(docMap, BorderLayout.LINE_END);
 
 		statusBar = new StatusBar();
 		contentPane.add(statusBar, BorderLayout.SOUTH);
@@ -205,11 +205,16 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
+	/**
+	 * Demo application entry point.
+	 *
+	 * @param args The command line arguments.
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			try {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//					UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
+				//UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceGraphiteAquaLookAndFeel");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -218,9 +223,9 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
-    /**
-     * Opens the "Go to Line" dialog.
-     */
+	/**
+	 * Opens the "Go to Line" dialog.
+	 */
 	private class GoToLineAction extends AbstractAction {
 
 		GoToLineAction() {
@@ -254,9 +259,9 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
-    /**
-     * Changes the Look and Feel.
-     */
+	/**
+	 * Changes the Look and Feel.
+	 */
 	private class LookAndFeelAction extends AbstractAction {
 
 		private LookAndFeelInfo info;
@@ -285,9 +290,9 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
-    /**
-     * Shows the Find dialog.
-     */
+	/**
+	 * Shows the Find dialog.
+	 */
 	private class ShowFindDialogAction extends AbstractAction {
 
 		ShowFindDialogAction() {
@@ -307,9 +312,9 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
-    /**
-     * Shows the Replace dialog.
-     */
+	/**
+	 * Shows the Replace dialog.
+	 */
 	private class ShowReplaceDialogAction extends AbstractAction {
 
 		ShowReplaceDialogAction() {
@@ -329,9 +334,9 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 	}
 
 
-    /**
-     * The status bar for this application.
-     */
+	/**
+	 * The status bar for this application.
+	 */
 	private static class StatusBar extends JPanel {
 
 		private JLabel label;

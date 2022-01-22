@@ -113,7 +113,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 		switch (command) {
 
-            // They check/uncheck the "Match Case" checkbox on the Find dialog.
+			// They check/uncheck the "Match Case" checkbox on the Find dialog.
 			case "FlipMatchCase":
 				boolean matchCase = caseCheckBox.isSelected();
 				context.setMatchCase(matchCase);
@@ -288,6 +288,12 @@ public class AbstractSearchDialog extends EscapableDialog
 	}
 
 
+	/**
+	 * Returns a localized string for subclasses and other search-related dialogs.
+	 *
+	 * @param key The key for the localized text.
+	 * @return The localized text.
+	 */
 	public static String getString(String key) {
 		return MSG.getString(key);
 	}
@@ -501,7 +507,8 @@ public class AbstractSearchDialog extends EscapableDialog
 	public static boolean isWholeWord(CharSequence searchIn,
 									  int offset, int len) {
 
-		boolean wsBefore, wsAfter;
+		boolean wsBefore;
+		boolean wsAfter;
 
 		try {
 			wsBefore = Character.isWhitespace(searchIn.charAt(offset - 1));

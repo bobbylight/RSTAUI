@@ -26,9 +26,9 @@ import javax.swing.DefaultComboBoxModel;
  * the end (as <code>JComboBox</code>'s do by default).<br><br>
  * It defaults to 8 elements remembered.
  *
- * @param <E> The type of item in the combo box.
  * @author Robert Futrell
  * @version 0.8
+ * @param <E> The type of item in the combo box.
  */
 public class RComboBoxModel<E> extends DefaultComboBoxModel<E> {
 

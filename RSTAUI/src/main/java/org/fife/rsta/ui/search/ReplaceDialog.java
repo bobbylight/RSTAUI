@@ -57,7 +57,8 @@ import org.fife.ui.rtextarea.SearchEngine;
  * The application can then call i.e.
  * {@link SearchEngine#find(javax.swing.JTextArea, org.fife.ui.rtextarea.SearchContext) SearchEngine.find()}
  * or
- * {@link SearchEngine#replace(org.fife.ui.rtextarea.RTextArea, org.fife.ui.rtextarea.SearchContext) SearchEngine.replace()}
+ * {@link SearchEngine#replace(org.fife.ui.rtextarea.RTextArea,
+ *   org.fife.ui.rtextarea.SearchContext) SearchEngine.replace()}
  * to actually execute the search.
  *
  * @author Robert Futrell
