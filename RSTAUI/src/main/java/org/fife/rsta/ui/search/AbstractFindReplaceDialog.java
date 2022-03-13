@@ -38,7 +38,7 @@ import org.fife.ui.rtextarea.SearchContext;
 
 /**
  * This is the base class for {@link FindDialog} and {@link ReplaceDialog}. It
- * is basically all of the features common to the two dialogs that weren't
+ * is basically all the features common to the two dialogs that weren't
  * taken care of in {@link AbstractSearchDialog}.
  *
  * @author Robert Futrell
@@ -81,7 +81,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	}
 
 	/**
-	 * Constructor.  Does initializing for parts common to
+	 * Constructor.  Does the initializing for parts common to
 	 * <code>FindDialog</code> and <code>ReplaceDialog</code> that isn't
 	 * taken care of in <code>AbstractSearchDialog</code>'s constructor.
 	 *
@@ -163,7 +163,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 	}
 
 	/**
-	 * Notifies all listeners that have registered interest for notification on
+	 * Notifies all listeners that have registered interest in notification for
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
 	 *

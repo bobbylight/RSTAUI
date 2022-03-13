@@ -246,7 +246,7 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	 * assistance is available.
 	 *
 	 * @param image The image.  If this is {@code null}, a default image
-	 *        (a light bulb) is used).  This should be kept small, around
+	 *        (a light bulb) is used.  This should be kept small, around
 	 *        8x8 for standard resolution monitors.
 	 * @see #getContentAssistImage()
 	 */

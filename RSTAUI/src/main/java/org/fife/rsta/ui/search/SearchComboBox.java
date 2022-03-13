@@ -19,7 +19,7 @@ import org.fife.rsta.ui.UIUtil;
 
 /**
  * The combo box used for entering text to "find" and "replace" in both the
- * Find/Replace dialogs as well as tool bars.
+ * Find/Replace dialogs and toolbars.
  *
  * @author Robert Futrell
  * @version 1.0
@@ -34,8 +34,8 @@ public class SearchComboBox extends RegexAwareComboBox<String> {
 	/**
 	 * Constructor.
 	 *
-	 * @param toolBar The tool bar that owns this combo box, or {@code null}
-	 *        if it is not in a tool bar.
+	 * @param toolBar The toolbar that owns this combo box, or {@code null}
+	 *        if it is not in a toolbar.
 	 * @param replace Whether this combo box is for "replace" text (as opposed
 	 *        to "find" text).
 	 */
@@ -99,7 +99,7 @@ public class SearchComboBox extends RegexAwareComboBox<String> {
 	 * Returns the <code>Strings</code> contained in this combo box.
 	 *
 	 * @return A <code>java.util.Vector</code> of strings found in this
-	 *         combo box.  If that combo box is empty, than a zero-length
+	 *         combo box.  If that combo box is empty, then a zero-length
 	 *         <code>Vector</code> is returned.
 	 */
 	public Vector<String> getSearchStrings() {
@@ -132,7 +132,7 @@ public class SearchComboBox extends RegexAwareComboBox<String> {
 
 
 	/**
-	 * Updates the input map of the text field inside of this search combo.
+	 * Updates the input map of the text field inside this search combo.
 	 */
 	private void updateTextFieldKeyMap() {
 		JTextComponent comp = UIUtil.getTextComponent(this);

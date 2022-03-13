@@ -1,7 +1,7 @@
 /*
  * 09/20/2013
  *
- * SearchListener - Listens for events in find/replace dialogs and tool bars.
+ * SearchListener - Listens for events in find/replace dialogs and toolbars.
  *
  * This library is distributed under a modified BSD license.  See the included
  * RSTAUI.license.txt file for details.

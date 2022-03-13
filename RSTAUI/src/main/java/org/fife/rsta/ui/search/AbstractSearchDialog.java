@@ -80,7 +80,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Constructor.  Does initializing for parts common to all search
+	 * Constructor.  Does the initializing for parts common to all search
 	 * dialogs.
 	 *
 	 * @param owner The dialog that owns this search dialog.
@@ -92,7 +92,7 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Constructor.  Does initializing for parts common to all search
+	 * Constructor.  Does the initializing for parts common to all search
 	 * dialogs.
 	 *
 	 * @param owner The window that owns this search dialog.
@@ -374,7 +374,7 @@ public class AbstractSearchDialog extends EscapableDialog
 			}
 		}
 		else if (SearchContext.PROPERTY_SEARCH_WRAP.equals(prop)) {
-			boolean newValue = ((Boolean)e.getNewValue()).booleanValue();
+			boolean newValue = (Boolean)e.getNewValue();
 			wrapCheckBox.setSelected(newValue);
 		}
 
@@ -473,12 +473,12 @@ public class AbstractSearchDialog extends EscapableDialog
 
 	/**
 	 * This method allows us to check if the current JRE is 1.4 or 1.5.
-	 * This is used to workaround some Java bugs, for example, pre 1.6,
+	 * This is used to work around some Java bugs, for example, pre 1.6,
 	 * JComboBoxes would "swallow" enter key presses in them when their
 	 * content changed.  This causes the user to have to press Enter twice
 	 * when entering text to search for in a "Find" dialog, so instead we
 	 * detect if a JRE is old enough to have this behavior and, if so,
-	 * programmitcally press the Find button.
+	 * programmatically press the Find button.
 	 *
 	 * @return Whether this is a 1.4 or 1.5 JRE.
      * @deprecated This library no longer supports Java versions earlier
@@ -527,8 +527,8 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	/**
-	 * Initializes the UI in this tool bar from a search context.  This is
-	 * called whenever a new search context is installed on this tool bar
+	 * Initializes the UI in this toolbar from a search context.  This is
+	 * called whenever a new search context is installed on this toolbar
 	 * (which should practically be never).
 	 */
 	protected void refreshUIFromContext() {
@@ -568,7 +568,7 @@ public class AbstractSearchDialog extends EscapableDialog
      * assistance is available.
      *
      * @param image The image.  If this is {@code null}, a default image
-     *        (a light bulb) is used).  This should be kept small, around
+     *        (a light bulb) is used.  This should be kept small, around
      *        8x8 for standard resolution monitors.
      */
     public void setContentAssistImage(Image image) {

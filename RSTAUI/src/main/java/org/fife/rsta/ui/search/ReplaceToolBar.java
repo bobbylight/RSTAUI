@@ -1,7 +1,7 @@
 /*
  * 09/20/2013
  *
- * ReplaceToolBar - A tool bar for "replace" operations in text areas.
+ * ReplaceToolBar - A toolbar for "replace" operations in text areas.
  *
  * This library is distributed under a modified BSD license.  See the included
  * RSTAUI.license.txt file for details.
@@ -47,7 +47,7 @@ public class ReplaceToolBar extends FindToolBar {
 
 
 	/**
-	 * Creates the tool bar.
+	 * Creates the toolbar.
 	 *
 	 * @param listener An entity listening for search events.
 	 */

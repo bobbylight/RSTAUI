@@ -280,7 +280,7 @@ public class GoToDialog extends EscapableDialog {
 
 	/**
 	 * Overrides <code>JDialog</code>'s <code>setVisible</code> method; decides
-	 * whether or not buttons are enabled if the user is enabling the dialog.
+	 * whether buttons are enabled if the user is enabling the dialog.
 	 */
 	@Override
 	public void setVisible(boolean visible) {

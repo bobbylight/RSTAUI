@@ -59,7 +59,7 @@ publishing {
             pom {
                 name = 'rstaui'
                 description = 'RSTAUI is an add-on library for RSyntaxTextArea that provides pre-build dialog boxes commonly needed in text editing applications.'
-                url = 'http://www.fifesoft.com/rsyntaxtextarea/'
+                url = 'https://bobbylight.github.io/RSyntaxTextArea/'
                 inceptionYear = '2003'
                 packaging = 'jar'
                 licenses {

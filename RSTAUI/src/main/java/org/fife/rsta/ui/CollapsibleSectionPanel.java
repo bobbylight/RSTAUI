@@ -31,7 +31,7 @@ import javax.swing.Timer;
 /**
  * A panel that can show or hide contents anchored to its bottom via a
  * shortcut.  Those contents "slide" in, since today's applications are
- * all about fancy smancy animations.
+ * all about fancy animations.
  *
  * @author Robert Futrell
  * @version 1.0
@@ -86,12 +86,12 @@ public class CollapsibleSectionPanel extends JPanel {
 
 
 	/**
-	 * Adds a "bottom component" and binds its display to a key stroke.
-	 * Whenever that key stroke is typed in a descendant of this panel, this
+	 * Adds a "bottom component" and binds its display to a keystroke.
+	 * Whenever that keystroke is typed in a descendant of this panel, this
 	 * component will be displayed.  You can also display it programmatically
 	 * by calling {@link #showBottomComponent(JComponent)}.
 	 *
-	 * @param ks The key stroke to bind to the display of the component.
+	 * @param ks The keystroke to bind to the display of the component.
 	 *        If this parameter is <code>null</code>, this method behaves
 	 *        exactly like the {@link #addBottomComponent(JComponent)}
 	 *        overload.

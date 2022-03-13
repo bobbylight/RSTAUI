@@ -1,7 +1,7 @@
 /*
  * 09/20/2013
  *
- * FindToolBar - A tool bar for "find" operations in text areas.
+ * FindToolBar - A toolbar for "find" operations in text areas.
  *
  * This library is distributed under a modified BSD license.  See the included
  * RSTAUI.license.txt file for details.
@@ -83,7 +83,7 @@ public class FindToolBar extends JPanel {
 			"org.fife.rsta.ui.search.SearchToolBar");
 
 	/**
-	 * Creates the tool bar.
+	 * Creates the toolbar.
 	 *
 	 * @param listener An entity listening for search events.
 	 */
@@ -129,7 +129,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Adds a {@link SearchListener} to this tool bar.  This listener will
+	 * Adds a {@link SearchListener} to this toolbar.  This listener will
 	 * be notified when find or replace operations are triggered.
 	 *
 	 * @param l The listener to add.
@@ -145,8 +145,6 @@ public class FindToolBar extends JPanel {
 		Box panel = new Box(BoxLayout.LINE_AXIS);
 		createFindButtons();
 
-		//JPanel bp = new JPanel(new GridLayout(1,2, 5,0));
-		//bp.add(findButton); bp.add(findPrevButton);
 		JPanel filler = new JPanel(new BorderLayout());
 		filler.setBorder(BorderFactory.createEmptyBorder());
 		filler.add(findButton);//bp);
@@ -212,7 +210,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Creates the buttons for this tool bar.
+	 * Creates the buttons for this toolbar.
 	 */
 	protected void createFindButtons() {
 
@@ -275,7 +273,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Notifies all listeners that have registered interest for notification on
+	 * Notifies all listeners that have registered interest in notification of
 	 * this event type. The event instance is lazily created using the
 	 * <code>event</code> parameter.
 	 *
@@ -320,7 +318,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Returns the search context for this tool bar.
+	 * Returns the search context for this toolbar.
 	 *
 	 * @return The search context.
 	 * @see #setSearchContext(SearchContext)
@@ -445,8 +443,6 @@ public class FindToolBar extends JPanel {
 		findPrevButton.setEnabled(enable);
 
 		// setBackground doesn't show up with XP Look and Feel!
-		//findTextComboBox.setBackground(enable ?
-		//		UIManager.getColor("ComboBox.background") : Color.PINK);
 		JTextComponent tc = UIUtil.getTextComponent(findCombo);
 		tc.setForeground(enable ? UIManager.getColor("TextField.foreground") :
 									UIUtil.getErrorTextForeground());
@@ -460,8 +456,8 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Initializes the UI in this tool bar from a search context.  This is
-	 * called whenever a new search context is installed on this tool bar
+	 * Initializes the UI in this toolbar from a search context.  This is
+	 * called whenever a new search context is installed on this toolbar
 	 * (which should practically be never).
 	 */
 	private void initUIFromContext() {
@@ -482,10 +478,10 @@ public class FindToolBar extends JPanel {
 
 	/**
 	 * Makes the Enter key activate the button.  In Swing, this is a
-	 * complicated thing.  It's LAF-dependent whether or not this works
+	 * complicated thing.  It's LAF-dependent whether this works
 	 * automatically; on most LAFs, it doesn't happen.  In WindowsLookAndFeel
 	 * it does, but *only* if the current window has a "default" button
-	 * specified.  Since these tool bars will typically be used in "main"
+	 * specified.  Since these toolbars will typically be used in "main"
 	 * application windows, which don't have default buttons, we'll just
 	 * enable this property here and now.
 	 *
@@ -513,7 +509,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Removes a {@link SearchListener} from this tool bar.
+	 * Removes a {@link SearchListener} from this toolbar.
 	 *
 	 * @param l The listener to remove
 	 * @see #addSearchListener(SearchListener)
@@ -551,7 +547,7 @@ public class FindToolBar extends JPanel {
      * assistance is available.
      *
      * @param image The image.  If this is {@code null}, a default image
-     *        (a light bulb) is used).  This should be kept small, around
+     *        (a light bulb) is used.  This should be kept small, around
      *        8x8 for standard resolution monitors.
      */
     public void setContentAssistImage(Image image) {
@@ -586,8 +582,8 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Sets the search context for this tool bar.  You'll usually want to call
-	 * this method for all tool bars and give them the same search context,
+	 * Sets the search context for this toolbar.  You'll usually want to call
+	 * this method for all toolbars and give them the same search context,
 	 * so that their options (match case, etc.) stay in sync with one another.
 	 *
 	 * @param context The new search context.  This cannot be <code>null</code>.
@@ -604,7 +600,7 @@ public class FindToolBar extends JPanel {
 
 
 	/**
-	 * Listens for events in this tool bar.  Keeps the UI in sync with the
+	 * Listens for events in this toolbar.  Keeps the UI in sync with the
 	 * search context and vice versa.
 	 */
 	private class ToolBarListener extends MouseAdapter
@@ -685,7 +681,7 @@ public class FindToolBar extends JPanel {
 				boolean newValue = (Boolean) e.getNewValue();
 				markAllCheckBox.setSelected(newValue);
 				// firing event handled in ActionListener, to prevent "other"
-				// tool bar from firing a second event
+				// toolbar from firing a second event
 			}
 			else if (SearchContext.PROPERTY_SEARCH_FOR.equals(prop)) {
 				String newValue = (String)e.getNewValue();

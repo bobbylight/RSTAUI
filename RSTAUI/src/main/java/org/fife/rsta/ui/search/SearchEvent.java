@@ -15,7 +15,7 @@ import org.fife.ui.rtextarea.SearchContext;
 
 /**
  * The event fired whenever a user wants to search for or replace text in a
- * Find or Replace dialog/tool bar.
+ * Find or Replace dialog/toolbar.
  *
  * @author Robert Futrell
  * @version 1.0

@@ -446,16 +446,16 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 	/**
 	 * Overrides <code>JDialog</code>'s <code>setVisible</code> method; decides
-	 * whether or not buttons are enabled.
+	 * whether buttons are enabled.
 	 *
-	 * @param visible Whether or not the dialog should be visible.
+	 * @param visible Whether the dialog should be visible.
 	 */
 	@Override
 	public void setVisible(boolean visible) {
 
 		if (visible) {
 
-			// Select text entered in the UI
+			// Select text entered into the UI
 			String text = searchListener.getSelectedText();
 			if (text!=null) {
 				findTextCombo.addItem(text);
