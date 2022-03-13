@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.spotbugs' version '4.7.1'
+    id 'com.github.spotbugs' version '5.0.6'
 }
 
 group 'com.fifesoft'
@@ -16,7 +16,7 @@ allprojects {
     }
 
     wrapper {
-        gradleVersion = '7.3.3'
+        gradleVersion = '7.4.1'
     }
 }
 
@@ -27,26 +27,31 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
 
     checkstyle {
-        toolVersion = '9.2.1'
+        toolVersion = '9.3'
+    }
+
+    spotbugs {
+        // Relative to subprojects
+        includeFilter = file('../config/spotbugs-exclude.xml')
     }
 
     spotbugsMain {
         reports {
             html {
-                enabled = true
+                required = true
             }
             xml {
-                enabled = false
+                required = false
             }
         }
     }
     spotbugsTest {
         reports {
             html {
-                enabled = true
+                required = true
             }
             xml {
-                enabled = false
+                required = false
             }
         }
     }
