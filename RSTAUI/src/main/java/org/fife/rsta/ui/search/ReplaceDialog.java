@@ -74,11 +74,6 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 	private SearchComboBox replaceWithCombo;
 
-	// This helps us work around the "bug" where JComboBox eats the first Enter
-	// press.
-	private String lastSearchString;
-	private String lastReplaceString;
-
 	/**
 	 * Our search listener, cached so we can grab its selected text easily.
 	 */
@@ -559,15 +554,6 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 			JTextComponent textField = (JTextComponent)e.getSource();
 			textField.selectAll();
-
-			if (textField==UIUtil.getTextComponent(findTextCombo)) {
-				// Remember what it originally was, in case they tabbed out.
-				lastSearchString = findTextCombo.getSelectedString();
-			}
-			else { // if (textField==getTextComponent(replaceWithComboBox)).
-				// Remember what it originally was, in case they tabbed out.
-				lastReplaceString = replaceWithCombo.getSelectedString();
-			}
 
 			// Replace button's state might need to be changed.
 			handleToggleButtons();

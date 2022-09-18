@@ -62,10 +62,6 @@ public class FindDialog extends AbstractFindReplaceDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	// This helps us work around the "bug" where JComboBox eats the first Enter
-	// press.
-	private String lastSearchString;
-
 	/**
 	 * Our search listener, cached so we can grab its selected text easily.
 	 */
@@ -269,8 +265,6 @@ public class FindDialog extends AbstractFindReplaceDialog {
 		@Override
 		public void focusGained(FocusEvent e) {
 			UIUtil.getTextComponent(findTextCombo).selectAll();
-			// Remember what it originally was, in case they tabbed out.
-			lastSearchString = (String)findTextCombo.getSelectedItem();
 		}
 
 	}

@@ -290,8 +290,6 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		findNextButton.setEnabled(enable);
 
 		// setBackground doesn't show up with XP Look and Feel!
-		//findTextComboBox.setBackground(enable ?
-		//		UIManager.getColor("ComboBox.background") : Color.PINK);
 		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		tc.setForeground(enable ? UIManager.getColor("TextField.foreground") :
 									UIUtil.getErrorTextForeground());
