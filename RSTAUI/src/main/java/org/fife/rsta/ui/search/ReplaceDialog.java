@@ -75,7 +75,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	private SearchComboBox replaceWithCombo;
 
 	/**
-	 * Our search listener, cached so we can grab its selected text easily.
+	 * Our search listener, cached, so we can grab its selected text easily.
 	 */
 	protected SearchListener searchListener;
 

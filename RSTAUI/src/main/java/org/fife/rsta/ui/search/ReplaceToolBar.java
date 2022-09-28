@@ -41,7 +41,7 @@ public class ReplaceToolBar extends FindToolBar {
 	private JButton replaceAllButton;
 
 	/**
-	 * Our search listener, cached so we can grab its selected text easily.
+	 * Our search listener, cached, so we can grab its selected text easily.
 	 */
 	protected SearchListener searchListener;
 

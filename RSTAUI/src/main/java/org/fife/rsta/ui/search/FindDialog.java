@@ -63,7 +63,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Our search listener, cached so we can grab its selected text easily.
+	 * Our search listener, cached, so we can grab its selected text easily.
 	 */
 	protected SearchListener searchListener;
 

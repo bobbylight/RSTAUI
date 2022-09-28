@@ -141,7 +141,7 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 		SearchContext context = findDialog.getSearchContext();
 		replaceDialog.setSearchContext(context);
 
-		// Create tool bars and tie their search contexts together also.
+		// Create toolbars and tie their search contexts together also.
 		findToolBar = new FindToolBar(this);
 		findToolBar.setSearchContext(context);
 		replaceToolBar = new ReplaceToolBar(this);

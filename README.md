@@ -7,7 +7,7 @@ editor:
 
 * Find Dialog
 * Replace Dialog
-* Find and Replace tool bars (a la Sublime Text)
+* Find and Replace toolbars (à la Sublime Text)
 * Go to Line Dialog
 * Text File Properties Dialog (requires use of `TextEditorPane`)
 
