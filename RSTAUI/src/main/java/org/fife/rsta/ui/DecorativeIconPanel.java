@@ -141,6 +141,21 @@ public class DecorativeIconPanel extends JPanel {
 
 
 	/**
+	 * Sets the size of the icon to display. This only needs to be
+	 * called if the icon set being used changes at runtime.
+	 *
+	 * @param iconWidth The new icon size.
+	 */
+	public void setIconWidth(int iconWidth) {
+		if (iconWidth != emptyIcon.getIconWidth()) {
+			emptyIcon.setSize(iconWidth);
+			revalidate();
+			repaint();
+		}
+	}
+
+
+	/**
 	 * Toggles whether the icon should be shown.
 	 *
 	 * @param show Whether to show the icon.
