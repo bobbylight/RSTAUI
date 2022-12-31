@@ -14,9 +14,7 @@ import java.awt.Container;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -145,6 +143,34 @@ public final class UIUtil {
 
 
 	/**
+	 * Returns all components that are ancestors of {@code comp} that are of the
+	 * specified class (or a subclass of it).
+	 *
+	 * @param comp The parent component.
+	 * @param clazz The class of children to look for.
+	 * @param <T> The type of children to look for.
+	 * @return The matching children. This will be an empty list if none are found.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> getDescendantsOfType(Container comp, Class<T> clazz) {
+		List<T> result = new ArrayList<>();
+		Stack<Component> stack = new Stack<>();
+		stack.add(comp);
+		while (!stack.isEmpty()) {
+			Component current = stack.pop();
+			if (clazz.isAssignableFrom(current.getClass())) {
+				result.add((T)current);
+			}
+			if (current instanceof Container) {
+				Container container = (Container)current;
+				stack.addAll(Arrays.asList(container.getComponents()));
+			}
+		}
+		return result;
+	}
+
+
+	/**
 	 * Returns the singleton <code>java.awt.Desktop</code> instance, or
 	 * <code>null</code> if it is unsupported on this platform (or the JRE
 	 * is older than 1.6).
@@ -209,7 +235,7 @@ public final class UIUtil {
 				defaultFG.getBlue()>=160) {
 			return new Color(255, 160, 160);
 		}
-		return Color.red;
+		return Color.RED;
 	}
 
 

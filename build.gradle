@@ -26,6 +26,10 @@ subprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.spotbugs'
 
+    test {
+        useJUnitPlatform()
+    }
+
     checkstyle {
         toolVersion = '9.3'
     }
@@ -54,6 +58,11 @@ subprojects {
                 required = false
             }
         }
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
     }
 
     compileJava {

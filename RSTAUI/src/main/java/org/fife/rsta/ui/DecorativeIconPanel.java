@@ -36,7 +36,7 @@ public class DecorativeIconPanel extends JPanel {
 	 * listening to with other combo boxes or text fields without a
 	 * DecorativeIconPanel.
 	 */
-	private static final int DEFAULT_WIDTH = 8;
+	public static final int DEFAULT_WIDTH = 8;
 
 	private JLabel iconLabel;
 	private boolean showIcon;
