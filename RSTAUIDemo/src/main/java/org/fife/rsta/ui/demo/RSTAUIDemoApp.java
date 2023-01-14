@@ -1,3 +1,7 @@
+/*
+ * This library is distributed under a modified BSD license.  See the included
+ * RSTAUI.License.txt file for details.
+ */
 package org.fife.rsta.ui.demo;
 
 import java.awt.*;

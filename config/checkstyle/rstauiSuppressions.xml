@@ -5,4 +5,5 @@
 	"https://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 <suppressions>
     <suppress files=".*src[\\/]test[\\/].*" checks="[a-zA-Z0-9]*"/>
+	<suppress files="package-info.java" checks="Header"/>
 </suppressions>
