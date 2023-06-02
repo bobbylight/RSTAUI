@@ -229,6 +229,14 @@ public class FindDialog extends AbstractFindReplaceDialog {
 
 
 	/**
+	 * @param listener The component that listens for {@link SearchEvent}s.
+	 */
+	public void setSearchListener(SearchListener listener){
+		this.searchListener = listener;
+	}
+
+
+	/**
 	 * Listens for changes in the text field (find search field).
 	 */
 	private class FindDocumentListener implements DocumentListener {
