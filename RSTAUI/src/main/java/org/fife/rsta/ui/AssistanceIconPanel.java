@@ -176,7 +176,7 @@ public class AssistanceIconPanel extends DecorativeIconPanel
 	/**
 	 * Listens for events in the text component we're annotating.
 	 */
-	private class ComponentListener implements FocusListener {
+	private final class ComponentListener implements FocusListener {
 
 		/**
 		 * Called when the combo box or text component gains focus.

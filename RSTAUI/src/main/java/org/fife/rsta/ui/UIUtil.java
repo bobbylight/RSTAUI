@@ -298,9 +298,8 @@ public final class UIUtil {
 		try {
 			layout = (SpringLayout)parent.getLayout();
 		} catch (ClassCastException cce) {
-			System.err.println("The first argument to makeCompactGrid " +
-							"must use SpringLayout.");
-			return;
+			throw new IllegalArgumentException("The first argument to makeSpringCompactGrid " +
+							"must use SpringLayout.", cce);
 		}
 
 		//Align all cells in each column and make them the same width.

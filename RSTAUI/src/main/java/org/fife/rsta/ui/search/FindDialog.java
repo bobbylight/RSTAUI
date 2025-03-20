@@ -231,7 +231,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	/**
 	 * Listens for changes in the text field (find search field).
 	 */
-	private class FindDocumentListener implements DocumentListener {
+	private final class FindDocumentListener implements DocumentListener {
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
@@ -260,7 +260,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 	 * Listens for the text field gaining focus.  All it does is select all
 	 * text in the combo box's text area.
 	 */
-	private class FindFocusAdapter extends FocusAdapter {
+	private final class FindFocusAdapter extends FocusAdapter {
 
 		@Override
 		public void focusGained(FocusEvent e) {

@@ -262,7 +262,7 @@ public class RegexAwareComboBox<E> extends MaxWidthComboBox<E>
 	/**
 	 * A completion provider for regular expressions.
 	 */
-	private static class RegexAwareProvider extends DefaultCompletionProvider {
+	private static final class RegexAwareProvider extends DefaultCompletionProvider {
 
 		@Override
 		protected boolean isValidChar(char ch) {

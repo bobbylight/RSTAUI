@@ -603,7 +603,7 @@ public class FindToolBar extends JPanel {
 	 * Listens for events in this toolbar.  Keeps the UI in sync with the
 	 * search context and vice versa.
 	 */
-	private class ToolBarListener extends MouseAdapter
+	private final class ToolBarListener extends MouseAdapter
 			implements ActionListener, PropertyChangeListener {
 
 		@Override
@@ -792,7 +792,7 @@ public class FindToolBar extends JPanel {
 	 * delay.  Fires a "mark all" search event for applications that want to
 	 * display "mark all" results on the fly.
 	 */
-	private class MarkAllEventNotifier implements ActionListener {
+	private final class MarkAllEventNotifier implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

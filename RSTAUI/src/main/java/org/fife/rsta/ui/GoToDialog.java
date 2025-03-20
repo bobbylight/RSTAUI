@@ -299,7 +299,7 @@ public class GoToDialog extends EscapableDialog {
 	/**
 	 * Listens for events in this dialog.
 	 */
-	private class Listener implements ActionListener, DocumentListener {
+	private final class Listener implements ActionListener, DocumentListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -332,7 +332,7 @@ public class GoToDialog extends EscapableDialog {
 	/**
 	 * A document filter that only lets the user enter digits.
 	 */
-	private class NumberDocumentFilter extends DocumentFilter {
+	private final class NumberDocumentFilter extends DocumentFilter {
 
 		private String fix(String str) {
 			if (str!=null) {

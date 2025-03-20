@@ -2,34 +2,37 @@ plugins {
     id 'java-library'
 }
 
-['distribution', 'maven-publish', 'signing'].each { apply plugin: it }
+['base', 'distribution', 'maven-publish', 'signing'].each { apply plugin: it }
 
-assert JavaVersion.current().isJava8Compatible()
-
-archivesBaseName = 'rstaui'
+base {
+    archivesName = 'rstaui'
+}
 
 dependencies {
-    api 'com.fifesoft:rsyntaxtextarea:3.3.2'
-    api 'com.fifesoft:autocomplete:3.3.1'
+    api 'com.fifesoft:rsyntaxtextarea:3.5.4'
+    api 'com.fifesoft:autocomplete:3.3.2'
+    testImplementation platform('org.junit:junit-bom:5.12.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 ext.isReleaseVersion = !project.version.endsWith('SNAPSHOT')
-
-ext.sharedManifest = manifest {
-	attributes('Class-Path': 'rsyntaxtextarea.jar autocomplete.jar',
-		'Specification-Title': 'RSTAUI',
-		'Specification-Version': version,
-		'Implementation-Title': 'org.fife.ui',
-		'Implementation-Version': version)
-
-}
 
 java {
     withSourcesJar()
     withJavadocJar()
 }
 jar {
-	manifest { from sharedManifest }
+	manifest {
+        manifest {
+            attributes('Class-Path': 'rsyntaxtextarea.jar autocomplete.jar',
+                    'Specification-Title': 'RSTAUI',
+                    'Specification-Version': version,
+                    'Implementation-Title': 'org.fife.ui',
+                    'Implementation-Version': version)
+
+        }
+    }
 }
 
 publishing {
@@ -86,7 +89,7 @@ publishing {
 
 signing {
     // Don't require signing for e.g. ./gradlew install
-    required { gradle.taskGraph.hasTask('publish') && isReleaseVersion }
+    required = { gradle.taskGraph.hasTask('publish') && isReleaseVersion }
     sign publishing.publications.maven
 }
 tasks.withType(Sign) {
