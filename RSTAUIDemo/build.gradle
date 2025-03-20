@@ -1,4 +1,10 @@
-archivesBaseName = 'rstauidemo'
+plugins {
+    id 'base'
+}
+
+base {
+    archivesName = 'rstauidemo'
+}
 
 dependencies {
     implementation project(':RSTAUI')

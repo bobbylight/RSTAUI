@@ -362,7 +362,7 @@ public class CollapsibleSectionPanel extends JPanel {
 	/**
 	 * Hides the bottom component.
 	 */
-	private class HideBottomComponentAction extends AbstractAction {
+	private final class HideBottomComponentAction extends AbstractAction {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {

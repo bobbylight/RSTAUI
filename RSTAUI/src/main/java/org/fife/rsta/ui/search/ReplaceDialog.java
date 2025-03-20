@@ -511,7 +511,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	/**
 	 * Listens for changes in the text field (find search field).
 	 */
-	private class ReplaceDocumentListener implements DocumentListener {
+	private final class ReplaceDocumentListener implements DocumentListener {
 
 		@Override
 		public void insertUpdate(DocumentEvent e) {
@@ -547,7 +547,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 	/**
 	 * Listens for the text fields gaining focus.
 	 */
-	private class ReplaceFocusAdapter extends FocusAdapter {
+	private final class ReplaceFocusAdapter extends FocusAdapter {
 
 		@Override
 		public void focusGained(FocusEvent e) {

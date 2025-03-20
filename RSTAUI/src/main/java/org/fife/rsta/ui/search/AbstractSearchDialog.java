@@ -651,7 +651,7 @@ public class AbstractSearchDialog extends EscapableDialog
 	/**
 	 * Listens for properties changing in the search context.
 	 */
-	private class SearchContextListener implements PropertyChangeListener {
+	private final class SearchContextListener implements PropertyChangeListener {
 
 		@Override
 		public void propertyChange(PropertyChangeEvent e) {
