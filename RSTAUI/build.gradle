@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
 }
 
-['base', 'distribution', 'maven-publish', 'signing'].each { apply plugin: it }
+['base', 'jacoco', 'distribution', 'maven-publish', 'signing'].each { apply plugin: it }
 
 base {
     archivesName = 'rstaui'
@@ -14,9 +14,17 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.12.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.15.2'
 }
 
 ext.isReleaseVersion = !project.version.endsWith('SNAPSHOT')
+
+jacocoTestReport {
+    reports {
+        xml.required = true // codecov depends on xml format report
+        html.required = true
+    }
+}
 
 java {
     withSourcesJar()

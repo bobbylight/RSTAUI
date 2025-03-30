@@ -168,7 +168,9 @@ public class CollapsibleSectionPanel extends JPanel {
 		if (center instanceof JScrollPane) {
 			center = ((JScrollPane)center).getViewport().getView();
 		}
-		center.requestFocusInWindow();
+		if (center != null) {
+			center.requestFocusInWindow();
+		}
 	}
 
 
@@ -185,6 +187,16 @@ public class CollapsibleSectionPanel extends JPanel {
 			return currentBci.component;
 		}
 		return null;
+	}
+
+
+	/**
+	 * Returns the number of ticks for the animation.
+	 *
+	 * @return The total number of ticks.
+	 */
+	protected int getTotalTicks() {
+		return totalTicks;
 	}
 
 
@@ -235,6 +247,16 @@ public class CollapsibleSectionPanel extends JPanel {
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "onEscape");
 		am.put("onEscape", new HideBottomComponentAction());
 
+	}
+
+
+	/**
+	 * Toggles whether this component animates when showing or hiding.
+	 *
+	 * @param animate Whether the display is animated.
+	 */
+	public void setAnimate(boolean animate) {
+		this.animate = animate;
 	}
 
 

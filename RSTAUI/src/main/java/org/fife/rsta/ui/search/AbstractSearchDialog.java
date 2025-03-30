@@ -394,7 +394,7 @@ public class AbstractSearchDialog extends EscapableDialog
 		//String text = getSearchString();
 		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
 		String text = tc.getText();
-		if (text.length()==0) {
+		if (text.isEmpty()) {
 			return new FindReplaceButtonsEnableResult(false, null);
 		}
 		if (regexCheckBox.isSelected()) {
@@ -442,11 +442,11 @@ public class AbstractSearchDialog extends EscapableDialog
 
 
 	protected boolean matchesSearchFor(String text) {
-		if (text==null || text.length()==0) {
+		if (text==null || text.isEmpty()) {
 			return false;
 		}
 		String searchFor = findTextCombo.getSelectedString();
-		if (searchFor!=null && searchFor.length()>0) {
+		if (searchFor!=null && !searchFor.isEmpty()) {
 			boolean matchCase = caseCheckBox.isSelected();
 			if (regexCheckBox.isSelected()) {
 				int flags = Pattern.MULTILINE; // '^' and '$' are done per line.
@@ -490,39 +490,6 @@ public class AbstractSearchDialog extends EscapableDialog
 		// We only support 1.4+, so no need to check 1.3, etc.
 		String version = System.getProperty("java.specification.version");
 		return version.startsWith("1.5") || version.startsWith("1.4");
-	}
-
-
-	/**
-	 * Returns whether the characters on either side of
-	 * <code>substr(searchIn,startPos,startPos+searchStringLength)</code>
-	 * are whitespace.  While this isn't the best definition of "whole word",
-	 * it's the one we're going to use for now.
-	 *
-	 * @param searchIn The text to search in.
-	 * @param offset The offset of the possible word.
-	 * @param len The length of the possible word.
-	 * @return Whether the specified range represents a "whole word".
-	 */
-	public static boolean isWholeWord(CharSequence searchIn,
-									  int offset, int len) {
-
-		boolean wsBefore;
-		boolean wsAfter;
-
-		try {
-			wsBefore = Character.isWhitespace(searchIn.charAt(offset - 1));
-		} catch (IndexOutOfBoundsException e) {
-		    wsBefore = true;
-		}
-		try {
-			wsAfter  = Character.isWhitespace(searchIn.charAt(offset + len));
-		} catch (IndexOutOfBoundsException e) {
-		    wsAfter = true;
-		}
-
-		return wsBefore && wsAfter;
-
 	}
 
 
