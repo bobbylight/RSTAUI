@@ -7,14 +7,12 @@
  */
 package org.fife.rsta.ui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.lang.reflect.Method;
+import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,10 +32,6 @@ import javax.swing.text.JTextComponent;
  * @version 1.0
  */
 public final class UIUtil {
-
-	private static boolean desktopCreationAttempted;
-	private static Object desktop;
-	private static final Object LOCK_DESKTOP_CREATION = new Object();
 
 	/**
 	 * A very common border that can be shared across many components.
@@ -59,7 +53,7 @@ public final class UIUtil {
 	 * @param uri The URI to open.  If this is <code>null</code>, nothing
 	 *        happens and this method returns <code>false</code>.
 	 * @return Whether the operation was successful.  This will be
-	 *         <code>false</code> on JRE's older than 1.6.
+	 *         <code>false</code> on systems without desktop support.
 	 * @see #browse(URI)
 	 */
 	public static boolean browse(String uri) {
@@ -80,24 +74,20 @@ public final class UIUtil {
 	 * @param uri The URI to open.  If this is <code>null</code>, nothing
 	 *        happens and this method returns <code>false</code>.
 	 * @return Whether the operation was successful.  This will be
-	 *         <code>false</code> on JRE's older than 1.6.
+	 *         <code>false</code> on systems without desktop support.
 	 * @see #browse(String)
 	 */
 	public static boolean browse(URI uri) {
 
 		boolean success = false;
 
-		if (uri!=null) {
-			Object desktop = getDesktop();
-			if (desktop!=null) {
+		if (uri!=null && Desktop.isDesktopSupported()) {
+			Desktop desktop = Desktop.getDesktop();
+			if (desktop.isSupported(Desktop.Action.BROWSE)) {
 				try {
-					Method m = desktop.getClass().getDeclaredMethod(
-								"browse", URI.class);
-					m.invoke(desktop, uri);
+					desktop.browse(uri);
 					success = true;
-				} catch (RuntimeException re) {
-					throw re; // Keep FindBugs happy
-				} catch (Exception e) {
+				} catch (IOException ioe) {
 					// Ignore, just return "false" below.
 				}
 			}
@@ -171,47 +161,6 @@ public final class UIUtil {
 
 
 	/**
-	 * Returns the singleton <code>java.awt.Desktop</code> instance, or
-	 * <code>null</code> if it is unsupported on this platform (or the JRE
-	 * is older than 1.6).
-	 *
-	 * @return The desktop, as an {@link Object}.
-	 */
-	private static Object getDesktop() {
-
-		synchronized (LOCK_DESKTOP_CREATION) {
-
-			if (!desktopCreationAttempted) {
-
-				desktopCreationAttempted = true;
-
-				try {
-					Class<?> desktopClazz = Class.forName("java.awt.Desktop");
-					Method m = desktopClazz.
-						getDeclaredMethod("isDesktopSupported");
-
-					boolean supported = (Boolean) m.invoke(null);
-					if (supported) {
-						m = desktopClazz.getDeclaredMethod("getDesktop");
-						desktop = m.invoke(null);
-					}
-
-				} catch (RuntimeException re) {
-					throw re; // Keep FindBugs happy
-				} catch (Exception e) {
-					// Ignore; keeps desktop as null.
-				}
-
-			}
-
-		}
-
-		return desktop;
-
-	}
-
-
-	/**
 	 * Returns an empty border of width 5 on all sides.  Since this is a
 	 * very common border in GUI's, the border returned is a singleton.
 	 *
@@ -248,13 +197,11 @@ public final class UIUtil {
 	 */
 	public static int getMnemonic(ResourceBundle msg, String key) {
 		int mnemonic = 0;
-		try {
+		if (msg.containsKey(key)) {
 			Object value = msg.getObject(key);
 			if (value instanceof String) {
 				mnemonic = ((String)value).charAt(0);
 			}
-		} catch (MissingResourceException mre) {
-			// Swallow.  TODO: When we drop 1.4/1.5 support, use containsKey().
 		}
 		return mnemonic;
 	}
@@ -302,7 +249,7 @@ public final class UIUtil {
 							"must use SpringLayout.", cce);
 		}
 
-		//Align all cells in each column and make them the same width.
+		// Align all cells in each column and make them the same width.
 		Spring x = Spring.constant(initialX);
 		for (int c = 0; c < cols; c++) {
 			Spring width = Spring.constant(0);
@@ -320,7 +267,7 @@ public final class UIUtil {
 			x = Spring.sum(x, Spring.sum(width, Spring.constant(xPad)));
 		}
 
-		//Align all cells in each row and make them the same height.
+		// Align all cells in each row and make them the same height.
 		Spring y = Spring.constant(initialY);
 		for (int r = 0; r < rows; r++) {
 			Spring height = Spring.constant(0);
@@ -337,7 +284,7 @@ public final class UIUtil {
 			y = Spring.sum(y, Spring.sum(height, Spring.constant(yPad)));
 		}
 
-		//Set the parent's size.
+		// Set the parent's size.
 		SpringLayout.Constraints pCons = layout.getConstraints(parent);
 		pCons.setConstraint(SpringLayout.SOUTH, y);
 		pCons.setConstraint(SpringLayout.EAST, x);

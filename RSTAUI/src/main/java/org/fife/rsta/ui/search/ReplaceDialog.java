@@ -111,22 +111,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 
 		if (SearchEvent.Type.REPLACE.name().equals(command) ||
 				SearchEvent.Type.REPLACE_ALL.name().equals(command)) {
-
-			context.setSearchFor(getSearchString());
-			context.setReplaceWith(replaceWithCombo.getSelectedString());
-
-			JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
-			findTextCombo.addItem(tc.getText());
-
-			tc = UIUtil.getTextComponent(replaceWithCombo);
-			String replaceText = tc.getText();
-			if (replaceText.length()!=0) {
-                replaceWithCombo.addItem(replaceText);
-            }
-
-			// Let parent app know
-			fireSearchEvent(SearchEvent.Type.valueOf(command), null);
-
+			doReplace(SearchEvent.Type.valueOf(command));
 		}
 
 		else {
@@ -136,6 +121,30 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 			}
 		}
 
+	}
+
+
+	/**
+	 * Performs either a replace or "replace all," depending on the {@code type}
+	 * argument.
+	 *
+	 * @param type The type of replacement to perform.
+	 */
+	protected void doReplace(SearchEvent.Type type) {
+		context.setSearchFor(getSearchString());
+		context.setReplaceWith(replaceWithCombo.getSelectedString());
+
+		JTextComponent tc = UIUtil.getTextComponent(findTextCombo);
+		findTextCombo.addItem(tc.getText());
+
+		tc = UIUtil.getTextComponent(replaceWithCombo);
+		String replaceText = tc.getText();
+		if (!replaceText.isEmpty()) {
+			replaceWithCombo.addItem(replaceText);
+		}
+
+		// Let parent app know
+		fireSearchEvent(type, null);
 	}
 
 
@@ -457,7 +466,7 @@ public class ReplaceDialog extends AbstractFindReplaceDialog {
 			}
 
 			String selectedItem = findTextCombo.getSelectedString();
-			if (selectedItem==null || selectedItem.length()==0) {
+			if (selectedItem==null || selectedItem.isEmpty()) {
 				findNextButton.setEnabled(false);
 				replaceButton.setEnabled(false);
 				replaceAllButton.setEnabled(false);

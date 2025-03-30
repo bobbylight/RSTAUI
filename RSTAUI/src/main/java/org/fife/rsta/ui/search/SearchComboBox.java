@@ -91,7 +91,6 @@ public class SearchComboBox extends RegexAwareComboBox<String> {
 	public String getSelectedString() {
 		JTextComponent comp = UIUtil.getTextComponent(this);
 		return comp.getText();
-		//return (String)getSelectedItem();
 	}
 
 

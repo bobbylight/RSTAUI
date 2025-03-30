@@ -198,7 +198,7 @@ public class FindDialog extends AbstractFindReplaceDialog {
 			}
 
 			String selectedItem = findTextCombo.getSelectedString();
-			boolean nonEmpty = selectedItem!=null && selectedItem.length()>0;
+			boolean nonEmpty = selectedItem!=null && !selectedItem.isEmpty();
 			findNextButton.setEnabled(nonEmpty);
 			super.setVisible(true);
 			focusFindTextField();

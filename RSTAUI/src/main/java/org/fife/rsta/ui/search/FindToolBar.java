@@ -426,7 +426,7 @@ public class FindToolBar extends JPanel {
 				new FindReplaceButtonsEnableResult(true, null);
 
 		String text = getFindText();
-		if (text.length()==0) {
+		if (text.isEmpty()) {
 			result = new FindReplaceButtonsEnableResult(false, null);
 		}
 		else if (regexCheckBox.isSelected()) {

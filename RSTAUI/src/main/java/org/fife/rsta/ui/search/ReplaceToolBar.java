@@ -223,12 +223,13 @@ public class ReplaceToolBar extends FindToolBar {
 	}
 
 
-	private boolean matchesSearchFor(String text) {
-		if (text==null || text.length()==0) {
+	// TODO: Share this code with AbstractSearchDialog
+	protected boolean matchesSearchFor(String text) {
+		if (text==null || text.isEmpty()) {
 			return false;
 		}
 		String searchFor = findCombo.getSelectedString();
-		if (searchFor!=null && searchFor.length()>0) {
+		if (searchFor!=null && !searchFor.isEmpty()) {
 			boolean matchCase = matchCaseCheckBox.isSelected();
 			if (regexCheckBox.isSelected()) {
 				int flags = Pattern.MULTILINE; // '^' and '$' are done per line.

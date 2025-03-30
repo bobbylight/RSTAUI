@@ -173,6 +173,22 @@ public class GoToDialog extends EscapableDialog {
 
 
 	/**
+	 * Programmatically clicks the Cancel button.  Used for testing purposes.
+	 */
+	void clickCancelButton() {
+		cancelButton.doClick(0);
+	}
+
+
+	/**
+	 * Programmatically clicks the OK button. Used for testing purposes.
+	 */
+	protected void clickOkButton() {
+		okButton.doClick(0);
+	}
+
+
+	/**
 	 * Returns a panel containing the OK and Cancel buttons.  This panel is
 	 * added to the bottom of this dialog.  Applications that don't like these
 	 * buttons right-aligned in the dialog can override this method to change
@@ -238,6 +254,7 @@ public class GoToDialog extends EscapableDialog {
 	 * @return The line number the user decided to go to, or <code>-1</code>
 	 *         if the dialog was canceled.  If valid, this will be 1-based,
 	 *         not 0-based.
+	 * @see #setLineNumber(int)
 	 */
 	public int getLineNumber() {
 		return lineNumber;
@@ -264,6 +281,18 @@ public class GoToDialog extends EscapableDialog {
 	 */
 	public void setErrorDialogTitle(String title) {
 		this.errorDialogTitle = title;
+	}
+
+
+	/**
+	 * Sets the line number displayed in this dialog.
+	 *
+	 * @param lineNumber The new line number.
+	 * @see #getLineNumber()
+	 */
+	protected void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
+		lineNumberField.setText(String.valueOf(lineNumber));
 	}
 
 

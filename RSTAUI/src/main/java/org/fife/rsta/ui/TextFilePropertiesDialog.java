@@ -18,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.text.BreakIterator;
 import java.text.CharacterIterator;
 import java.text.MessageFormat;
@@ -75,7 +74,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	};
 
 	private static final String[] LINE_TERMINATORS = {
-		System.getProperty("line.separator"), "\r", "\n", "\r\n"
+		System.lineSeparator(), "\r", "\n", "\r\n"
 	};
 
 	/**
@@ -258,7 +257,6 @@ public class TextFilePropertiesDialog extends EscapableDialog
 		return LINE_TERMINATORS[terminatorCombo.getSelectedIndex()];
 	}
 
-
 	private void init(TextEditorPane textArea) {
 
 		this.textArea = textArea;
@@ -386,12 +384,21 @@ public class TextFilePropertiesDialog extends EscapableDialog
 
 
 	/**
+	 * Returns whether this modal is dirty and will persist changes.
+	 *
+	 * @return Whether the modal is dirty.
+	 */
+	boolean isCloseable() {
+		return okButton != null && okButton.isEnabled();
+	}
+
+
+	/**
 	 * Sets the encoding selected by this dialog.
 	 *
-	 * @param encoding The desired encoding.  If this value is invalid or not
-	 *        supported by this OS, <code>US-ASCII</code> is used.
+	 * @param encoding The desired encoding.
 	 */
-	private void setEncoding(String encoding) {
+	protected void setEncoding(String encoding) {
 
 		Charset cs1 = Charset.forName(encoding);
 
@@ -404,22 +411,10 @@ public class TextFilePropertiesDialog extends EscapableDialog
 				return;
 			}
 		}
-
-		// Encoding not found: select default.
-		cs1 = StandardCharsets.US_ASCII;
-		for (int i=0; i<count; i++) {
-			String item = encodingCombo.getItemAt(i);
-			Charset cs2 = Charset.forName(item);
-			if (cs1.equals(cs2)) {
-				encodingCombo.setSelectedIndex(i);
-				return;
-			}
-		}
-
 	}
 
 
-	private void setSelectedLineTerminator(String terminator) {
+	protected void setSelectedLineTerminator(String terminator) {
 		for (int i=0; i<LINE_TERMINATORS.length; i++) {
 			if (LINE_TERMINATORS[i].equals(terminator)) {
 				terminatorCombo.setSelectedIndex(i);
