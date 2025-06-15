@@ -2,7 +2,7 @@
 ![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/gradle.yml/badge.svg)
 ![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.fifesoft/rstaui/badge.svg)
-[![codecov](https://codecov.io/gh/bobbylight/RSTAUI/branch/master/graph/badge.svg?token=Hktq3vfINy)](https://codecov.io/gh/bobbylight/RSTAUI)
+[![codecov](https://codecov.io/gh/bobbylight/RSTAUI/graph/badge.svg?token=fa8OfGn3RO)](https://codecov.io/gh/bobbylight/RSTAUI)
 
 This is a library for adding the following dialogs to an application using `RSyntaxTextArea` as an
 editor:
