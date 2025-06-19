@@ -24,6 +24,22 @@ SNAPSHOT builds of the in-development, unreleased version are hosted on [Sonatyp
 RSTAUI is available under a [modified BSD license](https://github.com/bobbylight/RSTAUI/blob/master/RSTAUI/src/main/dist/RSTAUI.License.txt).
 For more information, visit [http://bobbylight.github.io/RSyntaxTextArea/](http://bobbylight.github.io/RSyntaxTextArea/).
 
+## Screenshots
+<p align="center" width="100%">
+  <img src="img/find-dialog.png"/>
+  <br/><sup>Find Dialog</sup>
+</p>
+
+<p align="center" width="100%">
+  <img src="img/replace-dialog.png"/>
+  <br/><sup>Replace Dialog</sup>
+</p>
+
+<p align="center" width="100%">
+  <img src="img/go-to-line-dialog.png"/>
+  <br/><sup>Go to Line Dialog</sup>
+</p>
+
 ## Compiling
 
 RSTAUI is built using Gradle.  To compile the source, run all tests, and build the distribution jar,
