@@ -3,3 +3,5 @@ rstaui_*.zip
 .gradle
 build
 out/
+.vscode/
+
