@@ -67,6 +67,7 @@
 		<property name="max" value="850"/>
 	</module>
 
+	<module name="LineEnding"/>
 	<module name="LineLength">
 		<property name="max" value="120"/>
 	</module>
@@ -233,12 +234,16 @@
 		-->
 		<!--		<module name="IllegalCatch"/>-->
 		<module name="IllegalInstantiation"/>
+		<module name="IllegalSymbol"/>
 		<module name="IllegalThrows"/>
 		<module name="IllegalType"/>
 		<!--<module name="InnerAssignment"/> -->
 		<!--<module name="MagicNumber"/> Unfortunately, too much noise -->
 		<!--<module name="MissingSwitchDefault"/>-->
 		<module name="MultipleVariableDeclarations"/>
+		<module name="OverloadMethodsDeclarationOrder">
+			<property name="orderByIncreasingParameterCount" value="true" />
+		</module>
 		<module name="PatternVariableAssignment"/>
 		<module name="SimplifyBooleanExpression"/>
 		<module name="SimplifyBooleanReturn"/>
@@ -249,6 +254,8 @@
 		<module name="UnnecessarySemicolonInEnumeration"/>
 		<module name="UnnecessarySemicolonInTryWithResources"/>
 		<module name="UnusedLocalVariable"/>
+		<module name="UnusedTryResourceShouldBeUnnamed"/>
+		<!--<module name="UseEnhancedSwitch"/> - TODO: too noisy for now -->
 
 		<!-- Checks for class design                                  -->
 		<!-- See https://checkstyle.sourceforge.io/config_design.html -->
@@ -268,6 +275,7 @@
 		<module name="AvoidEscapedUnicodeCharacters"/>
 		<module name="CommentsIndentation"/>
 		<!--<module name="FinalParameters"/>-->
+		<module name="NumericalPrefixesInfixesSuffixesCharacterCase"/>
 		<!-- <module name="TodoComment"/> -->
 		<module name="UpperEll"/>
 
