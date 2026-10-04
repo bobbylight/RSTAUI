@@ -100,8 +100,8 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 		menu.add(new JMenuItem(new GoToLineAction()));
 		menu.addSeparator();
 
-		int ctrl = getToolkit().getMenuShortcutKeyMask();
-		int shift = InputEvent.SHIFT_MASK;
+		int ctrl = getToolkit().getMenuShortcutKeyMaskEx();
+		int shift = InputEvent.SHIFT_DOWN_MASK;
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F, ctrl|shift);
 		Action a = csp.addBottomComponent(ks, findToolBar);
 		a.putValue(Action.NAME, "Show Find Search Bar");
@@ -234,7 +234,7 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		GoToLineAction() {
 			super("Go To Line...");
-			int c = getToolkit().getMenuShortcutKeyMask();
+			int c = getToolkit().getMenuShortcutKeyMaskEx();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_L, c));
 		}
 
@@ -301,7 +301,7 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		ShowFindDialogAction() {
 			super("Find...");
-			int c = getToolkit().getMenuShortcutKeyMask();
+			int c = getToolkit().getMenuShortcutKeyMaskEx();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F, c));
 		}
 
@@ -323,7 +323,7 @@ public final class RSTAUIDemoApp extends JFrame implements SearchListener {
 
 		ShowReplaceDialogAction() {
 			super("Replace...");
-			int c = getToolkit().getMenuShortcutKeyMask();
+			int c = getToolkit().getMenuShortcutKeyMaskEx();
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H, c));
 		}
 
