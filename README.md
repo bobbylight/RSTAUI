@@ -1,7 +1,7 @@
 # RSTAUI
 ![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/gradle.yml/badge.svg)
 ![Java Build](https://github.com/bobbylight/RSTAUI/actions/workflows/codeql-analysis.yml/badge.svg)
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.fifesoft/rstaui/badge.svg)
+![Maven Central](https://maven-badges.sml.io/sonatype-central/com.fifesoft/rstaui/badge.svg)
 [![codecov](https://codecov.io/gh/bobbylight/RSTAUI/graph/badge.svg?token=fa8OfGn3RO)](https://codecov.io/gh/bobbylight/RSTAUI)
 
 This is a library for adding the following dialogs to an application using `RSyntaxTextArea` as an
@@ -46,6 +46,14 @@ RSTAUI is built using Gradle.  To compile the source, run all tests, and build t
 simply change into the project directory and run:
 
     gradlew build --warning-mode all
+
+RSTAUI 4.0 and later requires Java 11 to run. If you need to support older
+Java versions, use the RSTAUI version specified in the following table:
+
+| RSTAUI Version | Required to build (JDK) | Required to run (JRE)  |
+|----------------|-------------------------|------------------------|
+| 4.x            | 25                      | 11                     |
+| 3.x            | 17                      | 8                      |
 
 ## Example Usage
 
