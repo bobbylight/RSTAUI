@@ -370,7 +370,7 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		ActionMap am = rootPane.getActionMap();
 
-		int modifier = getToolkit().getMenuShortcutKeyMask();
+		int modifier = getToolkit().getMenuShortcutKeyMaskEx();
 		KeyStroke ctrlF = KeyStroke.getKeyStroke(KeyEvent.VK_F, modifier);
 		im.put(ctrlF, "focusSearchForField");
 		am.put("focusSearchForField", new AbstractAction() {
@@ -381,10 +381,10 @@ public abstract class AbstractFindReplaceDialog extends AbstractSearchDialog {
 		});
 
 		// Shift+Enter and Ctrl+Enter both do a backwards/opposite search
-		int shift = InputEvent.SHIFT_MASK;
-		int ctrl = InputEvent.CTRL_MASK;
+		int shift = InputEvent.SHIFT_DOWN_MASK;
+		int ctrl = InputEvent.CTRL_DOWN_MASK;
 		if (System.getProperty("os.name").toLowerCase().contains("os x")) {
-			ctrl = InputEvent.META_MASK;
+			ctrl = InputEvent.META_DOWN_MASK;
 		}
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, shift);
 		im.put(ks, "searchBackward");

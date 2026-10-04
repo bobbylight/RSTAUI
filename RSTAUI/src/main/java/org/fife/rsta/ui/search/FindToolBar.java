@@ -354,7 +354,7 @@ public class FindToolBar extends JPanel {
 		// JTextField returns *_DOWN_* modifiers, JButton returns the others (!)
 		int allowedModifiers =
 				InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK | // field
-				InputEvent.CTRL_MASK|InputEvent.SHIFT_MASK; // JButton
+				ActionEvent.CTRL_MASK|ActionEvent.SHIFT_MASK; // JButton
 
 		if ("FindNext".equals(action)) {
 			type = SearchEvent.Type.FIND;
@@ -500,9 +500,9 @@ public class FindToolBar extends JPanel {
 		// versions don't work, possibly SHIFT_MASK vs. SHIFT_DOWN_MASK issue.
 		//im.put(KeyStroke.getKeyStroke("pressed SHIFT ENTER"), "pressed");
 		//im.put(KeyStroke.getKeyStroke("released SHIFT ENTER"), "released");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK,
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK,
 				false), "pressed");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_MASK,
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK,
 				true), "released");
 
 	}
@@ -772,8 +772,8 @@ public class FindToolBar extends JPanel {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			if (e.getKeyChar()=='\n') {
-				int mod = e.getModifiers();
-				int ctrlShift = InputEvent.CTRL_MASK|InputEvent.SHIFT_MASK;
+				int mod = e.getModifiersEx();
+				int ctrlShift = InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK;
 				boolean forward = (mod&ctrlShift) == 0;
 				doSearch(forward);
 			}

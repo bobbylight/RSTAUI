@@ -17,8 +17,6 @@ Create a branch (if needed), commit staged/unstaged changes, push, and open/upda
 
 3. **Build locally** by running `./gradlew clean build`. If there are any checkstyle
    or spotbugs failure, or javac errors, fix them and rerun this check to verify your changes.
-   Don't worry about javac warnings currently - there are 3 that we need to address later,
-   but for now can be ignored.
 
 4. **Review changes**: Run `git status` and `git diff` to understand what will be committed
 
