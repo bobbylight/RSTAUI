@@ -86,28 +86,28 @@ class ReplaceToolBarTest {
 	void testHandleSearchAction_findNext() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "FindNext");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.FIND, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.FIND, listener.events.getFirst().getType());
 	}
 
 	@Test
 	void testHandleSearchAction_findPrevious() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "FindPrevious");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.FIND, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.FIND, listener.events.getFirst().getType());
 	}
 
 	@Test
 	void testHandleSearchAction_replace() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "Replace");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.REPLACE, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.REPLACE, listener.events.getFirst().getType());
 	}
 
 	@Test
 	void testHandleSearchAction_replaceAll() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "ReplaceAll");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.REPLACE_ALL, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.REPLACE_ALL, listener.events.getFirst().getType());
 	}
 
 	@Test
@@ -133,7 +133,7 @@ class ReplaceToolBarTest {
 	void testHandleSearchAction() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "FindNext");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.FIND, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.FIND, listener.events.getFirst().getType());
 	}
 
 	@Test

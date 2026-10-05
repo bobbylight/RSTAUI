@@ -32,7 +32,7 @@ class SearchComboBoxTest {
 		List<String> items = comboBox.getSearchStrings();
 		Assertions.assertEquals(3, items.size());
 		Assertions.assertEquals("222", comboBox.getSelectedItem());
-		Assertions.assertEquals("222", items.get(0));
+		Assertions.assertEquals("222", items.getFirst());
 	}
 
 	@Test
@@ -45,7 +45,7 @@ class SearchComboBoxTest {
 		List<String> items = comboBox.getSearchStrings();
 		Assertions.assertEquals(3, items.size());
 		Assertions.assertEquals("111", comboBox.getSelectedItem());
-		Assertions.assertEquals("111", items.get(0));
+		Assertions.assertEquals("111", items.getFirst());
 	}
 
 	@Test
@@ -54,7 +54,7 @@ class SearchComboBoxTest {
 		UIUtil.getTextComponent(comboBox).setText("foo");
 		List<String> items = comboBox.getSearchStrings();
 		Assertions.assertEquals(1, items.size());
-		Assertions.assertEquals("foo", items.get(0));
+		Assertions.assertEquals("foo", items.getFirst());
 	}
 
 	@Test
