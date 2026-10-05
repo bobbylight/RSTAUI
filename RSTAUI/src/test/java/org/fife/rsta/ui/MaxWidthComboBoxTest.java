@@ -1,6 +1,5 @@
 package org.fife.rsta.ui;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -50,6 +49,6 @@ class MaxWidthComboBoxTest {
 	void testGetPreferredSize() {
 		comboBox = new MaxWidthComboBox<>(100);
 		Dimension prefSize = comboBox.getPreferredSize();
-		assertNotEquals(00, prefSize.width);
+		assertNotEquals(0, prefSize.width);
 	}
 }

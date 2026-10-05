@@ -48,13 +48,13 @@ class FindToolBarTest {
 	@Test
 	void testDoMarkAll_delay() {
 		toolBar.doMarkAll(true);
-		assertEquals(0, listener.events.size());;
+		assertEquals(0, listener.events.size());
 	}
 
 	@Test
 	void testDoMarkAll_noDelay() {
 		toolBar.doMarkAll(false);
-		assertEquals(1, listener.events.size());;
+		assertEquals(1, listener.events.size());
 	}
 
 	@Test
@@ -139,14 +139,14 @@ class FindToolBarTest {
 	void testHandleSearchAction_findNext() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "FindNext");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.FIND, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.FIND, listener.events.getFirst().getType());
 	}
 
 	@Test
 	void testHandleSearchAction_findPrevious() {
 		ActionEvent event = new ActionEvent(toolBar.findButton, ActionEvent.ACTION_PERFORMED, "FindPrevious");
 		toolBar.handleSearchAction(event);
-		assertEquals(SearchEvent.Type.FIND, listener.events.get(0).getType());
+		assertEquals(SearchEvent.Type.FIND, listener.events.getFirst().getType());
 	}
 
 	@Test

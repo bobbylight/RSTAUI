@@ -165,7 +165,7 @@ class UIUtilTest {
 		JLabel label = new JLabel();
 		List<JLabel> result = UIUtil.getDescendantsOfType(label, JLabel.class);
 		Assertions.assertEquals(1, result.size());
-		Assertions.assertEquals(label, result.get(0));
+		Assertions.assertEquals(label, result.getFirst());
 	}
 
 	@Test
@@ -175,7 +175,7 @@ class UIUtilTest {
 		panel.add(label);
 		List<JLabel> result = UIUtil.getDescendantsOfType(panel, JLabel.class);
 		Assertions.assertEquals(1, result.size());
-		Assertions.assertEquals(label, result.get(0));
+		Assertions.assertEquals(label, result.getFirst());
 	}
 
 	@Test
@@ -187,7 +187,7 @@ class UIUtilTest {
 		nestedPanel.add(label);
 		List<JLabel> result = UIUtil.getDescendantsOfType(panel, JLabel.class);
 		Assertions.assertEquals(1, result.size());
-		Assertions.assertEquals(label, result.get(0));
+		Assertions.assertEquals(label, result.getFirst());
 	}
 
 	@Test
@@ -197,7 +197,7 @@ class UIUtilTest {
 		panel.add(label);
 		List<JLabel> result = UIUtil.getDescendantsOfType(panel, JLabel.class);
 		Assertions.assertEquals(1, result.size());
-		Assertions.assertEquals(label, result.get(0));
+		Assertions.assertEquals(label, result.getFirst());
 	}
 
 	@Test
@@ -300,9 +300,7 @@ class UIUtilTest {
 		for (int i = 0; i < 6; i++) {
 			panel.add(new JLabel());
 		}
-		Assertions.assertDoesNotThrow(() -> {
-			UIUtil.makeSpringCompactGrid(panel, 2, 2, 0, 0, 0, 0);
-		});
+		Assertions.assertDoesNotThrow(() -> UIUtil.makeSpringCompactGrid(panel, 2, 2, 0, 0, 0, 0));
 	}
 
 	@Test

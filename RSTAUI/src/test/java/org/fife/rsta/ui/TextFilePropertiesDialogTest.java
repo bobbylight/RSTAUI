@@ -29,9 +29,7 @@ class TextFilePropertiesDialogTest {
 	private TextEditorPane textArea;
 
 	private static String createContent(int size) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("a".repeat(Math.max(0, size)));
-		return sb.toString();
+		return "a".repeat(Math.max(0, size));
 	}
 
 	@BeforeEach

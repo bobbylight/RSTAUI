@@ -68,7 +68,7 @@ class ReplaceDialogTest {
 		ActionEvent e = new ActionEvent(dialog, 0, SearchEvent.Type.FIND.name());
 		dialog.actionPerformed(e);
 		assertEquals(1, listener.events.size());
-		SearchEvent se = listener.events.get(0);
+		SearchEvent se = listener.events.getFirst();
 		assertEquals(SearchEvent.Type.FIND, se.getType());
 		SearchContext sc = se.getSearchContext();
 		assertEquals("searchFor", sc.getSearchFor());
@@ -81,7 +81,7 @@ class ReplaceDialogTest {
 		ActionEvent e = new ActionEvent(dialog, 0, SearchEvent.Type.REPLACE.name());
 		dialog.actionPerformed(e);
 		assertEquals(1, listener.events.size());
-		SearchEvent se = listener.events.get(0);
+		SearchEvent se = listener.events.getFirst();
 		assertEquals(SearchEvent.Type.REPLACE, se.getType());
 		SearchContext sc = se.getSearchContext();
 		assertEquals("searchFor", sc.getSearchFor());
@@ -97,7 +97,7 @@ class ReplaceDialogTest {
 		ActionEvent e = new ActionEvent(dialog, 0, SearchEvent.Type.REPLACE.name());
 		dialog.actionPerformed(e);
 		assertEquals(1, listener.events.size());
-		SearchEvent se = listener.events.get(0);
+		SearchEvent se = listener.events.getFirst();
 		assertEquals(SearchEvent.Type.REPLACE, se.getType());
 		SearchContext sc = se.getSearchContext();
 		assertEquals("searchFor", sc.getSearchFor());
@@ -122,7 +122,7 @@ class ReplaceDialogTest {
 		ActionEvent e = new ActionEvent(dialog, 0, SearchEvent.Type.REPLACE_ALL.name());
 		dialog.actionPerformed(e);
 		assertEquals(1, listener.events.size());
-		SearchEvent se = listener.events.get(0);
+		SearchEvent se = listener.events.getFirst();
 		assertEquals(SearchEvent.Type.REPLACE_ALL, se.getType());
 		SearchContext sc = se.getSearchContext();
 		assertEquals("searchFor", sc.getSearchFor());
@@ -137,7 +137,7 @@ class ReplaceDialogTest {
 		ActionEvent e = new ActionEvent(dialog, 0, SearchEvent.Type.REPLACE_ALL.name());
 		dialog.actionPerformed(e);
 		assertEquals(1, listener.events.size());
-		SearchEvent se = listener.events.get(0);
+		SearchEvent se = listener.events.getFirst();
 		assertEquals(SearchEvent.Type.REPLACE_ALL, se.getType());
 		SearchContext sc = se.getSearchContext();
 		assertEquals("searchFor", sc.getSearchFor());

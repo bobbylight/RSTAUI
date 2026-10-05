@@ -199,8 +199,7 @@ public class TextFilePropertiesDialog extends EscapableDialog
 	 * @return The title for this dialog.
 	 */
 	protected String createTitle(String fileName) {
-		return MessageFormat.format(
-			MSG.getString("Title"), textArea.getFileName());
+		return MessageFormat.format(MSG.getString("Title"), fileName);
 	}
 
 

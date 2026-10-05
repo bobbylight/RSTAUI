@@ -68,7 +68,6 @@ public class FindToolBar extends JPanel {
 	protected JCheckBox regexCheckBox;
 	protected JCheckBox markAllCheckBox;
 	protected JCheckBox wrapCheckBox;
-	private JLabel infoLabel;
 	private Timer markAllTimer;
 
 	/**
